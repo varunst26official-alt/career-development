@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>90-Day Visual Career & Technical Transformation Roadmap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --accent-emerald: #10b981;
+      --accent-cyan: #06b6d4;
+      --accent-indigo: #6366f1;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+    }
+
+    /* Target Bar */
+    .target-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .metric-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 0.75rem 1.25rem;
+      border-radius: 1rem;
+      text-align: center;
+    }
+
+    .metric-pill span {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .metric-pill strong {
+      font-size: 1.15rem;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Progress Widget */
+    .progress-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      background: #1f2937;
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #06b6d4, #10b981);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    /* Filter Buttons */
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tab-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.6rem 1.2rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      border-color: #374151;
+    }
+
+    .tab-btn.active {
+      background: #1e293b;
+      color: #38bdf8;
+      border-color: #38bdf8;
+    }
+
+    /* Grid of Weeks */
+    .weeks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .week-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+    }
+
+    .week-card:hover {
+      transform: translateY(-2px);
+      border-color: #374151;
+    }
+
+    .phase-tag {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.5rem;
+      display: inline-block;
+      margin-bottom: 0.75rem;
+    }
+
+    .tag-p1 { background: rgba(6, 182, 212, 0.15); color: #38bdf8; }
+    .tag-p2 { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+    .tag-p3 { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+    .week-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .week-focus {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      min-height: 2.5rem;
+    }
+
+    .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checklist input[type="checkbox"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #4b5563;
+      border-radius: 5px;
+      cursor: pointer;
+      position: relative;
+      margin-top: 2px;
+      shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .checklist input[type="checkbox"]:checked {
+      background: #10b981;
+      border-color: #10b981;
+    }
+
+    .checklist input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .checklist li.completed span {
+      text-decoration: line-through;
+      color: #6b7280;
+    }
+
+    .milestone-badge {
+      margin-top: 1.25rem;
+      padding: 0.6rem 0.85rem;
+      background: #0f172a;
+      border: 1px dashed #334155;
+      border-radius: 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .milestone-badge strong {
+      color: #f59e0b;
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">Live 90-Day Transition Masterplan</div>
+      <h1>Mendix to Senior React Full-Stack Roadmap</h1>
+      <p class="subtitle">A visual, interactive daily execution system designed for engineers with 3 Years Experience transitioning into Tier-1 Full-Stack and Decoupled Lead roles.</p>
+
+      <div class="target-bar">
+        <div class="metric-pill">
+          <span>Target CTC (India)</span>
+          <strong>₹18.0L – ₹22.0+ LPA</strong>
+        </div>
+        <div class="metric-pill">
+          <span>Target Monthly Inflow</span>
+          <strong>₹1,52,100 / mo</strong>
+        </div>
+        <div class="metric-pill">
+          <span>Target Tax-Free (Dubai)</span>
+          <strong>AED 18k – 25k / mo</strong>
+        </div>
+        <div class="metric-pill">
+          <span>Target Roles</span>
+          <strong>Senior Full-Stack Lead</strong>
+        </div>
+      </div>
+    </header>
+
+    <!-- Progress Tracker -->
+    <div class="progress-card">
+      <div class="progress-header">
+        <span>Roadmap Completion Progress</span>
+        <span id="progressPercent" style="color: #10b981; font-family: 'JetBrains Mono', monospace;">0% (0 / 36 Milestones)</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="tab-btn active" onclick="filterPhase('all')">All 12 Weeks (90 Days)</button>
+      <button class="tab-btn" onclick="filterPhase('p1')">Phase 1: React 18 & Internals (Days 1–30)</button>
+      <button class="tab-btn" onclick="filterPhase('p2')">Phase 2: State & Next.js 15 (Days 31–60)</button>
+      <button class="tab-btn" onclick="filterPhase('p3')">Phase 3: Testing & Notice Escalation (Days 61–90)</button>
+    </div>
+
+    <!-- Weeks Grid -->
+    <div class="weeks-grid" id="weeksGrid">
+      <!-- Week cards dynamically populated via JavaScript with persistent storage -->
+    </div>
+
+    <footer>
+      <p>Prepared for Varun S T • Private Career Development Blueprint • Built with Native Web Components & Persistent Storage</p>
+    </footer>
+  </div>
+
+  <script>
+    const weeksData = [
+      {
+        id: "w1", phase: "p1", phaseName: "Phase 1: Foundations",
+        weekNum: 1, days: "Days 1–7",
+        title: "JavaScript Runtime & Event Loop Mastery",
+        focus: "Master microtasks vs macrotasks, closures, lexical scope, and asynchronous execution.",
+        milestone: "Build an Async Priority Queue & Task Scheduler in pure TypeScript.",
+        tasks: [
+          "Microtask Queue (Promises, queueMicrotask) vs Macrotask Queue (setTimeout, I/O)",
+          "Execution Context, Call Stack, Memory Heap, and Garbage Collection",
+          "Deep Closures, Currying, and Pure Functional Programming",
+          "Custom Promise implementation & async/await error boundaries"
+        ]
+      },
+      {
+        id: "w2", phase: "p1", phaseName: "Phase 1: Foundations",
+        weekNum: 2, days: "Days 8–14",
+        title: "TypeScript 5 Strict Mode & API Typing",
+        focus: "Eliminate any/unknown, build discriminated unions, and master generics.",
+        milestone: "Refactor complex form data flow into strictly typed Discriminated Unions.",
+        tasks: [
+          "Generics (<T, K>) across components, functions, and API responses",
+          "Discriminated Unions for state (idle | loading | success | error)",
+          "Utility types: Pick, Omit, Partial, Record, ReturnType",
+          "Typing React Props, Synthetic Events, and Hook return tuples"
+        ]
+      },
+      {
+        id: "w3", phase: "p1", phaseName: "Phase 1: React Core",
+        weekNum: 3, days: "Days 15–21",
+        title: "React 18 Fiber Reconciliation & Hooks",
+        focus: "Internal mental model of Virtual DOM, Fiber nodes, and state machines.",
+        milestone: "Build a tactile Stepper Slider with pure functional components & zero lag.",
+        tasks: [
+          "Fiber nodes, Linked-list traversal, Render Phase vs Commit Phase",
+          "Why key prop matters: Reconciliation algorithm & identity stability",
+          "useReducer state machines for complex multi-step user workflows",
+          "useRef for persistent DOM nodes and mutable instance variables"
+        ]
+      },
+      {
+        id: "w4", phase: "p1", phaseName: "Phase 1: React Core",
+        weekNum: 4, days: "Days 22–30",
+        title: "Custom Hooks & Performance Profiling",
+        focus: "Extract business logic out of components and eliminate cascading re-renders.",
+        milestone: "Package reusable custom hooks: useDebounce, useLocalStorage, useClickOutside.",
+        tasks: [
+          "Authoring production custom hooks with clean API surfaces",
+          "useCallback vs useMemo: When memoization helps vs when it hurts",
+          "React DevTools Profiler: Flamegraphs, Ranked view, and render reasons",
+          "Composition pattern (children prop) to prevent unnecessary child renders"
+        ]
+      },
+      {
+        id: "w5", phase: "p2", phaseName: "Phase 2: State & Full-Stack",
+        weekNum: 5, days: "Days 31–37",
+        title: "Zustand Global State & Slice Pattern",
+        focus: "Lightweight, boilerplate-free client state with persistent hydration.",
+        milestone: "Build a modular financial management store using Zustand slices.",
+        tasks: [
+          "Zustand store architecture & slice pattern for large applications",
+          "Selective subscriptions: Preventing whole-app re-renders on slice updates",
+          "Persist middleware, custom storage adapters, and state migration",
+          "Calling Zustand actions outside the React component lifecycle"
+        ]
+      },
+      {
+        id: "w6", phase: "p2", phaseName: "Phase 2: State & Full-Stack",
+        weekNum: 6, days: "Days 38–44",
+        title: "TanStack Query v5 (React Query)",
+        focus: "Separate server state from client state with caching and optimistic rollbacks.",
+        milestone: "Live data table with background sync, infinite scroll, and optimistic UI updates.",
+        tasks: [
+          "Query Keys design, caching lifecycle, and Stale-While-Revalidate",
+          "useMutation with onMutate, onError rollback, and onSettled invalidation",
+          "Infinite queries and list virtualization with @tanstack/react-virtual",
+          "Query prefetching, offline mutation queues, and window focus refetching"
+        ]
+      },
+      {
+        id: "w7", phase: "p2", phaseName: "Phase 2: State & Full-Stack",
+        weekNum: 7, days: "Days 45–51",
+        title: "Next.js 15 App Router & Server Components",
+        focus: "Full-stack web architecture with Server Components (RSC) and Server Actions.",
+        milestone: "Deploy an authenticated enterprise portal using Next.js 15 App Router.",
+        tasks: [
+          "React Server Components (RSC) vs Client Components ('use client')",
+          "Server Actions for zero-API form handling and database mutations",
+          "Route Handlers (app/api/.../route.ts), dynamic routing, and caching tiers",
+          "Streaming with React Suspense and dynamic OpenGraph image generation"
+        ]
+      },
+      {
+        id: "w8", phase: "p2", phaseName: "Phase 2: State & Full-Stack",
+        weekNum: 8, days: "Days 52–60",
+        title: "PostgreSQL, Prisma ORM & HttpOnly JWT Auth",
+        focus: "Enterprise database architecture, schema migrations, and bulletproof security.",
+        milestone: "Complete JWT auth system with HttpOnly SameSite cookies and RBAC guards.",
+        tasks: [
+          "Relational schema modeling (1-1, 1-N, N-N), indexing, and Prisma migrations",
+          "JWT tokens stored in HttpOnly, SameSite=Strict cookies (defense against XSS)",
+          "Role-Based Access Control (RBAC) middleware route protection",
+          "CSRF token validation, SQL injection prevention, and CORS policies"
+        ]
+      },
+      {
+        id: "w9", phase: "p3", phaseName: "Phase 3: Production & Notice",
+        weekNum: 9, days: "Days 61–67",
+        title: "React Pluggable Widgets for Mendix Studio Pro",
+        focus: "Your unique competitive moat: Bridging enterprise low-code with modern React 18.",
+        milestone: "Build a published custom React 18 Pluggable Widget for Mendix.",
+        tasks: [
+          "Mendix Pluggable Widget API architecture and XML configuration",
+          "Binding Mendix domain attributes to React functional component props",
+          "Consuming Headless Mendix REST and OData v4 APIs from React SPAs",
+          "Publishing enterprise reusable widget modules for Mendix Studio Pro"
+        ]
+      },
+      {
+        id: "w10", phase: "p3", phaseName: "Phase 3: Production & Notice",
+        weekNum: 10, days: "Days 68–74",
+        title: "Playwright E2E & Vitest Component Testing",
+        focus: "Production-grade automated quality assurance and accessibility verification.",
+        milestone: "Playwright automated test suite covering 50+ user flows on mobile & desktop.",
+        tasks: [
+          "Testing user behavior with Vitest and React Testing Library (RTL)",
+          "Mock Service Worker (MSW) for deterministic network mocking",
+          "Playwright multi-browser E2E journeys with mobile viewport emulation",
+          "Automated WCAG 2.1 AA accessibility auditing via @axe-core"
+        ]
+      },
+      {
+        id: "w11", phase: "p3", phaseName: "Phase 3: Production & Notice",
+        weekNum: 11, days: "Days 75–81",
+        title: "Frontend System Design & Technical Interview Drills",
+        focus: "High-level architecture, trade-off communication, and high-frequency technical Q&A.",
+        milestone: "Complete 3 timed mock technical interview rounds with senior engineers.",
+        tasks: [
+          "Frontend System Design: Autocomplete search, Infinite feeds, Real-time chat",
+          "Web Vitals (LCP, FID/INP, CLS) optimization and bundle-size reduction",
+          "Rehearsing top 50 technical interview questions with live coding drills",
+          "Naukri.com and LinkedIn profile overhaul with Chennai high-ticket keywords"
+        ]
+      },
+      {
+        id: "w12", phase: "p3", phaseName: "Phase 3: Production & Notice",
+        weekNum: 12, days: "Days 82–90",
+        title: "Notice Period Bidding War & Offer Negotiation",
+        focus: "Execute the 3-Offer Notice Period Escalator to secure ₹18L–₹22L+ LPA.",
+        milestone: "Sign final offer letter at ₹18.0L – ₹22.0+ LPA (India) or AED 20k+/mo (Dubai).",
+        tasks: [
+          "Lock in Offer #1 (baseline ₹10–₹12 LPA) and submit resignation",
+          "Escalate Offer #1 with GCCs & Product consultancies for Offer #2 (₹14–₹17 LPA)",
+          "Trigger < 15 Days Notice Immediate Joiner bidding war for Final Offer (₹18–₹22+ LPA)",
+          "Review employment contracts, IP clauses, joining bonus, and transition smoothly"
+        ]
+      }
+    ];
+
+    const storageKey = 'career_dev_roadmap_progress';
+    let progressState = JSON.parse(localStorage.getItem(storageKey) || '{}');
+
+    function saveProgress() {
+      localStorage.setItem(storageKey, JSON.stringify(progressState));
+      updateProgressBar();
+    }
+
+    function toggleTask(taskId) {
+      progressState[taskId] = !progressState[taskId];
+      const el = document.getElementById(`li_${taskId}`);
+      if (el) {
+        if (progressState[taskId]) {
+          el.classList.add('completed');
+        } else {
+          el.classList.remove('completed');
+        }
+      }
+      saveProgress();
+    }
+
+    function updateProgressBar() {
+      let total = 0;
+      let completed = 0;
+      weeksData.forEach(w => {
+        w.tasks.forEach((_, idx) => {
+          total++;
+          if (progressState[`${w.id}_t${idx}`]) completed++;
+        });
+      });
+      const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+      document.getElementById('progressFill').style.width = `${percent}%`;
+      document.getElementById('progressPercent').innerText = `${percent}% (${completed} / ${total} Milestones)`;
+    }
+
+    function renderWeeks(phaseFilter = 'all') {
+      const grid = document.getElementById('weeksGrid');
+      grid.innerHTML = '';
+
+      weeksData.forEach(week => {
+        if (phaseFilter !== 'all' && week.phase !== phaseFilter) return;
+
+        const card = document.createElement('div');
+        card.className = 'week-card';
+
+        const tagClass = week.phase === 'p1' ? 'tag-p1' : week.phase === 'p2' ? 'tag-p2' : 'tag-p3';
+
+        let tasksHtml = '';
+        week.tasks.forEach((task, idx) => {
+          const taskId = `${week.id}_t${idx}`;
+          const isDone = !!progressState[taskId];
+          tasksHtml += `
+            <li id="li_${taskId}" class="${isDone ? 'completed' : ''}" onclick="toggleTask('${taskId}')">
+              <input type="checkbox" ${isDone ? 'checked' : ''} onclick="event.stopPropagation(); toggleTask('${taskId}')">
+              <span>${task}</span>
+            </li>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="phase-tag ${tagClass}">${week.phaseName} • ${week.days}</div>
+          <h3 class="week-title">Week ${week.weekNum}: ${week.title}</h3>
+          <p class="week-focus">${week.focus}</p>
+          <ul class="checklist">
+            ${tasksHtml}
+          </ul>
+          <div class="milestone-badge">
+            <strong>🎯 Milestone Deliverable:</strong>
+            ${week.milestone}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      updateProgressBar();
+    }
+
+    function filterPhase(phase) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      renderWeeks(phase);
+    }
+
+    // Initialize
+    renderWeeks('all');
+  </script>
+</body>
+</html>
