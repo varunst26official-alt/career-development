@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full-Stack Code Arena — LeetCode for Enterprise React & Mendix Developers</title>
+  <title>Full-Stack Code Arena — Enterprise React & Mendix LeetCode</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Canvas Confetti for Solved Celebrations -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
@@ -29,23 +28,23 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: var(--bg);
       color: var(--text-main);
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     /* Top Navigation Header */
     header {
       background: rgba(17, 24, 39, 0.95);
       border-bottom: 1px solid var(--card-border);
-      padding: 0.85rem 1.5rem;
+      padding: 0.75rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
       z-index: 50;
       backdrop-filter: blur(10px);
+      flex-shrink: 0;
     }
 
     .brand {
@@ -81,13 +80,13 @@
     .header-stats {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .stat-pill {
       background: #0f172a;
       border: 1px solid var(--card-border);
-      padding: 0.4rem 0.8rem;
+      padding: 0.35rem 0.75rem;
       border-radius: 9999px;
       font-size: 0.775rem;
       font-weight: 700;
@@ -96,152 +95,291 @@
       gap: 0.4rem;
     }
 
-    .btn-share {
+    .btn-action {
       background: rgba(56, 189, 248, 0.15);
       border: 1px solid rgba(56, 189, 248, 0.4);
       color: var(--accent-sky);
       font-size: 0.775rem;
       font-weight: 700;
-      padding: 0.45rem 0.9rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 8px;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
       transition: all 0.2s;
     }
-    .btn-share:hover { background: var(--accent-sky); color: #090d16; }
+    .btn-action:hover { background: var(--accent-sky); color: #090d16; }
 
     /* Main Split-Screen Workspace */
     .arena-container {
       display: flex;
       flex: 1;
-      height: calc(100vh - 61px);
+      height: calc(100vh - 58px);
       overflow: hidden;
     }
 
-    /* Left Sidebar: Problem Catalog & Descriptions */
-    .left-pane {
-      width: 45%;
+    /* Left Sidebar: Problem Catalog Drawer */
+    .catalog-sidebar {
+      width: 310px;
+      background: #0b101d;
       border-right: 1px solid var(--card-border);
       display: flex;
       flex-direction: column;
-      background: #0d1322;
-      overflow-y: auto;
+      flex-shrink: 0;
     }
 
-    .problem-selector-bar {
-      padding: 0.75rem 1rem;
-      background: var(--card-bg);
+    .sidebar-header {
+      padding: 0.75rem 0.85rem;
       border-bottom: 1px solid var(--card-border);
       display: flex;
-      gap: 0.5rem;
-      align-items: center;
+      flex-direction: column;
+      gap: 0.4rem;
     }
 
-    select.problem-dropdown {
-      background: #0f172a;
-      border: 1px solid var(--card-border);
-      color: #fff;
-      padding: 0.5rem 0.75rem;
+    .filter-tabs {
+      display: flex;
+      gap: 0.2rem;
+      background: #080d18;
+      padding: 0.2rem;
       border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      flex: 1;
+      border: 1px solid var(--card-border);
+    }
+
+    .filter-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
       cursor: pointer;
-      outline: none;
-    }
-
-    .problem-content {
-      padding: 1.5rem;
+      white-space: nowrap;
       flex: 1;
+      text-align: center;
+    }
+    .filter-tab.active {
+      background: #1e293b;
+      color: #fff;
     }
 
-    .problem-header {
+    .problem-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .problem-item {
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.15s;
+    }
+    .problem-item:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+    .problem-item.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.6);
+    }
+
+    .problem-item-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      overflow: hidden;
+    }
+
+    .problem-item-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .problem-item-meta {
+      font-size: 0.7rem;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
+      gap: 0.4rem;
     }
 
-    .difficulty-tag {
-      font-size: 0.7rem;
+    .badge-diff {
+      font-size: 0.65rem;
       font-weight: 800;
-      padding: 0.2rem 0.6rem;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+    .diff-easy { color: #34d399; }
+    .diff-medium { color: #fbbf24; }
+    .diff-hard { color: #fb7185; }
+
+    .problem-item-check {
+      font-size: 0.85rem;
+      color: #10b981;
+    }
+
+    /* Middle Pane: Problem Details & Mendix Parallel */
+    .problem-pane {
+      flex: 1;
+      border-right: 1px solid var(--card-border);
+      background: #0d1322;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .problem-hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 1rem;
+    }
+
+    .problem-title h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+
+    .problem-meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 0.35rem;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 0.15rem 0.5rem;
       border-radius: 9999px;
       text-transform: uppercase;
+      white-space: nowrap;
     }
     .tag-easy { background: rgba(16, 185, 129, 0.15); color: #34d399; }
     .tag-medium { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
     .tag-hard { background: rgba(244, 63, 94, 0.15); color: #fb7185; }
 
-    .category-tag {
-      font-size: 0.725rem;
-      color: var(--text-muted);
-      font-weight: 600;
+    .tag-phase {
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
     }
 
-    .problem-title {
-      font-size: 1.4rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      color: #fff;
+    .tag-xp {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-amber);
+      font-family: 'JetBrains Mono', monospace;
     }
 
+    /* Mendix Parallel Box */
     .mendix-box {
-      background: rgba(99, 102, 241, 0.08);
-      border: 1px solid rgba(99, 102, 241, 0.3);
+      background: linear-gradient(180deg, rgba(30, 27, 75, 0.6) 0%, rgba(17, 24, 39, 0.8) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.4);
       border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1.25rem;
+      padding: 1rem 1.25rem;
     }
+
     .mendix-box h4 {
       font-size: 0.8rem;
       color: #a5b4fc;
       text-transform: uppercase;
       font-weight: 800;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
       display: flex;
       align-items: center;
       gap: 0.4rem;
     }
+
     .mendix-box p {
       font-size: 0.825rem;
       color: #c7d2fe;
       line-height: 1.5;
     }
 
-    .problem-desc {
-      font-size: 0.9rem;
-      color: #cbd5e1;
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-    }
-
-    .section-title {
-      font-size: 0.8rem;
+    .spec-section h3 {
+      font-size: 0.775rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
       font-weight: 800;
-      margin: 1.25rem 0 0.5rem;
+      margin-bottom: 0.5rem;
     }
 
-    .examples-box {
-      background: #0f172a;
+    .spec-section p {
+      font-size: 0.875rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .example-code {
+      background: #080d18;
       border: 1px solid var(--card-border);
-      border-radius: 10px;
+      border-radius: 8px;
       padding: 0.85rem 1rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem;
-      margin-bottom: 1rem;
       color: #94a3b8;
+      white-space: pre-wrap;
     }
-    .examples-box strong { color: #f1f5f9; }
 
-    /* Right Pane: Interactive Code Editor & Test Console */
-    .right-pane {
-      width: 55%;
+    /* Hint and Solution Accordions */
+    .collapsible-box {
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #080d18;
+    }
+
+    .collapsible-header {
+      padding: 0.6rem 0.85rem;
+      font-size: 0.775rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0b1120;
+    }
+    .collapsible-header:hover { color: #fff; }
+
+    .collapsible-content {
+      padding: 0.75rem 0.85rem;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      display: none;
+      border-top: 1px solid var(--card-border);
+    }
+    .collapsible-content.open { display: block; }
+
+    /* Right Pane: Code Editor & Test Console */
+    .editor-pane {
+      width: 48%;
+      background: var(--editor-bg);
       display: flex;
       flex-direction: column;
-      background: var(--editor-bg);
+      flex-shrink: 0;
     }
 
     .editor-toolbar {
@@ -255,48 +393,61 @@
 
     .editor-tab {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.775rem;
+      font-weight: 700;
       color: var(--accent-sky);
-      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 0.4rem;
     }
 
-    .action-btn-group {
+    .editor-actions {
       display: flex;
+      align-items: center;
       gap: 0.5rem;
     }
-
-    .btn-run {
-      background: #10b981;
-      color: #090d16;
-      font-size: 0.8rem;
-      font-weight: 800;
-      padding: 0.45rem 1rem;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
-    }
-    .btn-run:hover { background: #34d399; }
 
     .btn-reset {
       background: #1e293b;
       color: var(--text-muted);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      padding: 0.45rem 0.8rem;
-      border-radius: 8px;
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
       border: none;
       cursor: pointer;
     }
     .btn-reset:hover { background: #334155; color: #fff; }
 
-    .code-area-container {
+    .btn-solution {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--accent-amber);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-solution:hover { background: var(--accent-amber); color: #090d16; }
+
+    .btn-run {
+      background: #10b981;
+      color: #090d16;
+      font-size: 0.775rem;
+      font-weight: 800;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+    .btn-run:hover { background: #34d399; }
+
+    .editor-body {
       flex: 1;
       position: relative;
     }
@@ -307,17 +458,17 @@
       background: transparent;
       color: #f8fafc;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       line-height: 1.6;
-      padding: 1rem 1.25rem;
+      padding: 1rem;
       border: none;
       resize: none;
       outline: none;
       tab-size: 2;
     }
 
-    /* Bottom Test Output Panel */
-    .test-panel {
+    /* Bottom Test Console */
+    .test-console {
       height: 38%;
       background: #080d1a;
       border-top: 1px solid var(--card-border);
@@ -325,7 +476,7 @@
       flex-direction: column;
     }
 
-    .test-panel-header {
+    .test-header {
       padding: 0.5rem 1rem;
       background: #0f172a;
       border-bottom: 1px solid var(--card-border);
@@ -338,50 +489,45 @@
       text-transform: uppercase;
     }
 
-    .test-results-list {
-      padding: 0.85rem 1rem;
+    .test-list {
+      padding: 0.75rem 1rem;
       overflow-y: auto;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.4rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.775rem;
     }
 
     .test-item {
-      padding: 0.6rem 0.85rem;
-      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
     }
-    .test-item.passed { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; }
-    .test-item.failed { background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: #fb7185; }
+    .test-passed { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; }
+    .test-failed { background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: #fb7185; }
 
-    /* Custom Toast Notification */
-    .toast-msg {
+    .toast {
       position: fixed;
       bottom: 2rem;
       right: 2rem;
       background: #10b981;
       color: #090d16;
-      padding: 0.85rem 1.5rem;
-      border-radius: 12px;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
       font-weight: 800;
-      font-size: 0.85rem;
+      font-size: 0.825rem;
       display: none;
       box-shadow: 0 10px 25px rgba(0,0,0,0.5);
       z-index: 100;
-      animation: slideUp 0.3s ease;
     }
-    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    @media (max-width: 900px) {
-      .arena-container { flex-direction: column; height: auto; overflow: visible; }
-      .left-pane, .right-pane { width: 100%; height: auto; }
-      textarea#codeEditor { height: 350px; }
-      .test-panel { height: 260px; }
+    @media (max-width: 1024px) {
+      .catalog-sidebar { width: 220px; }
+      .editor-pane { width: 50%; }
     }
   </style>
 </head>
@@ -393,66 +539,74 @@
       <div class="brand-logo">⚔️</div>
       <div class="brand-title">
         <h1>Full-Stack Code Arena</h1>
-        <p>LeetCode for Enterprise React & Mendix Architects</p>
+        <p>Complete 90-Day Enterprise Roadmap • 24 Hands-On Challenges</p>
       </div>
     </div>
 
     <div class="header-stats">
       <div class="stat-pill">
         <span>🏆 Solved:</span>
-        <strong id="solvedCountLabel" style="color: var(--accent-emerald);">0 / 8</strong>
+        <strong id="solvedBadge" style="color: var(--accent-emerald);">0 / 24</strong>
       </div>
       <div class="stat-pill">
-        <span>⚡ XP Score:</span>
-        <strong id="xpScoreLabel" style="color: var(--accent-amber);">0 XP</strong>
+        <span>⚡ Total XP:</span>
+        <strong id="xpBadge" style="color: var(--accent-amber);">0 XP</strong>
       </div>
-      <button class="btn-share" onclick="sharePlatform()">🔗 Share with Friends</button>
-      <a href="index.html" class="btn-share" style="text-decoration: none; display: flex; align-items: center; gap: 0.35rem; background: rgba(255,255,255,0.06); color: #cbd5e1; border-color: var(--card-border);">📊 Hub</a>
+      <button class="btn-action" onclick="shareChallenge()">🔗 Share Challenge</button>
+      <a href="index.html" class="btn-action" style="background: rgba(255,255,255,0.06); color: #cbd5e1; border-color: var(--card-border);">📊 Analytics Hub</a>
     </div>
   </header>
 
-  <!-- Main Split-Screen Workspace -->
+  <!-- Workspace Container -->
   <div class="arena-container">
     
-    <!-- Left Pane: Problem Statement & Mendix Bridge -->
-    <div class="left-pane">
-      <div class="problem-selector-bar">
-        <label for="problemSelect" style="font-size: 0.775rem; color: var(--text-muted); font-weight: 700;">CHALLENGE:</label>
-        <select id="problemSelect" class="problem-dropdown" onchange="loadProblem(this.value)">
-          <!-- Options populated by JS -->
-        </select>
+    <!-- Left: 24-Topic Curriculum Drawer -->
+    <div class="catalog-sidebar">
+      <div class="sidebar-header">
+        <span style="font-size: 0.725rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Curriculum Filter:</span>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="setPhaseFilter('all', this)">All (24)</button>
+          <button class="filter-tab" onclick="setPhaseFilter('Phase 1', this)">Phase 1</button>
+          <button class="filter-tab" onclick="setPhaseFilter('Phase 2', this)">Phase 2</button>
+          <button class="filter-tab" onclick="setPhaseFilter('Phase 3', this)">Phase 3</button>
+        </div>
       </div>
 
-      <div class="problem-content" id="problemContent">
-        <!-- Rendered by JS -->
+      <div class="problem-list" id="problemList">
+        <!-- Injected via JavaScript -->
       </div>
     </div>
 
-    <!-- Right Pane: Code Editor & Test Console -->
-    <div class="right-pane">
+    <!-- Middle: Problem Specification & Mendix Rosetta Stone -->
+    <div class="problem-pane" id="problemPane">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <!-- Right: Code Editor & Test Runner -->
+    <div class="editor-pane">
       <div class="editor-toolbar">
         <div class="editor-tab">
           <span>⚡ solution.ts</span>
         </div>
-        <div class="action-btn-group">
+        <div class="editor-actions">
+          <button class="btn-solution" onclick="revealSolution()">💡 View Solution</button>
           <button class="btn-reset" onclick="resetCurrentCode()">↺ Reset</button>
           <button class="btn-run" onclick="runTests()">▶ Run Tests</button>
         </div>
       </div>
 
-      <div class="code-area-container">
+      <div class="editor-body">
         <textarea id="codeEditor" spellcheck="false"></textarea>
       </div>
 
-      <!-- Test Output Console -->
-      <div class="test-panel">
-        <div class="test-panel-header">
-          <span>Test Suite Results</span>
-          <span id="testSummaryBadge" style="color: #94a3b8;">Click "Run Tests"</span>
+      <div class="test-console">
+        <div class="test-header">
+          <span>Test Suite Verification</span>
+          <span id="testSummary" style="color: var(--text-muted);">Ready to run</span>
         </div>
-        <div class="test-results-list" id="testResultsList">
+        <div class="test-list" id="testList">
           <div style="color: #64748b; font-style: italic; text-align: center; margin-top: 2rem;">
-            Ready to test. Review the problem on the left, edit your function, and click ▶ Run Tests.
+            Click ▶ Run Tests to execute test cases against your code.
           </div>
         </div>
       </div>
@@ -460,604 +614,1001 @@
 
   </div>
 
-  <div id="toast" class="toast-msg"></div>
+  <div id="toast" class="toast"></div>
 
   <script>
-    // =========================================================================
-    // 8 PROGRESSIVE ENTERPRISE CHALLENGES (Mendix ➔ React)
-    // =========================================================================
     const CHALLENGES = [
+  {
+    "id": "p1",
+    "week": "Week 1",
+    "phase": "Phase 1: React 18 Core",
+    "title": "The Closure-Safe Counter",
+    "category": "Lexical Scope & Closures",
+    "difficulty": "Easy",
+    "xp": 100,
+    "mendixParallel": "In a Mendix microflow loop, reusing a stale local variable instead of reading the updated object state causes silent data corruption. In React, functional updates `setVal(prev => prev + 1)` and private lexical scope guarantee closure safety across renders.",
+    "description": "Implement `createCounter(initialValue)`. It must return an object with three methods: `increment()`, `decrement()`, and `getValue()`. Internal state must remain encapsulated within lexical scope and cannot be directly mutated from outside.",
+    "example": "const c = createCounter(10);\nc.increment(); // 11\nc.increment(); // 12\nc.decrement(); // 11\nc.getValue();  // 11",
+    "hints": [
+      "Keep a local variable `let count = initialValue` inside the outer function body.",
+      "Return an object whose methods close over `count` and modify it with `++count` or `--count`."
+    ],
+    "starterCode": "function createCounter(initialValue = 0) {\n  let count = initialValue;\n\n  return {\n    increment: () => {\n      // TODO: Increment and return updated count\n      return ++count;\n    },\n    decrement: () => {\n      // TODO: Decrement and return updated count\n      return --count;\n    },\n    getValue: () => {\n      // TODO: Return current count\n      return count;\n    }\n  };\n}",
+    "solution": "function createCounter(initialValue = 0) {\n  let count = initialValue;\n  return {\n    increment: () => ++count,\n    decrement: () => --count,\n    getValue: () => count\n  };\n}",
+    "tests": [
       {
-        id: "p1",
-        title: "1. The Closure-Safe Counter",
-        category: "Phase 1: Hooks & Memory",
-        difficulty: "Easy",
-        xp: 100,
-        mendixParallel: "In a Mendix Microflow loop or background task, if you increment an account balance using a stale variable instead of refreshing the latest object from database cache, you overwrite data. In React, functional updates (prev => prev + 1) bypass frozen closures.",
-        description: "Write a function <code>createCounter(initialValue)</code> that returns an object with three methods: <code>increment()</code>, <code>decrement()</code>, and <code>getValue()</code>. The methods must compute updates sequentially without relying on stale closure snapshots.",
-        example: "const counter = createCounter(10);\ncounter.increment(); // 11\ncounter.increment(); // 12\ncounter.decrement(); // 11\ncounter.getValue();  // 11",
-        starterCode: `// Fix and complete the closure-safe counter
-function createCounter(initialValue = 0) {
-  let val = initialValue;
-
-  return {
-    increment: () => {
-      // TODO: increment value
-      return ++val;
-    },
-    decrement: () => {
-      // TODO: decrement value
-      return --val;
-    },
-    getValue: () => {
-      // TODO: return current value
-      return val;
-    }
-  };
-}`,
-        tests: [
-          {
-            name: "Initializes with given starting value",
-            run: (code) => {
-              const fn = new Function(code + "; return createCounter(25000);")();
-              return fn.getValue() === 25000;
-            }
-          },
-          {
-            name: "Increments sequentially without stale loss",
-            run: (code) => {
-              const fn = new Function(code + "; return createCounter(100);")();
-              fn.increment();
-              fn.increment();
-              fn.increment();
-              return fn.getValue() === 103;
-            }
-          },
-          {
-            name: "Decrements properly",
-            run: (code) => {
-              const fn = new Function(code + "; return createCounter(50);")();
-              fn.decrement();
-              fn.decrement();
-              return fn.getValue() === 48;
-            }
-          }
-        ]
+        "name": "Initializes with custom starting value",
+        "testFnStr": "const c = fn(100); return c.getValue() === 100;"
       },
-
       {
-        id: "p2",
-        title: "2. The Debounce Search Function",
-        category: "Phase 1: Performance & Timers",
-        difficulty: "Medium",
-        xp: 150,
-        mendixParallel: "In Mendix, executing an On-Change microflow on every keystroke in a 10,000-row Data Grid causes massive server queue spikes. Debounce pauses execution until the user stops typing for 'delay' milliseconds.",
-        description: "Implement a function <code>debounce(fn, delay)</code>. When the returned function is called repeatedly within the delay window, the timer resets, and <code>fn</code> is only executed ONCE after the user stops calling it.",
-        example: "const search = debounce((q) => fetchResults(q), 300);\nsearch('G');\nsearch('Gr'); // Cancels 'G' timer\nsearch('Gro'); // Only 'Gro' executes after 300ms",
-        starterCode: `function debounce(fn, delay) {
-  let timerId = null;
-
-  return function(...args) {
-    // TODO: Clear existing timer if called again before delay
-    if (timerId) {
-      clearTimeout(timerId);
-    }
-
-    // TODO: Launch new timer that executes fn
-    timerId = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-}`,
-        tests: [
-          {
-            name: "Returns a callable function",
-            run: (code) => {
-              const fn = new Function(code + "; return debounce(() => {}, 100);")();
-              return typeof fn === 'function';
-            }
-          },
-          {
-            name: "Only calls the target function once after rapid calls",
-            run: async (code) => {
-              return new Promise((resolve) => {
-                let callCount = 0;
-                let lastArg = "";
-                const makeDebounce = new Function(code + "; return debounce;")();
-                const debounced = makeDebounce((val) => {
-                  callCount++;
-                  lastArg = val;
-                }, 50);
-
-                debounced("apple");
-                debounced("banana");
-                debounced("cherry");
-
-                setTimeout(() => {
-                  resolve(callCount === 1 && lastArg === "cherry");
-                }, 120);
-              });
-            }
-          }
-        ]
+        "name": "Performs consecutive increments and decrements",
+        "testFnStr": "const c = fn(5); c.increment(); c.increment(); c.decrement(); return c.getValue() === 6;"
       },
-
       {
-        id: "p3",
-        title: "3. Pure Derived State Calculator",
-        category: "Phase 1: State Hygiene",
-        difficulty: "Easy",
-        xp: 100,
-        mendixParallel: "In Mendix, you never create a stored database column for NetWorth. You make it a Calculated Attribute: $Account/Assets - $Account/Debts. In React, derived state must be calculated on-the-fly without redundant useState.",
-        description: "Write a function <code>computePortfolioMetrics(holdings, debts)</code> that calculates <code>grossAssets</code>, <code>totalDebt</code>, <code>netWorth</code>, and a boolean <code>isSolvent</code> (true if netWorth >= 0).",
-        example: "computePortfolioMetrics([{ amount: 50000 }, { amount: 20000 }], [{ amount: 15000 }]);\n// Returns: { grossAssets: 70000, totalDebt: 15000, netWorth: 55000, isSolvent: true }",
-        starterCode: `function computePortfolioMetrics(holdings, debts) {
-  // TODO: Sum holdings amounts
-  const grossAssets = holdings.reduce((sum, h) => sum + h.amount, 0);
-
-  // TODO: Sum debts amounts
-  const totalDebt = debts.reduce((sum, d) => sum + d.amount, 0);
-
-  // TODO: Calculate netWorth & solvency
-  const netWorth = grossAssets - totalDebt;
-  const isSolvent = netWorth >= 0;
-
-  return { grossAssets, totalDebt, netWorth, isSolvent };
-}`,
-        tests: [
-          {
-            name: "Correctly sums gross assets and total debts",
-            run: (code) => {
-              const fn = new Function(code + "; return computePortfolioMetrics;")();
-              const res = fn([{ amount: 100 }, { amount: 200 }], [{ amount: 50 }]);
-              return res.grossAssets === 300 && res.totalDebt === 50 && res.netWorth === 250 && res.isSolvent === true;
-            }
-          },
-          {
-            name: "Correctly flags isSolvent as false when debt exceeds assets",
-            run: (code) => {
-              const fn = new Function(code + "; return computePortfolioMetrics;")();
-              const res = fn([{ amount: 500 }], [{ amount: 800 }]);
-              return res.netWorth === -300 && res.isSolvent === false;
-            }
-          }
-        ]
-      },
-
-      {
-        id: "p4",
-        title: "4. Immutable List Item Deletion",
-        category: "Phase 1: Array Immutability",
-        difficulty: "Easy",
-        xp: 100,
-        mendixParallel: "In Mendix, you execute a Delete Object activity. In React, state arrays are immutable in RAM. Calling .splice() mutates the existing memory address and React refuses to re-render. You must use .filter() to create a fresh reference.",
-        description: "Write a function <code>deleteTransaction(list, idToDelete)</code> that returns a NEW array with the item removed, ensuring the original array was NOT mutated.",
-        example: "const original = [{ id: '1' }, { id: '2' }];\nconst updated = deleteTransaction(original, '1');\n// updated: [{ id: '2' }]\n// original is unchanged!",
-        starterCode: `function deleteTransaction(list, idToDelete) {
-  // TODO: Return a fresh array using .filter() without mutating original list
-  return list.filter(item => item.id !== idToDelete);
-}`,
-        tests: [
-          {
-            name: "Removes matching item correctly",
-            run: (code) => {
-              const fn = new Function(code + "; return deleteTransaction;")();
-              const original = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
-              const res = fn(original, 'b');
-              return res.length === 2 && res[0].id === 'a' && res[1].id === 'c';
-            }
-          },
-          {
-            name: "Does not mutate the original input array (Strict Immutability)",
-            run: (code) => {
-              const fn = new Function(code + "; return deleteTransaction;")();
-              const original = Object.freeze([{ id: 'a' }, { id: 'b' }]);
-              const res = fn(original, 'a');
-              return res !== original && original.length === 2;
-            }
-          }
-        ]
-      },
-
-      {
-        id: "p5",
-        title: "5. The Toggle State Machine",
-        category: "Phase 2: Custom Hooks Logic",
-        difficulty: "Medium",
-        xp: 150,
-        mendixParallel: "In Mendix, toggling a boolean attribute on a helper NPE requires an Exclusive Split ($Helper/IsOpen = true -> false else true). In React, an enterprise toggle helper can flip booleans or explicitly set true/false.",
-        description: "Write a function <code>createToggle(initialValue)</code> that returns <code>{ value, toggle }</code>. Calling <code>toggle()</code> flips the boolean. Calling <code>toggle(true)</code> forces it to true; calling <code>toggle(false)</code> forces it to false.",
-        example: "const t = createToggle(false);\nt.toggle(); // true\nt.toggle(); // false\nt.toggle(true); // true\nt.toggle(true); // still true",
-        starterCode: `function createToggle(initialValue = false) {
-  let state = !!initialValue;
-
-  return {
-    get: () => state,
-    toggle: (explicitValue) => {
-      if (typeof explicitValue === 'boolean') {
-        state = explicitValue;
-      } else {
-        state = !state;
+        "name": "Encapsulates state across independent instances",
+        "testFnStr": "const a = fn(10); const b = fn(20); a.increment(); return a.getValue() === 11 && b.getValue() === 20;"
       }
-      return state;
-    }
-  };
-}`,
-        tests: [
-          {
-            name: "Initializes with provided boolean",
-            run: (code) => {
-              const fn = new Function(code + "; return createToggle(true);")();
-              return fn.get() === true;
-            }
-          },
-          {
-            name: "Toggles automatically on empty call",
-            run: (code) => {
-              const fn = new Function(code + "; return createToggle(false);")();
-              fn.toggle();
-              const afterFirst = fn.get();
-              fn.toggle();
-              const afterSecond = fn.get();
-              return afterFirst === true && afterSecond === false;
-            }
-          },
-          {
-            name: "Respects explicit boolean override parameter",
-            run: (code) => {
-              const fn = new Function(code + "; return createToggle(false);")();
-              fn.toggle(true);
-              const test1 = fn.get() === true;
-              fn.toggle(true);
-              const test2 = fn.get() === true;
-              fn.toggle(false);
-              const test3 = fn.get() === false;
-              return test1 && test2 && test3;
-            }
-          }
-        ]
-      },
-
+    ]
+  },
+  {
+    "id": "p2",
+    "week": "Week 1",
+    "phase": "Phase 1: React 18 Core",
+    "title": "Debounce Function Executor",
+    "category": "Event Loop & Asynchronous Timers",
+    "difficulty": "Medium",
+    "xp": 150,
+    "mendixParallel": "Calling an On-Change microflow on every single keystroke creates massive server load. Debouncing delays execution until the user pauses typing for `delay` milliseconds, cutting network calls by 95%.",
+    "description": "Write `debounce(fn, delay)`. The returned function delays invoking `fn` until after `delay` milliseconds have elapsed since the last call. If invoked again before the delay expires, previous timers are cancelled.",
+    "example": "const log = debounce(console.log, 100);\nlog('a');\nlog('b');\n// Only 'b' executes after 100ms",
+    "hints": [
+      "Maintain a `timerId` variable in the outer closure.",
+      "Clear any active timer with `clearTimeout(timerId)` whenever called again."
+    ],
+    "starterCode": "function debounce(fn, delay) {\n  let timerId = null;\n\n  return function(...args) {\n    // TODO: Clear existing timer if active\n    if (timerId) clearTimeout(timerId);\n\n    // TODO: Set new timer to execute fn with args after delay\n    timerId = setTimeout(() => {\n      fn.apply(this, args);\n    }, delay);\n  };\n}",
+    "solution": "function debounce(fn, delay) {\n  let timerId = null;\n  return function(...args) {\n    if (timerId) clearTimeout(timerId);\n    timerId = setTimeout(() => {\n      fn.apply(this, args);\n    }, delay);\n  };\n}",
+    "tests": [
       {
-        id: "p6",
-        title: "6. Deep Object Cloner (No JSON Hacks)",
-        category: "Phase 2: Deep Immutability",
-        difficulty: "Hard",
-        xp: 200,
-        mendixParallel: "In Mendix, cloning an entity and all its child associations requires deep copy logic. In React, JSON.parse(JSON.stringify(x)) loses functions, dates, and breaks on circular references. Senior architects implement recursive cloning.",
-        description: "Implement <code>deepClone(obj)</code> that returns a complete deep clone of nested objects and arrays without mutating the source references.",
-        example: "const a = { user: { balance: 100 }, tags: ['fintech'] };\nconst b = deepClone(a);\nb.user.balance = 500;\n// a.user.balance is STILL 100!",
-        starterCode: `function deepClone(target) {
-  if (target === null || typeof target !== 'object') {
-    return target;
-  }
-
-  if (Array.isArray(target)) {
-    return target.map(item => deepClone(item));
-  }
-
-  const copy = {};
-  for (const key in target) {
-    if (Object.prototype.hasOwnProperty.call(target, key)) {
-      copy[key] = deepClone(target[key]);
-    }
-  }
-  return copy;
-}`,
-        tests: [
-          {
-            name: "Clones primitive values directly",
-            run: (code) => {
-              const fn = new Function(code + "; return deepClone;")();
-              return fn(42) === 42 && fn("hello") === "hello";
-            }
-          },
-          {
-            name: "Ensures nested object references are completely decoupled",
-            run: (code) => {
-              const fn = new Function(code + "; return deepClone;")();
-              const source = { account: { balance: 50000, ledger: [100, 200] } };
-              const clone = fn(source);
-              clone.account.balance = 99999;
-              clone.account.ledger.push(300);
-              return source.account.balance === 50000 && source.account.ledger.length === 2;
-            }
-          }
-        ]
+        "name": "Cancels intermediate calls and fires once after delay",
+        "testFnStr": "return new Promise((resolve) => {\n          let count = 0;\n          let lastArg = '';\n          const debounced = fn((val) => { count++; lastArg = val; }, 50);\n          debounced('first');\n          debounced('second');\n          debounced('third');\n          setTimeout(() => {\n            resolve(count === 1 && lastArg === 'third');\n          }, 100);\n        });"
       },
-
       {
-        id: "p7",
-        title: "7. Async Retry with Exponential Backoff",
-        category: "Phase 2: Resilient API Calling",
-        difficulty: "Hard",
-        xp: 250,
-        mendixParallel: "In Mendix, when a Call REST Service action fails due to network jitter, you build a custom error-handler loop. In TanStack Query / React, auto-retries with exponential delay prevent server hammering.",
-        description: "Write <code>retryOperation(asyncFn, maxRetries)</code>. It executes <code>asyncFn()</code>. If it rejects, it retries up to <code>maxRetries</code> times before throwing the final error.",
-        example: "await retryOperation(() => fetchPrices(), 3);",
-        starterCode: `async function retryOperation(asyncFn, maxRetries = 3) {
-  let attempts = 0;
-
-  while (attempts < maxRetries) {
-    try {
-      return await asyncFn();
-    } catch (err) {
-      attempts++;
-      if (attempts >= maxRetries) {
-        throw err;
+        "name": "Allows new invocation after delay window elapses",
+        "testFnStr": "return new Promise((resolve) => {\n          let calls = 0;\n          const debounced = fn(() => { calls++; }, 40);\n          debounced();\n          setTimeout(() => {\n            debounced();\n            setTimeout(() => {\n              resolve(calls === 2);\n            }, 60);\n          }, 70);\n        });"
       }
-    }
-  }
-}`,
-        tests: [
-          {
-            name: "Returns immediately on first success",
-            run: async (code) => {
-              const fn = new Function(code + "; return retryOperation;")();
-              let count = 0;
-              const res = await fn(async () => {
-                count++;
-                return "SUCCESS";
-              }, 3);
-              return res === "SUCCESS" && count === 1;
-            }
-          },
-          {
-            name: "Retries and succeeds on the 3rd attempt",
-            run: async (code) => {
-              const fn = new Function(code + "; return retryOperation;")();
-              let count = 0;
-              const res = await fn(async () => {
-                count++;
-                if (count < 3) throw new Error("Network blip");
-                return "RECOVERED";
-              }, 4);
-              return res === "RECOVERED" && count === 3;
-            }
-          }
-        ]
-      },
-
+    ]
+  },
+  {
+    "id": "p3",
+    "week": "Week 2",
+    "phase": "Phase 1: React 18 Core",
+    "title": "Type-Safe Form Reducer",
+    "category": "Discriminated Unions & State Machines",
+    "difficulty": "Medium",
+    "xp": 150,
+    "mendixParallel": "In Mendix, you represent workflow progress using an Enumeration (`Draft`, `Submitted`, `Approved`, `Rejected`). In TypeScript/React, Discriminated Unions eliminate impossible intermediate states (e.g. `loading=true` and `error=true` at the same time).",
+    "description": "Implement `formReducer(state, action)`. State has `{ status: 'idle' | 'submitting' | 'success' | 'error', data?: any, error?: string }`. Handle action types: `SUBMIT`, `SUCCESS` (payload in `action.payload`), `FAIL` (message in `action.error`), and `RESET`.",
+    "example": "formReducer({ status: 'idle' }, { type: 'SUBMIT' });\n// { status: 'submitting' }\nformReducer({ status: 'submitting' }, { type: 'SUCCESS', payload: { id: 1 } });\n// { status: 'success', data: { id: 1 } }",
+    "hints": [
+      "Use a `switch(action.type)` statement to handle all union cases.",
+      "Always return a fresh state object without mutating previous state."
+    ],
+    "starterCode": "function formReducer(state, action) {\n  switch (action.type) {\n    case 'SUBMIT':\n      // TODO: return submitting status\n      return { status: 'submitting' };\n    case 'SUCCESS':\n      // TODO: return success with data\n      return { status: 'success', data: action.payload };\n    case 'FAIL':\n      // TODO: return error with error string\n      return { status: 'error', error: action.error };\n    case 'RESET':\n      // TODO: return idle\n      return { status: 'idle' };\n    default:\n      return state;\n  }\n}",
+    "solution": "function formReducer(state, action) {\n  switch (action.type) {\n    case 'SUBMIT':\n      return { status: 'submitting' };\n    case 'SUCCESS':\n      return { status: 'success', data: action.payload };\n    case 'FAIL':\n      return { status: 'error', error: action.error };\n    case 'RESET':\n      return { status: 'idle' };\n    default:\n      return state;\n  }\n}",
+    "tests": [
       {
-        id: "p8",
-        title: "8. Zustand Mini-Store Implementation",
-        category: "Phase 2: Global State Engine",
-        difficulty: "Medium",
-        xp: 200,
-        mendixParallel: "Zustand is the React equivalent of a Mendix Session Entity. It holds state in memory outside any page and allows any component to subscribe to changes using listeners.",
-        description: "Implement <code>createStore(initialState)</code> with three methods: <code>getState()</code>, <code>setState(updater)</code>, and <code>subscribe(listener)</code>.",
-        example: "const store = createStore({ count: 0 });\nstore.subscribe((state) => console.log(state));\nstore.setState({ count: 1 });",
-        starterCode: `function createStore(initialState) {
-  let state = initialState;
-  const listeners = new Set();
-
-  return {
-    getState: () => state,
-    setState: (update) => {
-      const nextState = typeof update === 'function' ? update(state) : update;
-      state = { ...state, ...nextState };
-      listeners.forEach(listener => listener(state));
-    },
-    subscribe: (listener) => {
-      listeners.add(listener);
-      return () => listeners.delete(listener); // Unsubscribe cleanup!
-    }
-  };
-}`,
-        tests: [
-          {
-            name: "Stores and returns initial state",
-            run: (code) => {
-              const fn = new Function(code + "; return createStore({ balance: 25000 });")();
-              return fn.getState().balance === 25000;
-            }
-          },
-          {
-            name: "Notifies subscribers whenever state changes",
-            run: (code) => {
-              const fn = new Function(code + "; return createStore({ count: 0 });")();
-              let receivedVal = 0;
-              fn.subscribe((state) => {
-                receivedVal = state.count;
-              });
-              fn.setState({ count: 42 });
-              return receivedVal === 42;
-            }
-          },
-          {
-            name: "Unsubscribe stops notifying the listener",
-            run: (code) => {
-              const fn = new Function(code + "; return createStore({ count: 0 });")();
-              let callCount = 0;
-              const unsubscribe = fn.subscribe(() => { callCount++; });
-              fn.setState({ count: 1 });
-              unsubscribe();
-              fn.setState({ count: 2 });
-              return callCount === 1;
-            }
-          }
-        ]
+        "name": "Transitions from idle to submitting",
+        "testFnStr": "const s = fn({ status: 'idle' }, { type: 'SUBMIT' }); return s.status === 'submitting';"
+      },
+      {
+        "name": "Stores payload on SUCCESS and clears previous error",
+        "testFnStr": "const s = fn({ status: 'submitting' }, { type: 'SUCCESS', payload: { userId: 42 } }); return s.status === 'success' && s.data.userId === 42;"
+      },
+      {
+        "name": "Resets back to idle cleanly",
+        "testFnStr": "const s = fn({ status: 'error', error: 'Network timeout' }, { type: 'RESET' }); return s.status === 'idle' && !s.error;"
       }
-    ];
+    ]
+  },
+  {
+    "id": "p4",
+    "week": "Week 2",
+    "phase": "Phase 1: React 18 Core",
+    "title": "Structural Sharing Updater",
+    "category": "Deep Immutability & Reference Trees",
+    "difficulty": "Hard",
+    "xp": 250,
+    "mendixParallel": "Mendix ORM tracks modified entity attributes automatically. In React, Fiber uses shallow equality `prev === next`. To prevent re-rendering untouched tree branches, you must clone only modified parent nodes while keeping unchanged siblings by reference.",
+    "description": "Write `updateIn(obj, path, value)` where `path` is an array of keys (e.g. `['user', 'profile', 'email']`). Return a new object with the target value updated, while preserving untouched branch object references.",
+    "example": "const orig = { user: { profile: { email: 'old@a.com' }, settings: { dark: true } } };\nconst next = updateIn(orig, ['user', 'profile', 'email'], 'new@a.com');\nnext.user.profile.email === 'new@a.com';\nnext.user.settings === orig.user.settings; // Preserves reference!",
+    "hints": [
+      "Use recursion or a loop copying each segment down the path.",
+      "At each step, shallow copy `{ ...current }` and reassign the child."
+    ],
+    "starterCode": "function updateIn(obj, path, value) {\n  if (path.length === 0) return value;\n  const [head, ...tail] = path;\n\n  // TODO: Recursively shallow-copy each level along the path\n  const currentChild = obj && typeof obj === 'object' && obj[head] !== undefined ? obj[head] : {};\n  return {\n    ...obj,\n    [head]: updateIn(currentChild, tail, value)\n  };\n}",
+    "solution": "function updateIn(obj, path, value) {\n  if (path.length === 0) return value;\n  const [head, ...tail] = path;\n  const currentChild = obj && typeof obj === 'object' && obj[head] !== undefined ? obj[head] : {};\n  return {\n    ...obj,\n    [head]: updateIn(currentChild, tail, value)\n  };\n}",
+    "tests": [
+      {
+        "name": "Updates deeply nested target value correctly",
+        "testFnStr": "const o = { a: { b: { c: 10 } } }; const res = fn(o, ['a', 'b', 'c'], 99); return res.a.b.c === 99;"
+      },
+      {
+        "name": "Preserves identity of untouched sibling branches",
+        "testFnStr": "const sibling = { active: true }; const o = { a: { b: 1, sib: sibling } }; const res = fn(o, ['a', 'b'], 2); return res.a.sib === sibling;"
+      },
+      {
+        "name": "Creates new reference for modified root and ancestors",
+        "testFnStr": "const o = { a: { b: 1 } }; const res = fn(o, ['a', 'b'], 2); return res !== o && res.a !== o.a;"
+      }
+    ]
+  },
+  {
+    "id": "p5",
+    "week": "Week 3",
+    "phase": "Phase 1: React 18 Core",
+    "title": "Fiber State Batch Queue",
+    "category": "React Fiber & Functional Updates",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "In Mendix, committing an object multiple times in one microflow executes a single optimized database transaction at the end. React Fiber batches multiple `setState` calls and runs functional updates in FIFO queue order to prevent stale overrides.",
+    "description": "Implement `batchUpdateQueue(initialState, updates)`. `updates` is an array where each item is either a replacement value or an update function `(prev) => next`. Return the final resolved state after sequentially applying all updates.",
+    "example": "batchUpdateQueue(10, [20, (prev) => prev + 5, (prev) => prev * 2]); // (20 + 5) * 2 = 50",
+    "hints": [
+      "Use `updates.reduce()` starting from `initialState`.",
+      "Check `typeof update === 'function'` to decide whether to call it with `current` or use the direct value."
+    ],
+    "starterCode": "function batchUpdateQueue(initialState, updates) {\n  // TODO: Sequentially resolve all updates against the rolling state\n  return updates.reduce((state, update) => {\n    return typeof update === 'function' ? update(state) : update;\n  }, initialState);\n}",
+    "solution": "function batchUpdateQueue(initialState, updates) {\n  return updates.reduce((state, update) => {\n    return typeof update === 'function' ? update(state) : update;\n  }, initialState);\n}",
+    "tests": [
+      {
+        "name": "Processes sequence of functional updates",
+        "testFnStr": "const res = fn(0, [(p) => p + 1, (p) => p + 1, (p) => p + 1]); return res === 3;"
+      },
+      {
+        "name": "Direct value overrides previous state before subsequent function calls",
+        "testFnStr": "const res = fn(10, [100, (p) => p + 50, (p) => p * 2]); return res === 300;"
+      },
+      {
+        "name": "Handles empty update queue by returning initialState",
+        "testFnStr": "return fn(42, []) === 42;"
+      }
+    ]
+  },
+  {
+    "id": "p6",
+    "week": "Week 3",
+    "phase": "Phase 1: React 18 Core",
+    "title": "Financial Ledger Derived State",
+    "category": "Derived State & Pure Calculation",
+    "difficulty": "Easy",
+    "xp": 100,
+    "mendixParallel": "Storing derived values (like total balance) in database entities creates cache synchronization bugs. In React and Mendix best practices, calculate derived values on-the-fly during render rather than syncing redundant state.",
+    "description": "Write `computeCashFlowMetrics(transactions)`. Each transaction has `{ id, title, amount, type: 'income' | 'expense' }`. Return `{ totalIncome, totalExpense, netBalance, savingsRatePct }` where `savingsRatePct` is `Math.round((netBalance / totalIncome) * 100)` or 0 if `totalIncome === 0`.",
+    "example": "computeCashFlowMetrics([{ amount: 100000, type: 'income' }, { amount: 30000, type: 'expense' }]);\n// { totalIncome: 100000, totalExpense: 30000, netBalance: 70000, savingsRatePct: 70 }",
+    "hints": [
+      "Iterate through transactions using `reduce` or `forEach`.",
+      "Compute `totalIncome`, `totalExpense`, `netBalance = totalIncome - totalExpense`."
+    ],
+    "starterCode": "function computeCashFlowMetrics(transactions) {\n  let totalIncome = 0;\n  let totalExpense = 0;\n\n  // TODO: Aggregate incomes and expenses\n  for (const t of transactions) {\n    if (t.type === 'income') totalIncome += t.amount;\n    else if (t.type === 'expense') totalExpense += t.amount;\n  }\n\n  const netBalance = totalIncome - totalExpense;\n  const savingsRatePct = totalIncome > 0 ? Math.round((netBalance / totalIncome) * 100) : 0;\n\n  return { totalIncome, totalExpense, netBalance, savingsRatePct };\n}",
+    "solution": "function computeCashFlowMetrics(transactions) {\n  let totalIncome = 0;\n  let totalExpense = 0;\n  for (const t of transactions) {\n    if (t.type === 'income') totalIncome += t.amount;\n    else if (t.type === 'expense') totalExpense += t.amount;\n  }\n  const netBalance = totalIncome - totalExpense;\n  const savingsRatePct = totalIncome > 0 ? Math.round((netBalance / totalIncome) * 100) : 0;\n  return { totalIncome, totalExpense, netBalance, savingsRatePct };\n}",
+    "tests": [
+      {
+        "name": "Calculates correct net balance and savings percentage",
+        "testFnStr": "const res = fn([{ amount: 50000, type: 'income' }, { amount: 20000, type: 'expense' }]); return res.totalIncome === 50000 && res.totalExpense === 20000 && res.netBalance === 30000 && res.savingsRatePct === 60;"
+      },
+      {
+        "name": "Returns 0% savings rate when no income is present",
+        "testFnStr": "const res = fn([{ amount: 5000, type: 'expense' }]); return res.totalIncome === 0 && res.netBalance === -5000 && res.savingsRatePct === 0;"
+      }
+    ]
+  },
+  {
+    "id": "p7",
+    "week": "Week 4",
+    "phase": "Phase 1: React 18 Core",
+    "title": "useLocalStorage Hook Engine",
+    "category": "Custom Hooks & Storage Synchronization",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "In Mendix Native/Web, offline storage or user preferences are persisted in browser/device storage. Custom React hooks encapsulate `JSON.parse` and `JSON.stringify` with error handling so components read state transparently.",
+    "description": "Build `createStorageManager(key, defaultValue, storageDriver)`. `storageDriver` has `getItem(k)` and `setItem(k, v)`. Return `{ get(), set(value) }`. `get()` returns stored parsed JSON or `defaultValue` if missing or corrupted. `set(val)` handles functional updates `(prev) => next` and persists JSON.",
+    "example": "const s = createStorageManager('theme', 'light', memoryDriver);\ns.get(); // 'light'\ns.set('dark');\ns.get(); // 'dark'",
+    "hints": [
+      "Wrap `JSON.parse` in a `try...catch` block to handle invalid JSON gracefully.",
+      "Check if `value` passed to `set()` is a function, and call `val(current)` if so."
+    ],
+    "starterCode": "function createStorageManager(key, defaultValue, driver) {\n  return {\n    get: () => {\n      try {\n        const item = driver.getItem(key);\n        return item ? JSON.parse(item) : defaultValue;\n      } catch (e) {\n        return defaultValue;\n      }\n    },\n    set: (val) => {\n      // TODO: Handle functional updates or raw values, then save stringified JSON\n      const current = driver.getItem(key) ? JSON.parse(driver.getItem(key)) : defaultValue;\n      const next = typeof val === 'function' ? val(current) : val;\n      driver.setItem(key, JSON.stringify(next));\n      return next;\n    }\n  };\n}",
+    "solution": "function createStorageManager(key, defaultValue, driver) {\n  return {\n    get: () => {\n      try {\n        const item = driver.getItem(key);\n        return item ? JSON.parse(item) : defaultValue;\n      } catch (e) {\n        return defaultValue;\n      }\n    },\n    set: (val) => {\n      let current;\n      try {\n        const item = driver.getItem(key);\n        current = item ? JSON.parse(item) : defaultValue;\n      } catch {\n        current = defaultValue;\n      }\n      const next = typeof val === 'function' ? val(current) : val;\n      driver.setItem(key, JSON.stringify(next));\n      return next;\n    }\n  };\n}",
+    "tests": [
+      {
+        "name": "Returns defaultValue when storage is empty",
+        "testFnStr": "const d = { store: {}, getItem(k){ return this.store[k]; }, setItem(k,v){ this.store[k]=v; } }; const mgr = fn('user', { name: 'Varun' }, d); return mgr.get().name === 'Varun';"
+      },
+      {
+        "name": "Persists and reads updated values",
+        "testFnStr": "const d = { store: {}, getItem(k){ return this.store[k]; }, setItem(k,v){ this.store[k]=v; } }; const mgr = fn('score', 10, d); mgr.set(25); return mgr.get() === 25;"
+      },
+      {
+        "name": "Supports functional updates",
+        "testFnStr": "const d = { store: {}, getItem(k){ return this.store[k]; }, setItem(k,v){ this.store[k]=v; } }; const mgr = fn('count', 5, d); mgr.set(p => p + 10); return mgr.get() === 15;"
+      }
+    ]
+  },
+  {
+    "id": "p8",
+    "week": "Week 4",
+    "phase": "Phase 1: React 18 Core",
+    "title": "Smart Memoization with TTL",
+    "category": "Performance Profiling & Memoization",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "In enterprise apps, calling heavy database queries or recalculating complex metrics repeatedly wastes CPU. `useMemo` and memoization caches cache previous results for identical arguments, while TTL expires stale cache entries.",
+    "description": "Write `memoizeWithTTL(fn, ttlMs)`. Cache the result of `fn(...args)` by stringifying arguments as key. If invoked with identical arguments within `ttlMs`, return the cached result without calling `fn`. If called after `ttlMs`, re-execute `fn`.",
+    "example": "let computeCalls = 0;\nconst calc = memoizeWithTTL((x) => { computeCalls++; return x * 2; }, 100);\ncalc(5); // computes, returns 10\ncalc(5); // cached, returns 10 (calls = 1)",
+    "hints": [
+      "Use a `Map` storing `{ value, expiry }` objects keyed by `JSON.stringify(args)`.",
+      "Check `Date.now() > cached.expiry` to detect stale items."
+    ],
+    "starterCode": "function memoizeWithTTL(fn, ttlMs) {\n  const cache = new Map();\n\n  return function(...args) {\n    const key = JSON.stringify(args);\n    const now = Date.now();\n\n    // TODO: Return cached value if present and not expired\n    if (cache.has(key)) {\n      const entry = cache.get(key);\n      if (now < entry.expiry) return entry.value;\n    }\n\n    // TODO: Compute, cache with expiry, and return\n    const value = fn(...args);\n    cache.set(key, { value, expiry: now + ttlMs });\n    return value;\n  };\n}",
+    "solution": "function memoizeWithTTL(fn, ttlMs) {\n  const cache = new Map();\n  return function(...args) {\n    const key = JSON.stringify(args);\n    const now = Date.now();\n    if (cache.has(key)) {\n      const entry = cache.get(key);\n      if (now < entry.expiry) return entry.value;\n    }\n    const value = fn(...args);\n    cache.set(key, { value, expiry: now + ttlMs });\n    return value;\n  };\n}",
+    "tests": [
+      {
+        "name": "Returns cached result without re-executing function",
+        "testFnStr": "let count = 0; const m = fn((x) => { count++; return x * 2; }, 100); const a = m(10); const b = m(10); return a === 20 && b === 20 && count === 1;"
+      },
+      {
+        "name": "Re-executes function when TTL expires",
+        "testFnStr": "return new Promise((resolve) => {\n          let count = 0;\n          const m = fn((x) => { count++; return x + 1; }, 40);\n          m(5);\n          setTimeout(() => {\n            m(5);\n            resolve(count === 2);\n          }, 60);\n        });"
+      }
+    ]
+  },
+  {
+    "id": "p9",
+    "week": "Week 5",
+    "phase": "Phase 2: State & Next.js",
+    "title": "Zustand Pub/Sub Mini Store",
+    "category": "Client State & Store Architecture",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "In Mendix, global session entities allow cross-page access without drilling parameters through 10 nested pages. Zustand provides an external store outside the React tree where components subscribe to state slices.",
+    "description": "Build `createMiniStore(initialState)`. Return `{ getState(), setState(partialOrFn), subscribe(listener) }`. `setState` merges partial objects or invokes `(prev) => next`, and triggers all subscribed listeners. `subscribe` returns an unsubscribe function.",
+    "example": "const store = createMiniStore({ count: 0 });\nconst unsub = store.subscribe(() => console.log('changed'));\nstore.setState({ count: 1 });\nunsub();",
+    "hints": [
+      "Keep `state` in an internal variable and listeners in a `Set`.",
+      "In `subscribe`, return a function that deletes the listener from the `Set`."
+    ],
+    "starterCode": "function createMiniStore(initialState) {\n  let state = initialState;\n  const listeners = new Set();\n\n  return {\n    getState: () => state,\n    setState: (update) => {\n      // TODO: Handle partial object or updater function, then notify listeners\n      const next = typeof update === 'function' ? update(state) : update;\n      state = typeof next === 'object' && next !== null ? { ...state, ...next } : next;\n      listeners.forEach(fn => fn(state));\n    },\n    subscribe: (listener) => {\n      // TODO: Add listener and return cleanup function\n      listeners.add(listener);\n      return () => listeners.delete(listener);\n    }\n  };\n}",
+    "solution": "function createMiniStore(initialState) {\n  let state = initialState;\n  const listeners = new Set();\n  return {\n    getState: () => state,\n    setState: (update) => {\n      const next = typeof update === 'function' ? update(state) : update;\n      state = typeof next === 'object' && next !== null ? { ...state, ...next } : next;\n      listeners.forEach(fn => fn(state));\n    },\n    subscribe: (listener) => {\n      listeners.add(listener);\n      return () => listeners.delete(listener);\n    }\n  };\n}",
+    "tests": [
+      {
+        "name": "Updates state and notifies all active subscribers",
+        "testFnStr": "const s = fn({ count: 0 }); let notified = false; s.subscribe((state) => { notified = state.count === 5; }); s.setState({ count: 5 }); return notified && s.getState().count === 5;"
+      },
+      {
+        "name": "Unsubscribe stops receiving subsequent updates",
+        "testFnStr": "const s = fn({ val: 1 }); let calls = 0; const unsub = s.subscribe(() => calls++); s.setState({ val: 2 }); unsub(); s.setState({ val: 3 }); return calls === 1;"
+      }
+    ]
+  },
+  {
+    "id": "p10",
+    "week": "Week 5",
+    "phase": "Phase 2: State & Next.js",
+    "title": "Zustand Modular Slice Combiner",
+    "category": "Store Modularization & Selectors",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "In large Mendix domain models, you partition entities into separate modules (Finance, UserMgmt, Audit). In enterprise React, Zustand Slice pattern breaks a massive store into clean, modular domain slices that share state.",
+    "description": "Write `combineSlices(sliceCreators)`. Each slice creator is `(set, get) => ({ ...actions, ...data })`. Return a unified store initializing all slices simultaneously with shared `set` and `get` capabilities.",
+    "example": "const store = combineSlices([\n  (set) => ({ count: 0, inc: () => set(s => ({ count: s.count + 1 })) }),\n  (set) => ({ user: 'Varun', setUser: (u) => set({ user: u }) })\n]);",
+    "hints": [
+      "Build a shared `set` and `get` function first.",
+      "Initialize each slice passing `(set, get)` and merge the returned objects into the combined state."
+    ],
+    "starterCode": "function combineSlices(sliceCreators) {\n  let state = {};\n  const listeners = new Set();\n\n  const set = (update) => {\n    const next = typeof update === 'function' ? update(state) : update;\n    state = { ...state, ...next };\n    listeners.forEach(l => l(state));\n  };\n\n  const get = () => state;\n\n  // TODO: Combine slices\n  for (const creator of sliceCreators) {\n    const slice = creator(set, get);\n    state = { ...state, ...slice };\n  }\n\n  return {\n    getState: get,\n    setState: set,\n    subscribe: (l) => { listeners.add(l); return () => listeners.delete(l); }\n  };\n}",
+    "solution": "function combineSlices(sliceCreators) {\n  let state = {};\n  const listeners = new Set();\n  const set = (update) => {\n    const next = typeof update === 'function' ? update(state) : update;\n    state = { ...state, ...next };\n    listeners.forEach(l => l(state));\n  };\n  const get = () => state;\n  for (const creator of sliceCreators) {\n    const slice = creator(set, get);\n    state = { ...state, ...slice };\n  }\n  return {\n    getState: get,\n    setState: set,\n    subscribe: (l) => { listeners.add(l); return () => listeners.delete(l); }\n  };\n}",
+    "tests": [
+      {
+        "name": "Merges multiple slices into a single unified state",
+        "testFnStr": "const s1 = (set) => ({ count: 10, inc() { set(s => ({ count: s.count + 1 })); } }); const s2 = (set) => ({ role: 'Admin' }); const store = fn([s1, s2]); return store.getState().count === 10 && store.getState().role === 'Admin';"
+      },
+      {
+        "name": "Actions in one slice update unified state correctly",
+        "testFnStr": "const s1 = (set) => ({ count: 1, inc() { set(s => ({ count: s.count + 1 })); } }); const store = fn([s1]); store.getState().inc(); return store.getState().count === 2;"
+      }
+    ]
+  },
+  {
+    "id": "p11",
+    "week": "Week 6",
+    "phase": "Phase 2: State & Next.js",
+    "title": "TanStack Query SWR Cache",
+    "category": "Server State & SWR Caching",
+    "difficulty": "Hard",
+    "xp": 250,
+    "mendixParallel": "Calling REST services synchronously on every page load makes pages sluggish. TanStack Query / SWR immediately serves cached data from memory, while transparently triggering a background refetch.",
+    "description": "Implement `createSWREngine(fetcher, staleTimeMs)`. `query(key)` returns `{ data, isStale }`. If key is not in cache, fetch synchronously/asynchronously and store `{ data, timestamp }`. If in cache and `now - timestamp <= staleTimeMs`, return cached data with `isStale: false`. If older, return cached data with `isStale: true` and trigger background refetch.",
+    "example": "const swr = createSWREngine(fetchRates, 5000);\nawait swr.query('USD_INR'); // Fetches\nawait swr.query('USD_INR'); // Instant cache return",
+    "hints": [
+      "Use an internal cache map storing `{ data, timestamp, isFetching }`.",
+      "If expired, return stale data immediately and execute `fetcher(key)` in the background without blocking."
+    ],
+    "starterCode": "function createSWREngine(fetcher, staleTimeMs) {\n  const cache = new Map();\n\n  return {\n    query: async (key) => {\n      const now = Date.now();\n      const cached = cache.get(key);\n\n      if (!cached) {\n        // Initial fetch\n        const data = await fetcher(key);\n        cache.set(key, { data, timestamp: now });\n        return { data, isStale: false };\n      }\n\n      const isStale = (now - cached.timestamp) > staleTimeMs;\n      if (isStale) {\n        // Background revalidation\n        fetcher(key).then(newData => {\n          cache.set(key, { data: newData, timestamp: Date.now() });\n        });\n      }\n\n      return { data: cached.data, isStale };\n    }\n  };\n}",
+    "solution": "function createSWREngine(fetcher, staleTimeMs) {\n  const cache = new Map();\n  return {\n    query: async (key) => {\n      const now = Date.now();\n      const cached = cache.get(key);\n      if (!cached) {\n        const data = await fetcher(key);\n        cache.set(key, { data, timestamp: now });\n        return { data, isStale: false };\n      }\n      const isStale = (now - cached.timestamp) > staleTimeMs;\n      if (isStale) {\n        fetcher(key).then(newData => {\n          cache.set(key, { data: newData, timestamp: Date.now() });\n        });\n      }\n      return { data: cached.data, isStale };\n    }\n  };\n}",
+    "tests": [
+      {
+        "name": "Fetches on first request and serves fresh cache within staleTime",
+        "testFnStr": "return (async () => {\n          let fetches = 0;\n          const engine = fn(async (k) => { fetches++; return 86.5; }, 100);\n          const r1 = await engine.query('rate');\n          const r2 = await engine.query('rate');\n          return r1.data === 86.5 && !r1.isStale && !r2.isStale && fetches === 1;\n        })();"
+      },
+      {
+        "name": "Flags stale data after staleTime expires",
+        "testFnStr": "return (async () => {\n          const engine = fn(async () => 'fresh', 40);\n          await engine.query('k');\n          await new Promise(r => setTimeout(r, 60));\n          const r2 = await engine.query('k');\n          return r2.isStale === true;\n        })();"
+      }
+    ]
+  },
+  {
+    "id": "p12",
+    "week": "Week 6",
+    "phase": "Phase 2: State & Next.js",
+    "title": "Optimistic Mutation with Rollback",
+    "category": "Optimistic UI & Error Recovery",
+    "difficulty": "Hard",
+    "xp": 250,
+    "mendixParallel": "In Mendix, you must wait for the database commit before seeing UI changes. Modern React apps update the UI instantly (0ms latency), and silently roll back to the snapshot if the backend server throws a 500 error.",
+    "description": "Write `optimisticMutate(currentList, newItem, serverAction)`. Immediately add `newItem` to `currentList`. If `serverAction()` resolves, return `{ status: 'success', data: [...currentList, newItem] }`. If it rejects, roll back and return `{ status: 'rollback', data: currentList, error: error.message }`.",
+    "example": "await optimisticMutate(items, { id: 2 }, saveToServer);",
+    "hints": [
+      "Save a reference to `currentList` as the rollback snapshot.",
+      "Wrap `await serverAction()` in a `try...catch` block."
+    ],
+    "starterCode": "async function optimisticMutate(currentList, newItem, serverAction) {\n  const snapshot = currentList;\n  const optimisticData = [...currentList, newItem];\n\n  try {\n    // TODO: Await backend server call\n    await serverAction(newItem);\n    return { status: 'success', data: optimisticData };\n  } catch (err) {\n    // TODO: Roll back to original snapshot\n    return { status: 'rollback', data: snapshot, error: err.message };\n  }\n}",
+    "solution": "async function optimisticMutate(currentList, newItem, serverAction) {\n  const snapshot = currentList;\n  const optimisticData = [...currentList, newItem];\n  try {\n    await serverAction(newItem);\n    return { status: 'success', data: optimisticData };\n  } catch (err) {\n    return { status: 'rollback', data: snapshot, error: err.message };\n  }\n}",
+    "tests": [
+      {
+        "name": "Commits optimistic data upon successful server action",
+        "testFnStr": "return (async () => {\n          const res = await fn(['A'], 'B', async () => 'OK');\n          return res.status === 'success' && res.data.length === 2 && res.data[1] === 'B';\n        })();"
+      },
+      {
+        "name": "Rolls back to initial snapshot if server rejects",
+        "testFnStr": "return (async () => {\n          const res = await fn(['A'], 'B', async () => { throw new Error('DB Error'); });\n          return res.status === 'rollback' && res.data.length === 1 && res.data[0] === 'A' && res.error === 'DB Error';\n        })();"
+      }
+    ]
+  },
+  {
+    "id": "p13",
+    "week": "Week 7",
+    "phase": "Phase 2: State & Next.js",
+    "title": "Next.js 15 Middleware Pipeline",
+    "category": "Next.js App Router & Server Pipeline",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "In Mendix, Before-Commit microflow handlers intercept actions to validate security or log audits. In Next.js 15, Middleware pipelines intercept HTTP requests to inject auth tokens and rate-limiting headers.",
+    "description": "Write `composeMiddleware(middlewares, finalHandler)`. Each middleware is `async (req, next) => res`. Calling `next()` proceeds to the next middleware. The pipeline executes in order and terminates at `finalHandler(req)`.",
+    "example": "const pipeline = composeMiddleware([authGuard, auditLogger], apiHandler);\nconst res = await pipeline(req);",
+    "hints": [
+      "Use recursive dispatch or compose functions to chain `next()` callbacks.",
+      "Ensure passing `req` down the chain."
+    ],
+    "starterCode": "function composeMiddleware(middlewares, finalHandler) {\n  return async function(req) {\n    let index = -1;\n\n    async function dispatch(i) {\n      if (i <= index) throw new Error('next() called multiple times');\n      index = i;\n      const fn = middlewares[i] || finalHandler;\n      if (!fn) return;\n      return fn(req, () => dispatch(i + 1));\n    }\n\n    return dispatch(0);\n  };\n}",
+    "solution": "function composeMiddleware(middlewares, finalHandler) {\n  return async function(req) {\n    let index = -1;\n    async function dispatch(i) {\n      if (i <= index) throw new Error('next() called multiple times');\n      index = i;\n      const fn = middlewares[i];\n      if (!fn) return finalHandler(req);\n      return fn(req, () => dispatch(i + 1));\n    }\n    return dispatch(0);\n  };\n}",
+    "tests": [
+      {
+        "name": "Executes middlewares in sequence before terminal handler",
+        "testFnStr": "return (async () => {\n          const logs = [];\n          const m1 = async (req, next) => { logs.push(1); await next(); logs.push(4); };\n          const m2 = async (req, next) => { logs.push(2); await next(); logs.push(3); };\n          const handler = async (req) => { logs.push('hit'); return 'ok'; };\n          const pipeline = fn([m1, m2], handler);\n          await pipeline({});\n          return logs.join(',') === '1,2,hit,3,4';\n        })();"
+      },
+      {
+        "name": "Passes modified request headers down the pipeline",
+        "testFnStr": "return (async () => {\n          const m1 = async (req, next) => { req.user = 'Varun'; return next(); };\n          const handler = async (req) => req.user;\n          const pipeline = fn([m1], handler);\n          const res = await pipeline({});\n          return res === 'Varun';\n        })();"
+      }
+    ]
+  },
+  {
+    "id": "p14",
+    "week": "Week 7",
+    "phase": "Phase 2: State & Next.js",
+    "title": "Server Action Schema Validator",
+    "category": "Server Actions & Input Sanitization",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "In Mendix microflows, you add validation rules to prevent corrupt input data. In Next.js 15 Server Actions, you must validate incoming payload against a schema before mutating database records.",
+    "description": "Implement `validateServerAction(schema, payload)`. Schema is an object specifying `{ type, required, min, regex }`. If valid, return `{ valid: true, data: sanitizedPayload }`. If invalid, return `{ valid: false, errors: { [field]: 'Error message' } }`.",
+    "example": "validateServerAction({ age: { type: 'number', min: 18 } }, { age: 16 });\n// { valid: false, errors: { age: 'Must be at least 18' } }",
+    "hints": [
+      "Check `required` fields first if value is `undefined` or empty.",
+      "Check `min` (length for strings, value for numbers) and regex patterns."
+    ],
+    "starterCode": "function validateServerAction(schema, payload) {\n  const errors = {};\n  const data = { ...payload };\n\n  for (const [field, rule] of Object.entries(schema)) {\n    const val = payload[field];\n\n    if (rule.required && (val === undefined || val === null || val === '')) {\n      errors[field] = field + ' is required';\n      continue;\n    }\n\n    if (val !== undefined && rule.type === 'number' && typeof val !== 'number') {\n      errors[field] = field + ' must be a number';\n      continue;\n    }\n\n    if (rule.min !== undefined) {\n      if (typeof val === 'number' && val < rule.min) {\n        errors[field] = field + ' must be at least ' + rule.min;\n      } else if (typeof val === 'string' && val.length < rule.min) {\n        errors[field] = field + ' length must be at least ' + rule.min;\n      }\n    }\n  }\n\n  const valid = Object.keys(errors).length === 0;\n  return { valid, errors: valid ? undefined : errors, data: valid ? data : undefined };\n}",
+    "solution": "function validateServerAction(schema, payload) {\n  const errors = {};\n  const data = { ...payload };\n  for (const [field, rule] of Object.entries(schema)) {\n    const val = payload[field];\n    if (rule.required && (val === undefined || val === null || val === '')) {\n      errors[field] = field + ' is required';\n      continue;\n    }\n    if (val !== undefined && rule.type === 'number' && typeof val !== 'number') {\n      errors[field] = field + ' must be a number';\n      continue;\n    }\n    if (rule.min !== undefined) {\n      if (typeof val === 'number' && val < rule.min) {\n        errors[field] = field + ' must be at least ' + rule.min;\n      } else if (typeof val === 'string' && val.length < rule.min) {\n        errors[field] = field + ' length must be at least ' + rule.min;\n      }\n    }\n  }\n  const valid = Object.keys(errors).length === 0;\n  return { valid, errors: valid ? undefined : errors, data: valid ? data : undefined };\n}",
+    "tests": [
+      {
+        "name": "Passes valid payload",
+        "testFnStr": "const schema = { email: { required: true }, age: { type: 'number', min: 18 } }; const res = fn(schema, { email: 'v@a.com', age: 25 }); return res.valid === true;"
+      },
+      {
+        "name": "Rejects missing required field and failing min criteria",
+        "testFnStr": "const schema = { name: { required: true, min: 3 }, age: { min: 21 } }; const res = fn(schema, { name: 'Al', age: 19 }); return res.valid === false && res.errors.name && res.errors.age;"
+      }
+    ]
+  },
+  {
+    "id": "p15",
+    "week": "Week 8",
+    "phase": "Phase 2: State & Next.js",
+    "title": "Stateless JWT Auth Token Engine",
+    "category": "Full-Stack Security & JWT Authentication",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "Mendix uses server session cookies stored in database cache. Modern full-stack React systems use stateless cryptographic JWTs containing verified claims, eliminating session database lookups across distributed containers.",
+    "description": "Write `createJWTEngine(secret)`. Implement `sign(payload, ttlMs)` and `verify(token)`. Generate a dot-separated string `b64Header.b64Payload.signature` (mock hash using `btoa(payload + secret)`). `verify(token)` checks validity and expiration.",
+    "example": "const jwt = createJWTEngine('supersecret');\nconst token = jwt.sign({ userId: 123 }, 60000);\nconst decoded = jwt.verify(token); // { userId: 123 }",
+    "hints": [
+      "Include an `exp: Date.now() + ttlMs` timestamp inside the payload.",
+      "Check expiration and reject expired tokens."
+    ],
+    "starterCode": "function createJWTEngine(secret) {\n  const b64 = (str) => btoa(unescape(encodeURIComponent(str)));\n  const unb64 = (str) => decodeURIComponent(escape(atob(str)));\n\n  return {\n    sign: (payload, ttlMs) => {\n      const exp = Date.now() + ttlMs;\n      const fullPayload = JSON.stringify({ ...payload, exp });\n      const pB64 = b64(fullPayload);\n      const sig = b64(pB64 + secret);\n      return 'eyJhbGciOiJIUzI1NiJ9.' + pB64 + '.' + sig;\n    },\n    verify: (token) => {\n      const parts = token.split('.');\n      if (parts.length !== 3) throw new Error('Malformed token');\n      const [h, p, s] = parts;\n      if (s !== b64(p + secret)) throw new Error('Invalid signature');\n      const data = JSON.parse(unb64(p));\n      if (Date.now() > data.exp) throw new Error('Token expired');\n      return data;\n    }\n  };\n}",
+    "solution": "function createJWTEngine(secret) {\n  const b64 = (str) => btoa(unescape(encodeURIComponent(str)));\n  const unb64 = (str) => decodeURIComponent(escape(atob(str)));\n  return {\n    sign: (payload, ttlMs) => {\n      const exp = Date.now() + ttlMs;\n      const fullPayload = JSON.stringify({ ...payload, exp });\n      const pB64 = b64(fullPayload);\n      const sig = b64(pB64 + secret);\n      return 'eyJhbGciOiJIUzI1NiJ9.' + pB64 + '.' + sig;\n    },\n    verify: (token) => {\n      const parts = token.split('.');\n      if (parts.length !== 3) throw new Error('Malformed token');\n      const [h, p, s] = parts;\n      if (s !== b64(p + secret)) throw new Error('Invalid signature');\n      const data = JSON.parse(unb64(p));\n      if (Date.now() > data.exp) throw new Error('Token expired');\n      return data;\n    }\n  };\n}",
+    "tests": [
+      {
+        "name": "Signs and verifies valid JWT payload",
+        "testFnStr": "const auth = fn('key123'); const t = auth.sign({ user: 'Varun', role: 'Architect' }, 10000); const dec = auth.verify(t); return dec.user === 'Varun' && dec.role === 'Architect';"
+      },
+      {
+        "name": "Rejects tampered signature",
+        "testFnStr": "const auth = fn('key123'); const t = auth.sign({ a: 1 }, 10000); let failed = false; try { auth.verify(t + 'bad'); } catch { failed = true; } return failed;"
+      }
+    ]
+  },
+  {
+    "id": "p16",
+    "week": "Week 8",
+    "phase": "Phase 2: State & Next.js",
+    "title": "Role-Based Access Control (RBAC)",
+    "category": "Authorization & Enterprise Security",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "In Mendix, you define User Roles and Module Roles with entity read/write access rules. In React/Node architectures, RBAC guards protect API routes and UI components based on user role permissions.",
+    "description": "Write `checkRBACPermission(userRole, resource, action, matrix)`. `matrix` defines permissions per role, supporting wildcards `'*'` (e.g. `admin: { '*': ['*'] }` or `editor: { posts: ['read', 'write'] }`). Return `true` if authorized, otherwise `false`.",
+    "example": "checkRBACPermission('editor', 'posts', 'write', matrix); // true\ncheckRBACPermission('viewer', 'posts', 'delete', matrix); // false",
+    "hints": [
+      "Check if role exists in matrix.",
+      "Check for wildcard `'*'` at resource level or action level."
+    ],
+    "starterCode": "function checkRBACPermission(userRole, resource, action, matrix) {\n  const roleRules = matrix[userRole];\n  if (!roleRules) return false;\n\n  // Wildcard all resources\n  if (roleRules['*'] && (roleRules['*'].includes('*') || roleRules['*'].includes(action))) {\n    return true;\n  }\n\n  const actions = roleRules[resource];\n  if (!actions) return false;\n\n  return actions.includes('*') || actions.includes(action);\n}",
+    "solution": "function checkRBACPermission(userRole, resource, action, matrix) {\n  const roleRules = matrix[userRole];\n  if (!roleRules) return false;\n  if (roleRules['*'] && (roleRules['*'].includes('*') || roleRules['*'].includes(action))) {\n    return true;\n  }\n  const actions = roleRules[resource];\n  if (!actions) return false;\n  return actions.includes('*') || actions.includes(action);\n}",
+    "tests": [
+      {
+        "name": "Allows superadmin wildcard permissions",
+        "testFnStr": "const m = { admin: { '*': ['*'] } }; return fn('admin', 'finance', 'delete', m) === true;"
+      },
+      {
+        "name": "Enforces specific role actions and denies unlisted operations",
+        "testFnStr": "const m = { dev: { code: ['read', 'write'], db: ['read'] } }; return fn('dev', 'code', 'write', m) === true && fn('dev', 'db', 'drop', m) === false;"
+      }
+    ]
+  },
+  {
+    "id": "p17",
+    "week": "Week 9",
+    "phase": "Phase 3: Production & Mendix",
+    "title": "Mendix Pluggable Widget Adapter",
+    "category": "Mendix React Widget API",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "Building custom React 18 widgets for Mendix Studio Pro requires mapping Mendix's `EditableValue<T>` objects (which carry status, value, and error) into standard React controlled component input props.",
+    "description": "Write `transformMendixProps(mendixProp, onReactChange)`. Mendix prop has `{ status: 'available' | 'loading' | 'unavailable', value: any, readOnly: boolean, validation?: string, setValue: (v) => void }`. Return `{ value, disabled, errorMessage, handleChange }` compatible with React inputs.",
+    "example": "const props = transformMendixProps(mendixAttr, (val) => console.log(val));",
+    "hints": [
+      "`disabled` is true if `mendixProp.status !== 'available'` or `mendixProp.readOnly === true`.",
+      "`handleChange(e)` should invoke `mendixProp.setValue(e.target.value)` and `onReactChange(e.target.value)`."
+    ],
+    "starterCode": "function transformMendixProps(mendixProp, onReactChange) {\n  const disabled = mendixProp.status !== 'available' || Boolean(mendixProp.readOnly);\n  const value = mendixProp.value !== undefined && mendixProp.value !== null ? mendixProp.value : '';\n  const errorMessage = mendixProp.validation || null;\n\n  const handleChange = (e) => {\n    const newVal = e && e.target ? e.target.value : e;\n    if (mendixProp.setValue) mendixProp.setValue(newVal);\n    if (onReactChange) onReactChange(newVal);\n  };\n\n  return { value, disabled, errorMessage, handleChange };\n}",
+    "solution": "function transformMendixProps(mendixProp, onReactChange) {\n  const disabled = mendixProp.status !== 'available' || Boolean(mendixProp.readOnly);\n  const value = mendixProp.value !== undefined && mendixProp.value !== null ? mendixProp.value : '';\n  const errorMessage = mendixProp.validation || null;\n  const handleChange = (e) => {\n    const newVal = e && e.target ? e.target.value : e;\n    if (mendixProp.setValue) mendixProp.setValue(newVal);\n    if (onReactChange) onReactChange(newVal);\n  };\n  return { value, disabled, errorMessage, handleChange };\n}",
+    "tests": [
+      {
+        "name": "Disables input if status is loading or readOnly is true",
+        "testFnStr": "const p1 = fn({ status: 'loading', value: 'Test', readOnly: false }); const p2 = fn({ status: 'available', value: 'Test', readOnly: true }); return p1.disabled === true && p2.disabled === true;"
+      },
+      {
+        "name": "Updates Mendix value and dispatches change callback",
+        "testFnStr": "let saved = ''; let reacted = ''; const mendix = { status: 'available', value: 'A', readOnly: false, setValue(v) { saved = v; } }; const p = fn(mendix, (v) => { reacted = v; }); p.handleChange({ target: { value: 'B' } }); return saved === 'B' && reacted === 'B';"
+      }
+    ]
+  },
+  {
+    "id": "p18",
+    "week": "Week 9",
+    "phase": "Phase 3: Production & Mendix",
+    "title": "Headless Mendix OData Query Builder",
+    "category": "Decoupled Architecture & OData v4",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "In a decoupled architecture where React powers the frontend and Mendix runs headlessly as backend, React queries published Mendix OData v4 entities using standard `$select`, `$filter`, `$orderby`, and `$top` query parameters.",
+    "description": "Write `buildODataQuery(entityName, options)`. Options include `{ select: string[], filter: { field, op, value }, top: number, skip: number, orderby: string }`. Build and return a valid encoded OData query string (e.g. `/odata/v4/Employees?$select=Id,Name&$filter=Age gt 30&$top=10`).",
+    "example": "buildODataQuery('Orders', { select: ['Id', 'Total'], top: 5 });\n// '/odata/v4/Orders?$select=Id,Total&$top=5'",
+    "hints": [
+      "Collect all query params in an array, then join with `&`.",
+      "Prepend `/odata/v4/${entityName}` and `?` if query params exist."
+    ],
+    "starterCode": "function buildODataQuery(entityName, options = {}) {\n  const params = [];\n\n  if (options.select && options.select.length > 0) {\n    params.push('$select=' + options.select.join(','));\n  }\n\n  if (options.filter) {\n    const { field, op, value } = options.filter;\n    const formattedVal = typeof value === 'string' ? \"'\" + value + \"'\" : value;\n    params.push('$filter=' + field + ' ' + op + ' ' + formattedVal);\n  }\n\n  if (options.orderby) {\n    params.push('$orderby=' + options.orderby);\n  }\n\n  if (options.top !== undefined) {\n    params.push('$top=' + options.top);\n  }\n\n  if (options.skip !== undefined) {\n    params.push('$skip=' + options.skip);\n  }\n\n  const queryStr = params.length > 0 ? '?' + params.join('&') : '';\n  return '/odata/v4/' + entityName + queryStr;\n}",
+    "solution": "function buildODataQuery(entityName, options = {}) {\n  const params = [];\n  if (options.select && options.select.length > 0) {\n    params.push('$select=' + options.select.join(','));\n  }\n  if (options.filter) {\n    const { field, op, value } = options.filter;\n    const formattedVal = typeof value === 'string' ? \"'\" + value + \"'\" : value;\n    params.push('$filter=' + field + ' ' + op + ' ' + formattedVal);\n  }\n  if (options.orderby) {\n    params.push('$orderby=' + options.orderby);\n  }\n  if (options.top !== undefined) {\n    params.push('$top=' + options.top);\n  }\n  if (options.skip !== undefined) {\n    params.push('$skip=' + options.skip);\n  }\n  const queryStr = params.length > 0 ? '?' + params.join('&') : '';\n  return '/odata/v4/' + entityName + queryStr;\n}",
+    "tests": [
+      {
+        "name": "Builds query with select, filter, and pagination",
+        "testFnStr": "const q = fn('Accounts', { select: ['Id', 'Balance'], filter: { field: 'Balance', op: 'gt', value: 50000 }, top: 10 }); return q === '/odata/v4/Accounts?$select=Id,Balance&$filter=Balance gt 50000&$top=10';"
+      },
+      {
+        "name": "Returns base URI when no parameters provided",
+        "testFnStr": "return fn('Users') === '/odata/v4/Users';"
+      }
+    ]
+  },
+  {
+    "id": "p19",
+    "week": "Week 10",
+    "phase": "Phase 3: Production & Mendix",
+    "title": "Vitest Deep Structural Equality",
+    "category": "Automated Testing & Assertions",
+    "difficulty": "Hard",
+    "xp": 250,
+    "mendixParallel": "In Vitest and Jest, verifying complex component state requires deep recursive comparison. Writing your own assertion matcher cements deep structural recursion concepts.",
+    "description": "Write `assertDeepEqual(actual, expected)`. Recursively compare primitives, arrays, and nested objects. Return `{ match: true }` if equal, or `{ match: false, path: string, expected: any, actual: any }` noting the mismatched property path.",
+    "example": "assertDeepEqual({ a: [1, 2] }, { a: [1, 2] }); // { match: true }\nassertDeepEqual({ a: 1 }, { a: 2 }); // { match: false, path: 'a', expected: 2, actual: 1 }",
+    "hints": [
+      "Use `typeof` and `Array.isArray()` to branch comparison logic.",
+      "Keep a track of path string e.g. `path ? path + '.' + key : key`."
+    ],
+    "starterCode": "function assertDeepEqual(actual, expected, path = '') {\n  if (actual === expected) return { match: true };\n\n  if (typeof actual !== typeof expected || actual === null || expected === null) {\n    return { match: false, path, actual, expected };\n  }\n\n  if (Array.isArray(actual) !== Array.isArray(expected)) {\n    return { match: false, path, actual, expected };\n  }\n\n  if (typeof actual === 'object') {\n    const actualKeys = Object.keys(actual);\n    const expectedKeys = Object.keys(expected);\n    if (actualKeys.length !== expectedKeys.length) {\n      return { match: false, path, actual, expected };\n    }\n\n    for (const key of expectedKeys) {\n      const curPath = path ? path + '.' + key : key;\n      if (!(key in actual)) return { match: false, path: curPath, actual: undefined, expected: expected[key] };\n      const sub = assertDeepEqual(actual[key], expected[key], curPath);\n      if (!sub.match) return sub;\n    }\n\n    return { match: true };\n  }\n\n  return { match: false, path, actual, expected };\n}",
+    "solution": "function assertDeepEqual(actual, expected, path = '') {\n  if (actual === expected) return { match: true };\n  if (typeof actual !== typeof expected || actual === null || expected === null) {\n    return { match: false, path, actual, expected };\n  }\n  if (Array.isArray(actual) !== Array.isArray(expected)) {\n    return { match: false, path, actual, expected };\n  }\n  if (typeof actual === 'object') {\n    const actualKeys = Object.keys(actual);\n    const expectedKeys = Object.keys(expected);\n    if (actualKeys.length !== expectedKeys.length) {\n      return { match: false, path, actual, expected };\n    }\n    for (const key of expectedKeys) {\n      const curPath = path ? path + '.' + key : key;\n      if (!(key in actual)) return { match: false, path: curPath, actual: undefined, expected: expected[key] };\n      const sub = assertDeepEqual(actual[key], expected[key], curPath);\n      if (!sub.match) return sub;\n    }\n    return { match: true };\n  }\n  return { match: false, path, actual, expected };\n}",
+    "tests": [
+      {
+        "name": "Identifies deeply nested matches",
+        "testFnStr": "const a = { user: { roles: ['lead'], details: { city: 'Chennai' } } }; const b = { user: { roles: ['lead'], details: { city: 'Chennai' } } }; return fn(a, b).match === true;"
+      },
+      {
+        "name": "Detects mismatched property path",
+        "testFnStr": "const a = { user: { score: 10 } }; const b = { user: { score: 20 } }; const res = fn(a, b); return res.match === false && res.path === 'user.score';"
+      }
+    ]
+  },
+  {
+    "id": "p20",
+    "week": "Week 10",
+    "phase": "Phase 3: Production & Mendix",
+    "title": "Mock Service Worker (MSW) Engine",
+    "category": "Mock Service Worker & Network Testing",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "Testing React frontend components without hitting live Mendix development environments avoids test flakiness. MSW intercepts requests at network level and returns deterministic test fixtures.",
+    "description": "Write `createMockServer(routeHandlers)`. `routeHandlers` is an array of `{ method, url, response: (req) => ({ status, body }) }`. The returned `fetch(method, url, body)` matches the route and executes the handler, or returns status 404 if unhandled.",
+    "example": "const msw = createMockServer([{ method: 'GET', url: '/api/user', response: () => ({ status: 200, body: { name: 'Varun' } }) }]);\nconst res = await msw.fetch('GET', '/api/user'); // { status: 200, body: { name: 'Varun' } }",
+    "hints": [
+      "Find matching handler using `handlers.find()` on both method and url.",
+      "Execute `handler.response({ method, url, body })`."
+    ],
+    "starterCode": "function createMockServer(handlers) {\n  return {\n    fetch: async (method, url, body = null) => {\n      const match = handlers.find(h => h.method.toUpperCase() === method.toUpperCase() && h.url === url);\n      if (!match) {\n        return { status: 404, body: { error: 'Not Found' } };\n      }\n      return match.response({ method, url, body });\n    }\n  };\n}",
+    "solution": "function createMockServer(handlers) {\n  return {\n    fetch: async (method, url, body = null) => {\n      const match = handlers.find(h => h.method.toUpperCase() === method.toUpperCase() && h.url === url);\n      if (!match) {\n        return { status: 404, body: { error: 'Not Found' } };\n      }\n      return match.response({ method, url, body });\n    }\n  };\n}",
+    "tests": [
+      {
+        "name": "Returns simulated 200 response for matching route",
+        "testFnStr": "return (async () => {\n          const s = fn([{ method: 'POST', url: '/api/pay', response: (r) => ({ status: 201, body: { txId: 999 } }) }]);\n          const res = await s.fetch('POST', '/api/pay', { amount: 100 });\n          return res.status === 201 && res.body.txId === 999;\n        })();"
+      },
+      {
+        "name": "Returns 404 for unhandled route",
+        "testFnStr": "return (async () => {\n          const s = fn([]);\n          const res = await s.fetch('GET', '/unknown');\n          return res.status === 404;\n        })();"
+      }
+    ]
+  },
+  {
+    "id": "p21",
+    "week": "Week 11",
+    "phase": "Phase 3: Production & Mendix",
+    "title": "100k Virtualized List Calculator",
+    "category": "System Design & High-Throughput UI",
+    "difficulty": "Hard",
+    "xp": 250,
+    "mendixParallel": "Rendering 10,000 DOM elements in a Mendix page causes browser memory exhaustion and UI lag. Virtualization renders only the 15-20 rows currently visible in the user's viewport, maintaining 60 FPS performance.",
+    "description": "Write `computeVirtualWindow(scrollTop, itemHeight, viewportHeight, totalCount, overscan = 2)`. Return `{ startIndex, endIndex, offsetY, totalHeight }`. `startIndex` is clamped between 0 and `totalCount - 1`. `endIndex` is clamped to `totalCount - 1`. `offsetY` is `startIndex * itemHeight`.",
+    "example": "computeVirtualWindow(400, 40, 200, 1000, 1);\n// item 10 visible. startIndex: 9 (with overscan), endIndex: 15, offsetY: 360",
+    "hints": [
+      "Raw start index is `Math.floor(scrollTop / itemHeight)`.",
+      "Visible items count is `Math.ceil(viewportHeight / itemHeight)`.",
+      "Apply `overscan` buffer before and after visible window."
+    ],
+    "starterCode": "function computeVirtualWindow(scrollTop, itemHeight, viewportHeight, totalCount, overscan = 2) {\n  const totalHeight = totalCount * itemHeight;\n  if (totalCount === 0) return { startIndex: 0, endIndex: 0, offsetY: 0, totalHeight: 0 };\n\n  const rawStart = Math.floor(scrollTop / itemHeight);\n  const visibleCount = Math.ceil(viewportHeight / itemHeight);\n\n  const startIndex = Math.max(0, rawStart - overscan);\n  const endIndex = Math.min(totalCount - 1, rawStart + visibleCount + overscan);\n  const offsetY = startIndex * itemHeight;\n\n  return { startIndex, endIndex, offsetY, totalHeight };\n}",
+    "solution": "function computeVirtualWindow(scrollTop, itemHeight, viewportHeight, totalCount, overscan = 2) {\n  const totalHeight = totalCount * itemHeight;\n  if (totalCount === 0) return { startIndex: 0, endIndex: 0, offsetY: 0, totalHeight: 0 };\n  const rawStart = Math.floor(scrollTop / itemHeight);\n  const visibleCount = Math.ceil(viewportHeight / itemHeight);\n  const startIndex = Math.max(0, rawStart - overscan);\n  const endIndex = Math.min(totalCount - 1, rawStart + visibleCount + overscan);\n  const offsetY = startIndex * itemHeight;\n  return { startIndex, endIndex, offsetY, totalHeight };\n}",
+    "tests": [
+      {
+        "name": "Computes correct slice bounds and total scroll container height",
+        "testFnStr": "const res = fn(100, 50, 200, 1000, 1); return res.totalHeight === 50000 && res.startIndex === 1 && res.endIndex === 7 && res.offsetY === 50;"
+      },
+      {
+        "name": "Clamps bounds at list boundaries (scrollTop = 0)",
+        "testFnStr": "const res = fn(0, 50, 300, 10, 2); return res.startIndex === 0 && res.endIndex <= 9 && res.offsetY === 0;"
+      }
+    ]
+  },
+  {
+    "id": "p22",
+    "week": "Week 11",
+    "phase": "Phase 3: Production & Mendix",
+    "title": "High-Performance LRU Cache",
+    "category": "Memory Optimization & Data Structures",
+    "difficulty": "Hard",
+    "xp": 300,
+    "mendixParallel": "Enterprise client applications caching charts, financial tables, and user sessions need bounded memory. Least-Recently-Used (LRU) evicts old entries when capacity is reached, preventing out-of-memory crashes.",
+    "description": "Implement `LRUCache` class with `constructor(capacity)`, `get(key)`, and `put(key, value)`. Operating in O(1) time complexity, reading a key marks it as most recently used. Inserting beyond capacity removes the least recently used item.",
+    "example": "const c = new LRUCache(2);\nc.put(1, 'A');\nc.put(2, 'B');\nc.get(1); // 'A' (now MRU)\nc.put(3, 'C'); // Evicts 2\nc.get(2); // -1 (evicted)",
+    "hints": [
+      "JavaScript `Map` preserves insertion order.",
+      "On `get(key)`, delete and re-insert the key to make it latest."
+    ],
+    "starterCode": "class LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.cache = new Map();\n  }\n\n  get(key) {\n    if (!this.cache.has(key)) return -1;\n    // TODO: Refresh key order to mark as most recently used\n    const val = this.cache.get(key);\n    this.cache.delete(key);\n    this.cache.set(key, val);\n    return val;\n  }\n\n  put(key, value) {\n    if (this.cache.has(key)) {\n      this.cache.delete(key);\n    } else if (this.cache.size >= this.capacity) {\n      // Evict least recently used (first key in Map)\n      const oldestKey = this.cache.keys().next().value;\n      this.cache.delete(oldestKey);\n    }\n    this.cache.set(key, value);\n  }\n}",
+    "solution": "class LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.cache = new Map();\n  }\n  get(key) {\n    if (!this.cache.has(key)) return -1;\n    const val = this.cache.get(key);\n    this.cache.delete(key);\n    this.cache.set(key, val);\n    return val;\n  }\n  put(key, value) {\n    if (this.cache.has(key)) {\n      this.cache.delete(key);\n    } else if (this.cache.size >= this.capacity) {\n      const oldestKey = this.cache.keys().next().value;\n      this.cache.delete(oldestKey);\n    }\n    this.cache.set(key, value);\n  }\n}",
+    "tests": [
+      {
+        "name": "Evicts least recently used item upon capacity limit",
+        "testFnStr": "const c = new fn(2); c.put('a', 1); c.put('b', 2); c.get('a'); c.put('c', 3); return c.get('b') === -1 && c.get('a') === 1 && c.get('c') === 3;"
+      },
+      {
+        "name": "Updates existing key value without creating duplicate entries",
+        "testFnStr": "const c = new fn(2); c.put('x', 10); c.put('x', 20); return c.get('x') === 20;"
+      }
+    ]
+  },
+  {
+    "id": "p23",
+    "week": "Week 12",
+    "phase": "Phase 3: Production & Mendix",
+    "title": "Token Bucket Rate Limiter",
+    "category": "System Resilience & Rate Limiting",
+    "difficulty": "Hard",
+    "xp": 250,
+    "mendixParallel": "Enterprise Mendix REST APIs protect against traffic bursts using rate limiters. Token bucket algorithm allows legitimate burst traffic while ensuring long-term average request rates remain within safe limits.",
+    "description": "Write `createTokenBucket(capacity, refillRatePerSec)`. Implement `tryConsume(tokens = 1)`. Tokens refill continuously based on elapsed time up to `capacity`. Returns `{ allowed: true, remaining }` if tokens available, or `{ allowed: false, remaining }` if exhausted.",
+    "example": "const limiter = createTokenBucket(5, 1);\nlimiter.tryConsume(3); // { allowed: true, remaining: 2 }",
+    "hints": [
+      "Store `lastRefillTime` and calculate `elapsedSeconds = (now - lastRefillTime) / 1000`.",
+      "Add `elapsedSeconds * refillRatePerSec` tokens clamped to `capacity`."
+    ],
+    "starterCode": "function createTokenBucket(capacity, refillRatePerSec) {\n  let tokens = capacity;\n  let lastRefill = Date.now();\n\n  return {\n    tryConsume: (tokensToConsume = 1) => {\n      const now = Date.now();\n      const elapsed = (now - lastRefill) / 1000;\n      tokens = Math.min(capacity, tokens + elapsed * refillRatePerSec);\n      lastRefill = now;\n\n      if (tokens >= tokensToConsume) {\n        tokens -= tokensToConsume;\n        return { allowed: true, remaining: Math.floor(tokens) };\n      }\n      return { allowed: false, remaining: Math.floor(tokens) };\n    }\n  };\n}",
+    "solution": "function createTokenBucket(capacity, refillRatePerSec) {\n  let tokens = capacity;\n  let lastRefill = Date.now();\n  return {\n    tryConsume: (tokensToConsume = 1) => {\n      const now = Date.now();\n      const elapsed = (now - lastRefill) / 1000;\n      tokens = Math.min(capacity, tokens + elapsed * refillRatePerSec);\n      lastRefill = now;\n      if (tokens >= tokensToConsume) {\n        tokens -= tokensToConsume;\n        return { allowed: true, remaining: Math.floor(tokens) };\n      }\n      return { allowed: false, remaining: Math.floor(tokens) };\n    }\n  };\n}",
+    "tests": [
+      {
+        "name": "Consumes tokens and blocks requests when bucket is empty",
+        "testFnStr": "const b = fn(2, 0.1); const r1 = b.tryConsume(1); const r2 = b.tryConsume(1); const r3 = b.tryConsume(1); return r1.allowed === true && r2.allowed === true && r3.allowed === false;"
+      },
+      {
+        "name": "Refills tokens over time interval",
+        "testFnStr": "return (async () => {\n          const b = fn(2, 20); // 20 tokens per second\n          b.tryConsume(2);\n          await new Promise(r => setTimeout(r, 60)); // ~1.2 tokens refilled\n          const r = b.tryConsume(1);\n          return r.allowed === true;\n        })();"
+      }
+    ]
+  },
+  {
+    "id": "p24",
+    "week": "Week 12",
+    "phase": "Phase 3: Production & Mendix",
+    "title": "Salary Offer Escalation Calculator",
+    "category": "Offer Negotiation & Compensation Modeling",
+    "difficulty": "Medium",
+    "xp": 200,
+    "mendixParallel": "Transitioning from pure Mendix (₹9L–₹12L) to Decoupled Senior React Full-Stack Lead (₹18L–₹22L+ in India or AED 20,000/mo in Dubai) requires precise mathematical modeling of take-home in-hand pay and counter-offer leverage.",
+    "description": "Write `calculateOfferEscalation(currentCTC, offerCTC, location)`. For `location === 'India'`, estimate annual tax using New Tax Regime (~15% effective on ₹18L–₹22L), standard deduction ₹75,000, and calculate monthly in-hand `(offerCTC - tax) / 12`. For `location === 'Dubai'`, tax is 0% and returns monthly in-hand in AED. Compute percentage hike `Math.round(((offerCTC - currentCTC) / currentCTC) * 100)`.",
+    "example": "calculateOfferEscalation(1100000, 2000000, 'India');\n// { hikePct: 82, annualTax: 270000, monthlyInHand: 144167, status: 'Top Tier Senior Offer' }",
+    "hints": [
+      "Calculate percentage hike first.",
+      "Calculate monthly in-hand taking into account 0% tax for Dubai."
+    ],
+    "starterCode": "function calculateOfferEscalation(currentCTC, offerCTC, location) {\n  const hikePct = Math.round(((offerCTC - currentCTC) / currentCTC) * 100);\n\n  if (location === 'Dubai') {\n    // offerCTC in AED per year (e.g. 240,000 AED)\n    const monthlyInHand = Math.round(offerCTC / 12);\n    return {\n      hikePct,\n      annualTax: 0,\n      monthlyInHand,\n      currency: 'AED',\n      verdict: hikePct >= 50 ? 'Elite International Transition' : 'Standard Lateral Offer'\n    };\n  }\n\n  // India New Tax Regime approx calculation for ₹18L-₹22L\n  // Taxable = CTC - 75,000 std deduction\n  const taxable = Math.max(0, offerCTC - 75000);\n  let tax = 0;\n  if (taxable > 1500000) {\n    tax = 150000 + (taxable - 1500000) * 0.30;\n  } else if (taxable > 1200000) {\n    tax = 90000 + (taxable - 1200000) * 0.20;\n  } else if (taxable > 900000) {\n    tax = 45000 + (taxable - 900000) * 0.15;\n  } else if (taxable > 600000) {\n    tax = 15000 + (taxable - 600000) * 0.10;\n  } else if (taxable > 300000) {\n    tax = (taxable - 300000) * 0.05;\n  }\n\n  const annualTax = Math.round(tax * 1.04); // 4% cess\n  const monthlyInHand = Math.round((offerCTC - annualTax) / 12);\n\n  return {\n    hikePct,\n    annualTax,\n    monthlyInHand,\n    currency: 'INR',\n    verdict: hikePct >= 60 ? 'Top Tier Senior Full-Stack Offer' : 'Standard Market Offer'\n  };\n}",
+    "solution": "function calculateOfferEscalation(currentCTC, offerCTC, location) {\n  const hikePct = Math.round(((offerCTC - currentCTC) / currentCTC) * 100);\n  if (location === 'Dubai') {\n    const monthlyInHand = Math.round(offerCTC / 12);\n    return {\n      hikePct,\n      annualTax: 0,\n      monthlyInHand,\n      currency: 'AED',\n      verdict: hikePct >= 50 ? 'Elite International Transition' : 'Standard Lateral Offer'\n    };\n  }\n  const taxable = Math.max(0, offerCTC - 75000);\n  let tax = 0;\n  if (taxable > 1500000) {\n    tax = 150000 + (taxable - 1500000) * 0.30;\n  } else if (taxable > 1200000) {\n    tax = 90000 + (taxable - 1200000) * 0.20;\n  } else if (taxable > 900000) {\n    tax = 45000 + (taxable - 900000) * 0.15;\n  } else if (taxable > 600000) {\n    tax = 15000 + (taxable - 600000) * 0.10;\n  } else if (taxable > 300000) {\n    tax = (taxable - 300000) * 0.05;\n  }\n  const annualTax = Math.round(tax * 1.04);\n  const monthlyInHand = Math.round((offerCTC - annualTax) / 12);\n  return {\n    hikePct,\n    annualTax,\n    monthlyInHand,\n    currency: 'INR',\n    verdict: hikePct >= 60 ? 'Top Tier Senior Full-Stack Offer' : 'Standard Market Offer'\n  };\n}",
+    "tests": [
+      {
+        "name": "Calculates Dubai 0% tax and monthly AED correctly",
+        "testFnStr": "const res = fn(100000, 240000, 'Dubai'); return res.annualTax === 0 && res.monthlyInHand === 20000 && res.currency === 'AED' && res.hikePct === 140;"
+      },
+      {
+        "name": "Calculates India New Regime take-home for ₹20 LPA offer",
+        "testFnStr": "const res = fn(1100000, 2000000, 'India'); return res.hikePct === 82 && res.currency === 'INR' && res.monthlyInHand > 135000;"
+      }
+    ]
+  }
+];
 
-    // =========================================================================
-    // STATE & APP ENGINE
-    // =========================================================================
-    const STORAGE_KEY_CODE = 'arena_user_codes_v1';
-    const STORAGE_KEY_SOLVED = 'arena_solved_problems_v1';
+    let currentId = "p1";
+    let activeFilter = "all";
+    const userCodes = JSON.parse(localStorage.getItem('arena_codes') || '{}');
+    const solvedSet = new Set(JSON.parse(localStorage.getItem('arena_solved') || '[]'));
 
-    let currentProblemId = CHALLENGES[0].id;
-    let savedCodes = JSON.parse(localStorage.getItem(STORAGE_KEY_CODE) || '{}');
-    let solvedSet = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY_SOLVED) || '[]'));
+    // Sound Synthesizer via Web Audio API
+    function playChime(success) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        if (success) {
+          osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+          osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+          osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
+          gain.gain.setValueAtTime(0.15, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.4);
+        } else {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, ctx.currentTime);
+          gain.gain.setValueAtTime(0.12, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.3);
+        }
+      } catch (e) {}
+    }
 
-    // Populate Dropdown
-    const selectElem = document.getElementById('problemSelect');
-    CHALLENGES.forEach(p => {
-      const opt = document.createElement('option');
-      opt.value = p.id;
-      opt.textContent = `${solvedSet.has(p.id) ? '✅ ' : ''}${p.title} (${p.difficulty})`;
-      selectElem.appendChild(opt);
-    });
+    function init() {
+      // Check URL hash for direct deep linking
+      const hash = window.location.hash.replace('#', '');
+      if (hash && CHALLENGES.some(c => c.id === hash)) {
+        currentId = hash;
+      }
+      renderSidebar();
+      loadProblem(currentId);
+      updateHeaderStats();
+    }
 
-    // Load Problem
+    function setPhaseFilter(filter, el) {
+      activeFilter = filter;
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      renderSidebar();
+    }
+
+    function renderSidebar() {
+      const listEl = document.getElementById('problemList');
+      listEl.innerHTML = '';
+
+      const filtered = CHALLENGES.filter(c => {
+        if (activeFilter === 'all') return true;
+        return c.phase.startsWith(activeFilter);
+      });
+
+      filtered.forEach((ch, idx) => {
+        const item = document.createElement('div');
+        item.className = 'problem-item' + (ch.id === currentId ? ' active' : '');
+        item.onclick = () => loadProblem(ch.id);
+
+        const diffClass = ch.difficulty === 'Easy' ? 'diff-easy' : ch.difficulty === 'Medium' ? 'diff-medium' : 'diff-hard';
+        const isSolved = solvedSet.has(ch.id);
+
+        item.innerHTML = `
+          <div class="problem-item-left">
+            <div class="problem-item-title">${ch.id.toUpperCase()}. ${ch.title}</div>
+            <div class="problem-item-meta">
+              <span class="badge-diff ${diffClass}">${ch.difficulty}</span>
+              <span>•</span>
+              <span>${ch.week}</span>
+            </div>
+          </div>
+          ${isSolved ? '<div class="problem-item-check">✓</div>' : ''}
+        `;
+        listEl.appendChild(item);
+      });
+    }
+
     function loadProblem(id) {
-      currentProblemId = id;
-      selectElem.value = id;
-      const p = CHALLENGES.find(c => c.id === id);
+      currentId = id;
+      window.location.hash = id;
+      const ch = CHALLENGES.find(c => c.id === id);
+      if (!ch) return;
 
-      // Render Left Pane
-      document.getElementById('problemContent').innerHTML = `
-        <div class="problem-header">
-          <span class="difficulty-tag tag-${p.difficulty.toLowerCase()}">${p.difficulty}</span>
-          <span class="category-tag">${p.category}</span>
-          <span style="margin-left: auto; font-size: 0.775rem; color: #f59e0b; font-weight: 700;">+${p.xp} XP</span>
+      renderSidebar();
+
+      // Render problem details
+      const pane = document.getElementById('problemPane');
+      const tagDiff = ch.difficulty === 'Easy' ? 'tag-easy' : ch.difficulty === 'Medium' ? 'tag-medium' : 'tag-hard';
+
+      pane.innerHTML = `
+        <div class="problem-hero">
+          <div>
+            <div class="problem-meta-strip">
+              <span class="tag ${tagDiff}">${ch.difficulty}</span>
+              <span class="tag tag-phase">${ch.phase}</span>
+              <span class="tag tag-xp">+${ch.xp} XP</span>
+            </div>
+            <h2 style="margin-top: 0.5rem;">${ch.id.toUpperCase()}: ${ch.title}</h2>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Topic: ${ch.category} (${ch.week})</div>
+          </div>
         </div>
-
-        <h2 class="problem-title">${p.title}</h2>
 
         <div class="mendix-box">
-          <h4>🏛️ MENDIX ROSETTA STONE PARALLEL</h4>
-          <p>${p.mendixParallel}</p>
+          <h4>🏛️ Mendix Rosetta Stone Parallel</h4>
+          <p>${ch.mendixParallel}</p>
         </div>
 
-        <div class="section-title">PROBLEM SPECIFICATION</div>
-        <div class="problem-desc">${p.description}</div>
+        <div class="spec-section">
+          <h3>Problem Specification</h3>
+          <p>${ch.description}</p>
+        </div>
 
-        <div class="section-title">EXAMPLE USAGE</div>
-        <pre class="examples-box"><code>${p.example}</code></pre>
+        <div class="spec-section">
+          <h3>Example Usage</h3>
+          <pre class="example-code"><code>${ch.example}</code></pre>
+        </div>
+
+        <div class="spec-section">
+          <h3>Progressive Hints</h3>
+          <div class="collapsible-box">
+            <div class="collapsible-header" onclick="toggleAccordion('hint1')">
+              <span>💡 Hint 1: Core Strategy</span>
+              <span>▼</span>
+            </div>
+            <div id="hint1" class="collapsible-content">${ch.hints[0]}</div>
+          </div>
+          <div class="collapsible-box" style="margin-top: 0.5rem;">
+            <div class="collapsible-header" onclick="toggleAccordion('hint2')">
+              <span>💡 Hint 2: Implementation Detail</span>
+              <span>▼</span>
+            </div>
+            <div id="hint2" class="collapsible-content">${ch.hints[1]}</div>
+          </div>
+        </div>
       `;
 
-      // Set Editor Code
+      // Load code into editor (user code or starter code)
       const editor = document.getElementById('codeEditor');
-      editor.value = savedCodes[id] || p.starterCode;
+      editor.value = userCodes[id] || ch.starterCode;
 
-      // Reset Output Console
-      document.getElementById('testSummaryBadge').innerText = 'Ready to Run';
-      document.getElementById('testSummaryBadge').style.color = '#94a3b8';
-      document.getElementById('testResultsList').innerHTML = `
+      // Reset test list
+      document.getElementById('testSummary').textContent = 'Ready to run';
+      document.getElementById('testList').innerHTML = `
         <div style="color: #64748b; font-style: italic; text-align: center; margin-top: 2rem;">
-          Click "▶ Run Tests" to test your implementation.
+          Click ▶ Run Tests to execute test cases against your code.
         </div>
       `;
     }
 
-    // Auto-indent support in textarea
-    const editorElem = document.getElementById('codeEditor');
-    editorElem.addEventListener('keydown', function(e) {
-      if (e.key === 'Tab') {
-        e.preventDefault();
-        const start = this.selectionStart;
-        const end = this.selectionEnd;
-        this.value = this.value.substring(0, start) + '  ' + this.value.substring(end);
-        this.selectionStart = this.selectionEnd = start + 2;
-      }
-    });
-
-    // Save code on keystroke
-    editorElem.addEventListener('input', () => {
-      savedCodes[currentProblemId] = editorElem.value;
-      localStorage.setItem(STORAGE_KEY_CODE, JSON.stringify(savedCodes));
-    });
+    function toggleAccordion(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('open');
+    }
 
     function resetCurrentCode() {
-      const p = CHALLENGES.find(c => c.id === currentProblemId);
-      editorElem.value = p.starterCode;
-      savedCodes[currentProblemId] = p.starterCode;
-      localStorage.setItem(STORAGE_KEY_CODE, JSON.stringify(savedCodes));
+      const ch = CHALLENGES.find(c => c.id === currentId);
+      if (confirm('Reset code to initial template?')) {
+        document.getElementById('codeEditor').value = ch.starterCode;
+        delete userCodes[currentId];
+        localStorage.setItem('arena_codes', JSON.stringify(userCodes));
+      }
     }
 
-    // Run Automated Test Suite
+    function revealSolution() {
+      const ch = CHALLENGES.find(c => c.id === currentId);
+      if (confirm('Reveal clean reference solution for ' + ch.title + '?')) {
+        document.getElementById('codeEditor').value = ch.solution;
+        userCodes[currentId] = ch.solution;
+        localStorage.setItem('arena_codes', JSON.stringify(userCodes));
+      }
+    }
+
     async function runTests() {
-      const p = CHALLENGES.find(c => c.id === currentProblemId);
-      const code = editorElem.value;
-      const listContainer = document.getElementById('testResultsList');
-      listContainer.innerHTML = '';
+      const ch = CHALLENGES.find(c => c.id === currentId);
+      const code = document.getElementById('codeEditor').value;
+      userCodes[currentId] = code;
+      localStorage.setItem('arena_codes', JSON.stringify(userCodes));
+
+      const listEl = document.getElementById('testList');
+      const summaryEl = document.getElementById('testSummary');
+      listEl.innerHTML = '';
+      summaryEl.textContent = 'Running test suite...';
 
       let passedCount = 0;
-      document.getElementById('testSummaryBadge').innerText = 'Running tests...';
-      document.getElementById('testSummaryBadge').style.color = '#38bdf8';
 
-      for (let i = 0; i < p.tests.length; i++) {
-        const t = p.tests[i];
-        let passed = false;
-        let errorMsg = null;
+      // Extract user function
+      let userFn;
+      try {
+        userFn = new Function('return (' + code + ')')();
+      } catch (err) {
+        summaryEl.textContent = 'Syntax Error';
+        summaryEl.style.color = '#fb7185';
+        listEl.innerHTML = `<div class="test-item test-failed">Syntax Error: ${err.message}</div>`;
+        playChime(false);
+        return;
+      }
+
+      for (let i = 0; i < ch.tests.length; i++) {
+        const testCase = ch.tests[i];
+        const start = performance.now();
+        let pass = false;
+        let errMsg = '';
 
         try {
-          passed = await t.run(code);
-        } catch (err) {
-          passed = false;
-          errorMsg = err.message || String(err);
+          const testRunner = new Function('fn', testCase.testFnStr);
+          const result = testRunner(userFn);
+          if (result instanceof Promise) {
+            pass = await result;
+          } else {
+            pass = Boolean(result);
+          }
+        } catch (e) {
+          pass = false;
+          errMsg = ' (' + e.message + ')';
         }
 
-        const div = document.createElement('div');
-        div.className = `test-item ${passed ? 'passed' : 'failed'}`;
-        div.innerHTML = `
-          <span>${passed ? '✔' : '✖'} Test ${i + 1}: ${t.name}</span>
-          <span>${passed ? 'PASSED' : (errorMsg ? 'ERROR' : 'FAILED')}</span>
-        `;
-        listContainer.appendChild(div);
+        const elapsed = (performance.now() - start).toFixed(1);
 
-        if (passed) passedCount++;
+        const item = document.createElement('div');
+        if (pass) {
+          passedCount++;
+          item.className = 'test-item test-passed';
+          item.innerHTML = `<span>✓ Test ${i+1}: ${testCase.name}</span><span>${elapsed}ms</span>`;
+        } else {
+          item.className = 'test-item test-failed';
+          item.innerHTML = `<span>✗ Test ${i+1}: ${testCase.name}${errMsg}</span><span>FAIL</span>`;
+        }
+        listEl.appendChild(item);
       }
 
-      if (passedCount === p.tests.length) {
-        document.getElementById('testSummaryBadge').innerText = `ALL ${passedCount}/${p.tests.length} TESTS PASSED! 🎉`;
-        document.getElementById('testSummaryBadge').style.color = '#34d399';
+      const total = ch.tests.length;
+      if (passedCount === total) {
+        summaryEl.textContent = `All ${total} Tests Passed! (+${ch.xp} XP)`;
+        summaryEl.style.color = '#34d399';
+        playChime(true);
+        confetti({ particleCount: 75, spread: 70, origin: { y: 0.6 } });
 
-        // Mark Solved
-        if (!solvedSet.has(p.id)) {
-          solvedSet.add(p.id);
-          localStorage.setItem(STORAGE_KEY_SOLVED, JSON.stringify(Array.from(solvedSet)));
-          updateStats();
-          updateDropdown();
-
-          // Confetti celebration!
-          confetti({
-            particleCount: 80,
-            spread: 70,
-            origin: { y: 0.6 }
-          });
-
-          showToast(`🏆 Challenge Solved! +${p.xp} XP added.`);
+        if (!solvedSet.has(ch.id)) {
+          solvedSet.add(ch.id);
+          localStorage.setItem('arena_solved', JSON.stringify([...solvedSet]));
+          updateHeaderStats();
+          renderSidebar();
         }
       } else {
-        document.getElementById('testSummaryBadge').innerText = `${passedCount}/${p.tests.length} Tests Passed`;
-        document.getElementById('testSummaryBadge').style.color = '#fb7185';
+        summaryEl.textContent = `${passedCount} / ${total} Tests Passed`;
+        summaryEl.style.color = '#fb7185';
+        playChime(false);
       }
     }
 
-    function updateStats() {
-      document.getElementById('solvedCountLabel').innerText = `${solvedSet.size} / ${CHALLENGES.length}`;
-      let totalXp = 0;
-      CHALLENGES.forEach(c => {
-        if (solvedSet.has(c.id)) totalXp += c.xp;
+    function updateHeaderStats() {
+      const solved = solvedSet.size;
+      const total = CHALLENGES.length;
+      document.getElementById('solvedBadge').textContent = `${solved} / ${total}`;
+
+      let totalXP = 0;
+      solvedSet.forEach(id => {
+        const ch = CHALLENGES.find(c => c.id === id);
+        if (ch) totalXP += ch.xp;
       });
-      document.getElementById('xpScoreLabel').innerText = `${totalXp} XP`;
+      document.getElementById('xpBadge').textContent = `${totalXP} XP`;
     }
 
-    function updateDropdown() {
-      Array.from(selectElem.options).forEach(opt => {
-        const id = opt.value;
-        const p = CHALLENGES.find(c => c.id === id);
-        opt.textContent = `${solvedSet.has(id) ? '✅ ' : ''}${p.title} (${p.difficulty})`;
+    function shareChallenge() {
+      const url = window.location.origin + window.location.pathname + '#' + currentId;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('📋 Challenge link copied to clipboard!');
       });
-    }
-
-    function sharePlatform() {
-      navigator.clipboard.writeText(window.location.href);
-      showToast("🔗 Link copied to clipboard! Share it with your friends.");
     }
 
     function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.innerText = msg;
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2500);
     }
 
-    // Initial load
-    updateStats();
-    loadProblem(currentProblemId);
+    // Support Tab key in editor
+    document.addEventListener('DOMContentLoaded', () => {
+      init();
+      const editor = document.getElementById('codeEditor');
+      editor.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          const start = editor.selectionStart;
+          const end = editor.selectionEnd;
+          editor.value = editor.value.substring(0, start) + '  ' + editor.value.substring(end);
+          editor.selectionStart = editor.selectionEnd = start + 2;
+        }
+      });
+    });
   </script>
 </body>
 </html>
