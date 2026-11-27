@@ -122,7 +122,7 @@
 
     /* Left Sidebar: Problem Catalog Drawer */
     .catalog-sidebar {
-      width: 310px;
+      width: 300px;
       background: #0b101d;
       border-right: 1px solid var(--card-border);
       display: flex;
@@ -153,7 +153,7 @@
       color: var(--text-muted);
       font-size: 0.68rem;
       font-weight: 700;
-      padding: 0.25rem 0.5rem;
+      padding: 0.25rem 0.45rem;
       border-radius: 6px;
       cursor: pointer;
       white-space: nowrap;
@@ -233,7 +233,7 @@
       color: #10b981;
     }
 
-    /* Middle Pane: Problem Details & Mendix Parallel */
+    /* Middle Pane: Problem Details & Concept Deep-Dive */
     .problem-pane {
       flex: 1;
       border-right: 1px solid var(--card-border);
@@ -250,7 +250,7 @@
       justify-content: space-between;
       align-items: flex-start;
       border-bottom: 1px solid var(--card-border);
-      padding-bottom: 1rem;
+      padding-bottom: 0.85rem;
     }
 
     .problem-title h2 {
@@ -279,16 +279,33 @@
     .tag-easy { background: rgba(16, 185, 129, 0.15); color: #34d399; }
     .tag-medium { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
     .tag-hard { background: rgba(244, 63, 94, 0.15); color: #fb7185; }
+    .tag-phase { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; }
+    .tag-xp { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); font-family: 'JetBrains Mono', monospace; }
 
-    .tag-phase {
-      background: rgba(99, 102, 241, 0.15);
-      color: #a5b4fc;
+    /* Concept Deep Dive Box */
+    .concept-box {
+      background: linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+      padding: 1.1rem 1.25rem;
     }
 
-    .tag-xp {
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--accent-amber);
-      font-family: 'JetBrains Mono', monospace;
+    .concept-box h4 {
+      font-size: 0.8rem;
+      color: var(--accent-sky);
+      text-transform: uppercase;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .concept-box-text {
+      font-size: 0.835rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      white-space: pre-wrap;
     }
 
     /* Mendix Parallel Box */
@@ -373,7 +390,7 @@
     }
     .collapsible-content.open { display: block; }
 
-    /* Right Pane: Code Editor & Test Console */
+    /* Right Pane: Code Editor & Tabbed Test Console */
     .editor-pane {
       width: 48%;
       background: var(--editor-bg);
@@ -404,7 +421,7 @@
     .editor-actions {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
 
     .btn-reset {
@@ -412,7 +429,7 @@
       color: var(--text-muted);
       font-size: 0.75rem;
       font-weight: 700;
-      padding: 0.4rem 0.7rem;
+      padding: 0.4rem 0.65rem;
       border-radius: 6px;
       border: none;
       cursor: pointer;
@@ -425,18 +442,34 @@
       color: var(--accent-amber);
       font-size: 0.75rem;
       font-weight: 700;
-      padding: 0.4rem 0.7rem;
+      padding: 0.4rem 0.65rem;
       border-radius: 6px;
       cursor: pointer;
     }
     .btn-solution:hover { background: var(--accent-amber); color: #090d16; }
 
+    .btn-run-code {
+      background: rgba(56, 189, 248, 0.2);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: var(--accent-sky);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+    .btn-run-code:hover { background: var(--accent-sky); color: #090d16; }
+
     .btn-run {
       background: #10b981;
       color: #090d16;
-      font-size: 0.775rem;
+      font-size: 0.75rem;
       font-weight: 800;
-      padding: 0.4rem 0.9rem;
+      padding: 0.4rem 0.85rem;
       border-radius: 6px;
       border: none;
       cursor: pointer;
@@ -467,37 +500,70 @@
       tab-size: 2;
     }
 
-    /* Bottom Test Console */
-    .test-console {
-      height: 38%;
+    /* Bottom Tabbed Console */
+    .console-container {
+      height: 40%;
       background: #080d1a;
       border-top: 1px solid var(--card-border);
       display: flex;
       flex-direction: column;
     }
 
-    .test-header {
-      padding: 0.5rem 1rem;
+    .console-tab-bar {
+      padding: 0.35rem 0.75rem;
       background: #0f172a;
       border-bottom: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.75rem;
-      font-weight: 800;
-      color: var(--text-muted);
-      text-transform: uppercase;
     }
 
-    .test-list {
-      padding: 0.75rem 1rem;
-      overflow-y: auto;
+    .console-tabs {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .console-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .console-tab-btn.active {
+      background: #1e293d;
+      color: #f1f5f9;
+    }
+
+    .tab-badge {
+      font-size: 0.65rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 0.1rem 0.4rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .console-pane {
       flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem 1rem;
+      display: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.785rem;
+    }
+    .console-pane.active { display: block; }
+
+    /* Test Results Styling */
+    .test-list {
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.775rem;
     }
 
     .test-item {
@@ -509,6 +575,27 @@
     }
     .test-passed { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; }
     .test-failed { background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: #fb7185; }
+
+    /* Output Console Logs */
+    .log-entry {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      display: flex;
+      gap: 0.6rem;
+      line-height: 1.5;
+    }
+    .log-time { color: #64748b; font-size: 0.7rem; flex-shrink: 0; }
+    .log-text { color: #cbd5e1; word-break: break-all; white-space: pre-wrap; }
+    .log-text.warn { color: #fbbf24; }
+    .log-text.error { color: #fb7185; }
+    .log-return {
+      margin-top: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 3px solid var(--accent-sky);
+      border-radius: 4px;
+      color: #38bdf8;
+    }
 
     .toast {
       position: fixed;
@@ -526,7 +613,7 @@
     }
 
     @media (max-width: 1024px) {
-      .catalog-sidebar { width: 220px; }
+      .catalog-sidebar { width: 240px; }
       .editor-pane { width: 50%; }
     }
   </style>
@@ -577,12 +664,12 @@
       </div>
     </div>
 
-    <!-- Middle: Problem Specification & Mendix Rosetta Stone -->
+    <!-- Middle: Problem Specification, Mendix Rosetta Stone & Concept Deep-Dive -->
     <div class="problem-pane" id="problemPane">
       <!-- Injected via JavaScript -->
     </div>
 
-    <!-- Right: Code Editor & Test Runner -->
+    <!-- Right: Code Editor & Tabbed Console -->
     <div class="editor-pane">
       <div class="editor-toolbar">
         <div class="editor-tab">
@@ -591,6 +678,7 @@
         <div class="editor-actions">
           <button class="btn-solution" onclick="revealSolution()">💡 View Solution</button>
           <button class="btn-reset" onclick="resetCurrentCode()">↺ Reset</button>
+          <button class="btn-run-code" onclick="runSampleCode()">⚡ Run Code</button>
           <button class="btn-run" onclick="runTests()">▶ Run Tests</button>
         </div>
       </div>
@@ -599,14 +687,37 @@
         <textarea id="codeEditor" spellcheck="false"></textarea>
       </div>
 
-      <div class="test-console">
-        <div class="test-header">
-          <span>Test Suite Verification</span>
-          <span id="testSummary" style="color: var(--text-muted);">Ready to run</span>
+      <!-- Tabbed Console: Test Results vs Console Output -->
+      <div class="console-container">
+        <div class="console-tab-bar">
+          <div class="console-tabs">
+            <button id="btnTabTests" class="console-tab-btn active" onclick="switchConsoleTab('tests')">
+              🧪 Test Results <span id="testTabBadge" class="tab-badge">Ready</span>
+            </button>
+            <button id="btnTabOutput" class="console-tab-btn" onclick="switchConsoleTab('output')">
+              🖥️ Console Output <span id="outputTabBadge" class="tab-badge">0 logs</span>
+            </button>
+          </div>
+          <div>
+            <button class="btn-reset" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;" onclick="clearConsoleOutput()">Clear Output</button>
+          </div>
         </div>
-        <div class="test-list" id="testList">
-          <div style="color: #64748b; font-style: italic; text-align: center; margin-top: 2rem;">
-            Click ▶ Run Tests to execute test cases against your code.
+
+        <!-- Pane 1: Test Results List -->
+        <div id="paneTests" class="console-pane active">
+          <div class="test-list" id="testList">
+            <div style="color: #64748b; font-style: italic; text-align: center; margin-top: 2rem;">
+              Click ▶ Run Tests to execute test cases against your code.
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 2: Execution Output / Console Logs -->
+        <div id="paneOutput" class="console-pane">
+          <div id="consoleLogs">
+            <div style="color: #64748b; font-style: italic; text-align: center; margin-top: 2rem;">
+              No output yet. Click ⚡ Run Code or use console.log() to inspect variables.
+            </div>
           </div>
         </div>
       </div>
@@ -627,13 +738,15 @@
     "difficulty": "Easy",
     "xp": 100,
     "mendixParallel": "In a Mendix microflow loop, reusing a stale local variable instead of reading the updated object state causes silent data corruption. In React, functional updates `setVal(prev => prev + 1)` and private lexical scope guarantee closure safety across renders.",
-    "description": "Implement `createCounter(initialValue)`. It must return an object with three methods: `increment()`, `decrement()`, and `getValue()`. Internal state must remain encapsulated within lexical scope and cannot be directly mutated from outside.",
+    "conceptDetails": "A closure is created when an inner function retains access to variables declared in its outer enclosing lexical scope, even after the outer function has finished executing and popped off the call stack.\n\nUnder the hood:\n1. When createCounter() is called, an Execution Context is pushed onto the Call Stack with an Environment Record storing 'count'.\n2. Rather than being garbage collected when createCounter returns, 'count' is retained in the V8 heap because the inner methods (increment, decrement, getValue) maintain hidden references ([[Scopes]] pointer) to this Environment Record.\n3. In React, this exact mechanism powers useState: component functions execute and exit, but Fiber nodes retain pointers to previous state queues. Bypassing stale closures requires functional updates (prev => prev + 1).",
+    "description": "Write a function `createCounter(initialValue)` that returns an object with three methods: `increment()`, `decrement()`, and `getValue()`. State must be completely private inside lexical closure scope.",
     "example": "const c = createCounter(10);\nc.increment(); // 11\nc.increment(); // 12\nc.decrement(); // 11\nc.getValue();  // 11",
+    "sampleRun": "const counter = createCounter(5);\nconsole.log(\"Initial count:\", counter.getValue());\ncounter.increment();\nconsole.log(\"After increment():\", counter.getValue());\ncounter.decrement();\nconsole.log(\"After decrement():\", counter.getValue());\nreturn counter.getValue();",
     "hints": [
-      "Keep a local variable `let count = initialValue` inside the outer function body.",
-      "Return an object whose methods close over `count` and modify it with `++count` or `--count`."
+      "Declare a variable `let count = initialValue` inside `createCounter`.",
+      "Return an object containing `increment`, `decrement`, and `getValue` functions closing over `count`."
     ],
-    "starterCode": "function createCounter(initialValue = 0) {\n  let count = initialValue;\n\n  return {\n    increment: () => {\n      // TODO: Increment and return updated count\n      return ++count;\n    },\n    decrement: () => {\n      // TODO: Decrement and return updated count\n      return --count;\n    },\n    getValue: () => {\n      // TODO: Return current count\n      return count;\n    }\n  };\n}",
+    "starterCode": "function createCounter(initialValue = 0) {\n  // Write your implementation here\n}",
     "solution": "function createCounter(initialValue = 0) {\n  let count = initialValue;\n  return {\n    increment: () => ++count,\n    decrement: () => --count,\n    getValue: () => count\n  };\n}",
     "tests": [
       {
@@ -659,13 +772,15 @@
     "difficulty": "Medium",
     "xp": 150,
     "mendixParallel": "Calling an On-Change microflow on every single keystroke creates massive server load. Debouncing delays execution until the user pauses typing for `delay` milliseconds, cutting network calls by 95%.",
-    "description": "Write `debounce(fn, delay)`. The returned function delays invoking `fn` until after `delay` milliseconds have elapsed since the last call. If invoked again before the delay expires, previous timers are cancelled.",
+    "conceptDetails": "The JavaScript Event Loop coordinates execution between the synchronous Call Stack, the Microtask Queue (Promises, queueMicrotask), and the Macrotask Queue (setTimeout, setInterval).\n\nUnder the hood:\n1. When debounce(fn, delay) is called, a timer reference (timerId) is held in the outer closure.\n2. Every rapid invocation cancels any pending timer in the Macrotask queue via clearTimeout(timerId).\n3. A fresh setTimeout is scheduled. Only when the user ceases typing for the full delay window does the callback transition from the Timer Web API to the Macrotask Queue, and finally onto the Call Stack for execution.",
+    "description": "Implement `debounce(fn, delay)`. When called repeatedly, the timer resets and `fn` is executed only once after `delay` ms have passed since the last call.",
     "example": "const log = debounce(console.log, 100);\nlog('a');\nlog('b');\n// Only 'b' executes after 100ms",
+    "sampleRun": "const logMsg = debounce((msg) => console.log(\"Debounced Result:\", msg), 50);\nconsole.log(\"Triggering 3 rapid calls...\");\nlogMsg(\"Query: R\");\nlogMsg(\"Query: Re\");\nlogMsg(\"Query: React\");\nreturn \"Scheduled debounce. Watch console output!\";",
     "hints": [
-      "Maintain a `timerId` variable in the outer closure.",
-      "Clear any active timer with `clearTimeout(timerId)` whenever called again."
+      "Store `let timerId = null` in the outer closure.",
+      "In the returned function, call `clearTimeout(timerId)` before setting a new `setTimeout`."
     ],
-    "starterCode": "function debounce(fn, delay) {\n  let timerId = null;\n\n  return function(...args) {\n    // TODO: Clear existing timer if active\n    if (timerId) clearTimeout(timerId);\n\n    // TODO: Set new timer to execute fn with args after delay\n    timerId = setTimeout(() => {\n      fn.apply(this, args);\n    }, delay);\n  };\n}",
+    "starterCode": "function debounce(fn, delay) {\n  // Write your implementation here\n}",
     "solution": "function debounce(fn, delay) {\n  let timerId = null;\n  return function(...args) {\n    if (timerId) clearTimeout(timerId);\n    timerId = setTimeout(() => {\n      fn.apply(this, args);\n    }, delay);\n  };\n}",
     "tests": [
       {
@@ -687,13 +802,15 @@
     "difficulty": "Medium",
     "xp": 150,
     "mendixParallel": "In Mendix, you represent workflow progress using an Enumeration (`Draft`, `Submitted`, `Approved`, `Rejected`). In TypeScript/React, Discriminated Unions eliminate impossible intermediate states (e.g. `loading=true` and `error=true` at the same time).",
-    "description": "Implement `formReducer(state, action)`. State has `{ status: 'idle' | 'submitting' | 'success' | 'error', data?: any, error?: string }`. Handle action types: `SUBMIT`, `SUCCESS` (payload in `action.payload`), `FAIL` (message in `action.error`), and `RESET`.",
-    "example": "formReducer({ status: 'idle' }, { type: 'SUBMIT' });\n// { status: 'submitting' }\nformReducer({ status: 'submitting' }, { type: 'SUCCESS', payload: { id: 1 } });\n// { status: 'success', data: { id: 1 } }",
+    "conceptDetails": "A Finite State Machine (FSM) guarantees that a system can only exist in one valid state at any given point in time.\n\nUnder the hood:\n1. Anti-pattern: Storing separate boolean flags like const [loading, setLoading] = useState(false), [error, setError] = useState(null), [data, setData] = useState(null). This allows 8 possible combinations, including illegal states where loading and error are both active.\n2. Discriminated Union pattern: A single status discriminator string ('idle' | 'submitting' | 'success' | 'error'). The presence of data or error is strictly tied to the active state.\n3. Reducers are pure functions (state, action) => newState ensuring predictable, replayable state transitions.",
+    "description": "Write `formReducer(state, action)`. State has `{ status, data, error }`. Actions: `SUBMIT`, `SUCCESS` (payload in `action.payload`), `FAIL` (error message in `action.error`), and `RESET`.",
+    "example": "formReducer({ status: 'idle' }, { type: 'SUBMIT' });\n// { status: 'submitting' }",
+    "sampleRun": "let s = { status: 'idle' };\nconsole.log(\"1. Initial state:\", s);\ns = formReducer(s, { type: 'SUBMIT' });\nconsole.log(\"2. After SUBMIT:\", s);\ns = formReducer(s, { type: 'SUCCESS', payload: { id: 101, name: 'Varun' } });\nconsole.log(\"3. After SUCCESS:\", s);\nreturn s;",
     "hints": [
-      "Use a `switch(action.type)` statement to handle all union cases.",
-      "Always return a fresh state object without mutating previous state."
+      "Use `switch (action.type)` to branch on each action.",
+      "Return a new state object for each case without modifying the previous `state` parameter."
     ],
-    "starterCode": "function formReducer(state, action) {\n  switch (action.type) {\n    case 'SUBMIT':\n      // TODO: return submitting status\n      return { status: 'submitting' };\n    case 'SUCCESS':\n      // TODO: return success with data\n      return { status: 'success', data: action.payload };\n    case 'FAIL':\n      // TODO: return error with error string\n      return { status: 'error', error: action.error };\n    case 'RESET':\n      // TODO: return idle\n      return { status: 'idle' };\n    default:\n      return state;\n  }\n}",
+    "starterCode": "function formReducer(state, action) {\n  // Write your implementation here\n}",
     "solution": "function formReducer(state, action) {\n  switch (action.type) {\n    case 'SUBMIT':\n      return { status: 'submitting' };\n    case 'SUCCESS':\n      return { status: 'success', data: action.payload };\n    case 'FAIL':\n      return { status: 'error', error: action.error };\n    case 'RESET':\n      return { status: 'idle' };\n    default:\n      return state;\n  }\n}",
     "tests": [
       {
@@ -719,13 +836,15 @@
     "difficulty": "Hard",
     "xp": 250,
     "mendixParallel": "Mendix ORM tracks modified entity attributes automatically. In React, Fiber uses shallow equality `prev === next`. To prevent re-rendering untouched tree branches, you must clone only modified parent nodes while keeping unchanged siblings by reference.",
-    "description": "Write `updateIn(obj, path, value)` where `path` is an array of keys (e.g. `['user', 'profile', 'email']`). Return a new object with the target value updated, while preserving untouched branch object references.",
-    "example": "const orig = { user: { profile: { email: 'old@a.com' }, settings: { dark: true } } };\nconst next = updateIn(orig, ['user', 'profile', 'email'], 'new@a.com');\nnext.user.profile.email === 'new@a.com';\nnext.user.settings === orig.user.settings; // Preserves reference!",
+    "conceptDetails": "React Fiber relies on shallow reference equality (Object.is(prev, next) or ===) to determine whether a component and its children need re-rendering.\n\nUnder the hood:\n1. Full Deep Clone (structuredClone or JSON.parse(JSON.stringify)) is an anti-pattern for large trees: it allocates brand new memory addresses for EVERY node in the tree, forcing every memoized child component (React.memo) to re-render.\n2. Structural Sharing: When updating state.user.profile.city, we create new objects ONLY along the modified path: newRoot -> newUser -> newProfile. Untouched sibling branches (state.settings, state.navigation) retain their original memory references (0x123 === 0x123).",
+    "description": "Write `updateIn(obj, path, value)` where `path` is an array of keys (e.g. `['user', 'profile', 'city']`). Return a new object with the target value updated while preserving identical references for untouched sibling branches.",
+    "example": "const orig = { a: { b: 1, c: { d: 2 } } };\nconst next = updateIn(orig, ['a', 'b'], 99);\nnext.a.c === orig.a.c; // true (Preserves memory reference!)",
+    "sampleRun": "const state = {\n  user: { name: 'Varun', address: { city: 'Chennai' } },\n  settings: { theme: 'dark' }\n};\nconsole.log(\"Original state:\", state);\nconst updated = updateIn(state, ['user', 'address', 'city'], 'Bengaluru');\nconsole.log(\"Updated state:\", updated);\nconsole.log(\"Did untouched settings reference remain identical?\", updated.settings === state.settings);\nreturn updated;",
     "hints": [
-      "Use recursion or a loop copying each segment down the path.",
-      "At each step, shallow copy `{ ...current }` and reassign the child."
+      "Use recursion: if `path.length === 0`, return `value`.",
+      "Destructure `[head, ...tail] = path`. Create a shallow copy `{ ...obj, [head]: updateIn(obj[head], tail, value) }`."
     ],
-    "starterCode": "function updateIn(obj, path, value) {\n  if (path.length === 0) return value;\n  const [head, ...tail] = path;\n\n  // TODO: Recursively shallow-copy each level along the path\n  const currentChild = obj && typeof obj === 'object' && obj[head] !== undefined ? obj[head] : {};\n  return {\n    ...obj,\n    [head]: updateIn(currentChild, tail, value)\n  };\n}",
+    "starterCode": "function updateIn(obj, path, value) {\n  // Write your implementation here\n}",
     "solution": "function updateIn(obj, path, value) {\n  if (path.length === 0) return value;\n  const [head, ...tail] = path;\n  const currentChild = obj && typeof obj === 'object' && obj[head] !== undefined ? obj[head] : {};\n  return {\n    ...obj,\n    [head]: updateIn(currentChild, tail, value)\n  };\n}",
     "tests": [
       {
@@ -751,13 +870,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "In Mendix, committing an object multiple times in one microflow executes a single optimized database transaction at the end. React Fiber batches multiple `setState` calls and runs functional updates in FIFO queue order to prevent stale overrides.",
-    "description": "Implement `batchUpdateQueue(initialState, updates)`. `updates` is an array where each item is either a replacement value or an update function `(prev) => next`. Return the final resolved state after sequentially applying all updates.",
-    "example": "batchUpdateQueue(10, [20, (prev) => prev + 5, (prev) => prev * 2]); // (20 + 5) * 2 = 50",
+    "conceptDetails": "In React 18, state updates scheduled during event handlers, timeouts, or microtasks are automatically batched into a single render pass.\n\nUnder the hood:\n1. Each hook on a Fiber node contains a circular linked list called the updateQueue.\n2. When you call setCount(c => c + 1), React does NOT re-run the component function immediately. It appends an Update object { action: fn, next: null } to the queue.\n3. When the Render Phase begins, React reconciles the queue by iterating over each update in FIFO order: if an action is a function, it evaluates action(prevState); if it is a literal value, it replaces the rolling state.",
+    "description": "Write `batchUpdateQueue(initialState, updates)`. `updates` is an array where each item is either a replacement value or an update function `(prev) => next`. Return the final resolved state after sequential reduction.",
+    "example": "batchUpdateQueue(10, [20, (p) => p + 5, (p) => p * 2]); // 50",
+    "sampleRun": "const initial = 0;\nconst queue = [\n  (p) => p + 10,\n  (p) => p + 5,\n  100, // Replaces previous rolling state\n  (p) => p + 25\n];\nconst result = batchUpdateQueue(initial, queue);\nconsole.log(\"Initial state:\", initial);\nconsole.log(\"Resolved final state:\", result);\nreturn result;",
     "hints": [
-      "Use `updates.reduce()` starting from `initialState`.",
-      "Check `typeof update === 'function'` to decide whether to call it with `current` or use the direct value."
+      "Use `updates.reduce()` starting with `initialState`.",
+      "Check `typeof update === 'function'` to call it with the rolling accumulator or use it directly."
     ],
-    "starterCode": "function batchUpdateQueue(initialState, updates) {\n  // TODO: Sequentially resolve all updates against the rolling state\n  return updates.reduce((state, update) => {\n    return typeof update === 'function' ? update(state) : update;\n  }, initialState);\n}",
+    "starterCode": "function batchUpdateQueue(initialState, updates) {\n  // Write your implementation here\n}",
     "solution": "function batchUpdateQueue(initialState, updates) {\n  return updates.reduce((state, update) => {\n    return typeof update === 'function' ? update(state) : update;\n  }, initialState);\n}",
     "tests": [
       {
@@ -783,13 +904,15 @@
     "difficulty": "Easy",
     "xp": 100,
     "mendixParallel": "Storing derived values (like total balance) in database entities creates cache synchronization bugs. In React and Mendix best practices, calculate derived values on-the-fly during render rather than syncing redundant state.",
-    "description": "Write `computeCashFlowMetrics(transactions)`. Each transaction has `{ id, title, amount, type: 'income' | 'expense' }`. Return `{ totalIncome, totalExpense, netBalance, savingsRatePct }` where `savingsRatePct` is `Math.round((netBalance / totalIncome) * 100)` or 0 if `totalIncome === 0`.",
+    "conceptDetails": "Single Source of Truth: In React architecture, state should represent the minimum set of mutable data required by the UI.\n\nUnder the hood:\n1. Anti-pattern: Creating [transactions, setTransactions] AND [netBalance, setNetBalance] in useState, then using a useEffect to update netBalance when transactions change. This causes two distinct render passes (state tearing & cascade re-render).\n2. Best practice: Compute netBalance inline during the render execution. If the calculation is computationally heavy (thousands of items), wrap it in useMemo(() => compute(items), [items]).",
+    "description": "Write `computeCashFlowMetrics(transactions)`. Each item has `{ amount, type: 'income' | 'expense' }`. Return `{ totalIncome, totalExpense, netBalance, savingsRatePct }` where `savingsRatePct` is `Math.round((netBalance / totalIncome) * 100)` or 0 if `totalIncome === 0`.",
     "example": "computeCashFlowMetrics([{ amount: 100000, type: 'income' }, { amount: 30000, type: 'expense' }]);\n// { totalIncome: 100000, totalExpense: 30000, netBalance: 70000, savingsRatePct: 70 }",
+    "sampleRun": "const txs = [\n  { amount: 150000, type: 'income' },\n  { amount: 45000, type: 'expense' },\n  { amount: 15000, type: 'expense' }\n];\nconst metrics = computeCashFlowMetrics(txs);\nconsole.log(\"Computed metrics:\", metrics);\nreturn metrics;",
     "hints": [
-      "Iterate through transactions using `reduce` or `forEach`.",
-      "Compute `totalIncome`, `totalExpense`, `netBalance = totalIncome - totalExpense`."
+      "Accumulate `totalIncome` and `totalExpense` using a loop or `reduce`.",
+      "Calculate `netBalance = totalIncome - totalExpense` and `savingsRatePct` safely."
     ],
-    "starterCode": "function computeCashFlowMetrics(transactions) {\n  let totalIncome = 0;\n  let totalExpense = 0;\n\n  // TODO: Aggregate incomes and expenses\n  for (const t of transactions) {\n    if (t.type === 'income') totalIncome += t.amount;\n    else if (t.type === 'expense') totalExpense += t.amount;\n  }\n\n  const netBalance = totalIncome - totalExpense;\n  const savingsRatePct = totalIncome > 0 ? Math.round((netBalance / totalIncome) * 100) : 0;\n\n  return { totalIncome, totalExpense, netBalance, savingsRatePct };\n}",
+    "starterCode": "function computeCashFlowMetrics(transactions) {\n  // Write your implementation here\n}",
     "solution": "function computeCashFlowMetrics(transactions) {\n  let totalIncome = 0;\n  let totalExpense = 0;\n  for (const t of transactions) {\n    if (t.type === 'income') totalIncome += t.amount;\n    else if (t.type === 'expense') totalExpense += t.amount;\n  }\n  const netBalance = totalIncome - totalExpense;\n  const savingsRatePct = totalIncome > 0 ? Math.round((netBalance / totalIncome) * 100) : 0;\n  return { totalIncome, totalExpense, netBalance, savingsRatePct };\n}",
     "tests": [
       {
@@ -811,14 +934,16 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "In Mendix Native/Web, offline storage or user preferences are persisted in browser/device storage. Custom React hooks encapsulate `JSON.parse` and `JSON.stringify` with error handling so components read state transparently.",
-    "description": "Build `createStorageManager(key, defaultValue, storageDriver)`. `storageDriver` has `getItem(k)` and `setItem(k, v)`. Return `{ get(), set(value) }`. `get()` returns stored parsed JSON or `defaultValue` if missing or corrupted. `set(val)` handles functional updates `(prev) => next` and persists JSON.",
-    "example": "const s = createStorageManager('theme', 'light', memoryDriver);\ns.get(); // 'light'\ns.set('dark');\ns.get(); // 'dark'",
+    "conceptDetails": "Custom hooks are reusable functions that encapsulate stateful logic using React's primitive hooks (useState, useEffect, useRef).\n\nUnder the hood:\n1. Browser localStorage is synchronous and only supports strings. Storing complex structures requires serialization (JSON.stringify) and deserialization (JSON.parse).\n2. Production resilience: Reading localStorage can throw DOMExceptions (e.g. private browsing storage quota exceeded or disabled cookies). Wrapping access in try...catch guarantees that components fall back to default values without crashing the UI tree.",
+    "description": "Build `createStorageManager(key, defaultValue, driver)`. `driver` provides `getItem(k)` and `setItem(k, v)`. Return `{ get(), set(value) }`. `get()` returns parsed JSON or `defaultValue` on error. `set(val)` handles functional updates and persists stringified JSON.",
+    "example": "const s = createStorageManager('theme', 'dark', driver);\ns.get(); // 'dark'\ns.set('light');\ns.get(); // 'light'",
+    "sampleRun": "const mockDriver = {\n  db: {},\n  getItem(k) { return this.db[k]; },\n  setItem(k, v) { this.db[k] = v; }\n};\nconst storage = createStorageManager('settings', { dark: true }, mockDriver);\nconsole.log(\"1. Default get():\", storage.get());\nstorage.set({ dark: false });\nconsole.log(\"2. After set():\", storage.get());\nreturn storage.get();",
     "hints": [
-      "Wrap `JSON.parse` in a `try...catch` block to handle invalid JSON gracefully.",
-      "Check if `value` passed to `set()` is a function, and call `val(current)` if so."
+      "In `get()`, wrap `JSON.parse(driver.getItem(key))` in a `try...catch` returning `defaultValue` on failure.",
+      "In `set(val)`, support functional updates: `typeof val === 'function' ? val(current) : val`."
     ],
-    "starterCode": "function createStorageManager(key, defaultValue, driver) {\n  return {\n    get: () => {\n      try {\n        const item = driver.getItem(key);\n        return item ? JSON.parse(item) : defaultValue;\n      } catch (e) {\n        return defaultValue;\n      }\n    },\n    set: (val) => {\n      // TODO: Handle functional updates or raw values, then save stringified JSON\n      const current = driver.getItem(key) ? JSON.parse(driver.getItem(key)) : defaultValue;\n      const next = typeof val === 'function' ? val(current) : val;\n      driver.setItem(key, JSON.stringify(next));\n      return next;\n    }\n  };\n}",
-    "solution": "function createStorageManager(key, defaultValue, driver) {\n  return {\n    get: () => {\n      try {\n        const item = driver.getItem(key);\n        return item ? JSON.parse(item) : defaultValue;\n      } catch (e) {\n        return defaultValue;\n      }\n    },\n    set: (val) => {\n      let current;\n      try {\n        const item = driver.getItem(key);\n        current = item ? JSON.parse(item) : defaultValue;\n      } catch {\n        current = defaultValue;\n      }\n      const next = typeof val === 'function' ? val(current) : val;\n      driver.setItem(key, JSON.stringify(next));\n      return next;\n    }\n  };\n}",
+    "starterCode": "function createStorageManager(key, defaultValue, driver) {\n  // Write your implementation here\n}",
+    "solution": "function createStorageManager(key, defaultValue, driver) {\n  return {\n    get: () => {\n      try {\n        const item = driver.getItem(key);\n        return item ? JSON.parse(item) : defaultValue;\n      } catch {\n        return defaultValue;\n      }\n    },\n    set: (val) => {\n      let current;\n      try {\n        const item = driver.getItem(key);\n        current = item ? JSON.parse(item) : defaultValue;\n      } catch {\n        current = defaultValue;\n      }\n      const next = typeof val === 'function' ? val(current) : val;\n      driver.setItem(key, JSON.stringify(next));\n      return next;\n    }\n  };\n}",
     "tests": [
       {
         "name": "Returns defaultValue when storage is empty",
@@ -843,13 +968,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "In enterprise apps, calling heavy database queries or recalculating complex metrics repeatedly wastes CPU. `useMemo` and memoization caches cache previous results for identical arguments, while TTL expires stale cache entries.",
-    "description": "Write `memoizeWithTTL(fn, ttlMs)`. Cache the result of `fn(...args)` by stringifying arguments as key. If invoked with identical arguments within `ttlMs`, return the cached result without calling `fn`. If called after `ttlMs`, re-execute `fn`.",
-    "example": "let computeCalls = 0;\nconst calc = memoizeWithTTL((x) => { computeCalls++; return x * 2; }, 100);\ncalc(5); // computes, returns 10\ncalc(5); // cached, returns 10 (calls = 1)",
+    "conceptDetails": "Memoization is an optimization technique where expensive function calls are cached based on input arguments.\n\nUnder the hood:\n1. Pure functions return the exact same output given the same input parameters.\n2. In-memory caching: Using a Map keyed by serialized arguments (JSON.stringify(args)) allows O(1) cache lookups.\n3. Cache invalidation: Without expiration (Time-To-Live), unbounded caches cause browser memory leaks. Storing an expiry = Date.now() + ttlMs timestamp ensures memory is periodically refreshed.",
+    "description": "Write `memoizeWithTTL(fn, ttlMs)`. If called with identical arguments within `ttlMs`, return the cached result without invoking `fn`. If invoked after `ttlMs` has elapsed, re-execute `fn`.",
+    "example": "const m = memoizeWithTTL(calc, 5000);\nm(10); // Computes\nm(10); // Instant cache return",
+    "sampleRun": "let executions = 0;\nconst expensiveSquare = memoizeWithTTL((n) => {\n  executions++;\n  console.log(\"Computing square of\", n);\n  return n * n;\n}, 100);\nconsole.log(\"Call 1:\", expensiveSquare(5));\nconsole.log(\"Call 2 (Cached):\", expensiveSquare(5));\nconsole.log(\"Total function executions:\", executions);\nreturn { result: expensiveSquare(5), executions };",
     "hints": [
-      "Use a `Map` storing `{ value, expiry }` objects keyed by `JSON.stringify(args)`.",
-      "Check `Date.now() > cached.expiry` to detect stale items."
+      "Maintain a `cache = new Map()` holding `{ value, expiry }`.",
+      "Check `Date.now() < cached.expiry` before returning the cached value."
     ],
-    "starterCode": "function memoizeWithTTL(fn, ttlMs) {\n  const cache = new Map();\n\n  return function(...args) {\n    const key = JSON.stringify(args);\n    const now = Date.now();\n\n    // TODO: Return cached value if present and not expired\n    if (cache.has(key)) {\n      const entry = cache.get(key);\n      if (now < entry.expiry) return entry.value;\n    }\n\n    // TODO: Compute, cache with expiry, and return\n    const value = fn(...args);\n    cache.set(key, { value, expiry: now + ttlMs });\n    return value;\n  };\n}",
+    "starterCode": "function memoizeWithTTL(fn, ttlMs) {\n  // Write your implementation here\n}",
     "solution": "function memoizeWithTTL(fn, ttlMs) {\n  const cache = new Map();\n  return function(...args) {\n    const key = JSON.stringify(args);\n    const now = Date.now();\n    if (cache.has(key)) {\n      const entry = cache.get(key);\n      if (now < entry.expiry) return entry.value;\n    }\n    const value = fn(...args);\n    cache.set(key, { value, expiry: now + ttlMs });\n    return value;\n  };\n}",
     "tests": [
       {
@@ -871,13 +998,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "In Mendix, global session entities allow cross-page access without drilling parameters through 10 nested pages. Zustand provides an external store outside the React tree where components subscribe to state slices.",
-    "description": "Build `createMiniStore(initialState)`. Return `{ getState(), setState(partialOrFn), subscribe(listener) }`. `setState` merges partial objects or invokes `(prev) => next`, and triggers all subscribed listeners. `subscribe` returns an unsubscribe function.",
-    "example": "const store = createMiniStore({ count: 0 });\nconst unsub = store.subscribe(() => console.log('changed'));\nstore.setState({ count: 1 });\nunsub();",
+    "conceptDetails": "The Observer / Pub-Sub pattern decouples state management from the React rendering engine.\n\nUnder the hood:\n1. React Context triggers re-renders on ALL consuming components whenever ANY property on the context object changes.\n2. Zustand lives outside the React tree in plain JavaScript memory. State is held in a private variable, and components subscribe to granular state selectors via useSyncExternalStore (React 18).\n3. When setState executes, only components subscribed to the modified property re-render, eliminating unnecessary tree reconciliations.",
+    "description": "Build `createMiniStore(initialState)`. Return `{ getState(), setState(partialOrFn), subscribe(listener) }`. `setState` updates state and notifies subscribers. `subscribe` returns an unsubscribe cleanup function.",
+    "example": "const store = createMiniStore({ count: 0 });\nconst unsub = store.subscribe(s => console.log(s));\nstore.setState({ count: 1 });",
+    "sampleRun": "const store = createMiniStore({ balance: 25000, user: 'Varun' });\nconsole.log(\"Initial state:\", store.getState());\nconst unsubscribe = store.subscribe((s) => console.log(\"State updated listener fired:\", s));\nstore.setState({ balance: 30000 });\nunsubscribe();\nstore.setState({ balance: 50000 });\nreturn store.getState();",
     "hints": [
-      "Keep `state` in an internal variable and listeners in a `Set`.",
+      "Hold `let state = initialState` and `const listeners = new Set()` in closure.",
       "In `subscribe`, return a function that deletes the listener from the `Set`."
     ],
-    "starterCode": "function createMiniStore(initialState) {\n  let state = initialState;\n  const listeners = new Set();\n\n  return {\n    getState: () => state,\n    setState: (update) => {\n      // TODO: Handle partial object or updater function, then notify listeners\n      const next = typeof update === 'function' ? update(state) : update;\n      state = typeof next === 'object' && next !== null ? { ...state, ...next } : next;\n      listeners.forEach(fn => fn(state));\n    },\n    subscribe: (listener) => {\n      // TODO: Add listener and return cleanup function\n      listeners.add(listener);\n      return () => listeners.delete(listener);\n    }\n  };\n}",
+    "starterCode": "function createMiniStore(initialState) {\n  // Write your implementation here\n}",
     "solution": "function createMiniStore(initialState) {\n  let state = initialState;\n  const listeners = new Set();\n  return {\n    getState: () => state,\n    setState: (update) => {\n      const next = typeof update === 'function' ? update(state) : update;\n      state = typeof next === 'object' && next !== null ? { ...state, ...next } : next;\n      listeners.forEach(fn => fn(state));\n    },\n    subscribe: (listener) => {\n      listeners.add(listener);\n      return () => listeners.delete(listener);\n    }\n  };\n}",
     "tests": [
       {
@@ -899,13 +1028,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "In large Mendix domain models, you partition entities into separate modules (Finance, UserMgmt, Audit). In enterprise React, Zustand Slice pattern breaks a massive store into clean, modular domain slices that share state.",
-    "description": "Write `combineSlices(sliceCreators)`. Each slice creator is `(set, get) => ({ ...actions, ...data })`. Return a unified store initializing all slices simultaneously with shared `set` and `get` capabilities.",
-    "example": "const store = combineSlices([\n  (set) => ({ count: 0, inc: () => set(s => ({ count: s.count + 1 })) }),\n  (set) => ({ user: 'Varun', setUser: (u) => set({ user: u }) })\n]);",
+    "conceptDetails": "Domain-Driven Design (DDD) for frontend state management.\n\nUnder the hood:\n1. In enterprise applications, a single store file with 50 actions becomes unmaintainable.\n2. The Slice Pattern allows each domain (e.g. createAuthSlice, createLedgerSlice) to be authored as an isolated function (set, get) => ({ state, actions }).\n3. The combiner unifies all slice creators into a single root store while providing each slice full access to the shared root set and get methods.",
+    "description": "Write `combineSlices(sliceCreators)`. Each creator is `(set, get) => ({ ...actions, ...data })`. Return a unified store initializing all slices simultaneously with shared state.",
+    "example": "const store = combineSlices([\n  (set) => ({ count: 0, inc: () => set(s => ({ count: s.count + 1 })) })\n]);",
+    "sampleRun": "const authSlice = (set) => ({ user: 'Varun', login: (u) => set({ user: u }) });\nconst countSlice = (set) => ({ count: 10, add: (n) => set(s => ({ count: s.count + n })) });\nconst store = combineSlices([authSlice, countSlice]);\nconsole.log(\"Combined initial state:\", store.getState());\nstore.getState().add(5);\nconsole.log(\"After add(5):\", store.getState());\nreturn store.getState();",
     "hints": [
-      "Build a shared `set` and `get` function first.",
-      "Initialize each slice passing `(set, get)` and merge the returned objects into the combined state."
+      "Define shared `set` and `get` functions first.",
+      "Loop through `sliceCreators`, invoke each with `(set, get)`, and merge their return objects into `state`."
     ],
-    "starterCode": "function combineSlices(sliceCreators) {\n  let state = {};\n  const listeners = new Set();\n\n  const set = (update) => {\n    const next = typeof update === 'function' ? update(state) : update;\n    state = { ...state, ...next };\n    listeners.forEach(l => l(state));\n  };\n\n  const get = () => state;\n\n  // TODO: Combine slices\n  for (const creator of sliceCreators) {\n    const slice = creator(set, get);\n    state = { ...state, ...slice };\n  }\n\n  return {\n    getState: get,\n    setState: set,\n    subscribe: (l) => { listeners.add(l); return () => listeners.delete(l); }\n  };\n}",
+    "starterCode": "function combineSlices(sliceCreators) {\n  // Write your implementation here\n}",
     "solution": "function combineSlices(sliceCreators) {\n  let state = {};\n  const listeners = new Set();\n  const set = (update) => {\n    const next = typeof update === 'function' ? update(state) : update;\n    state = { ...state, ...next };\n    listeners.forEach(l => l(state));\n  };\n  const get = () => state;\n  for (const creator of sliceCreators) {\n    const slice = creator(set, get);\n    state = { ...state, ...slice };\n  }\n  return {\n    getState: get,\n    setState: set,\n    subscribe: (l) => { listeners.add(l); return () => listeners.delete(l); }\n  };\n}",
     "tests": [
       {
@@ -927,13 +1058,15 @@
     "difficulty": "Hard",
     "xp": 250,
     "mendixParallel": "Calling REST services synchronously on every page load makes pages sluggish. TanStack Query / SWR immediately serves cached data from memory, while transparently triggering a background refetch.",
-    "description": "Implement `createSWREngine(fetcher, staleTimeMs)`. `query(key)` returns `{ data, isStale }`. If key is not in cache, fetch synchronously/asynchronously and store `{ data, timestamp }`. If in cache and `now - timestamp <= staleTimeMs`, return cached data with `isStale: false`. If older, return cached data with `isStale: true` and trigger background refetch.",
-    "example": "const swr = createSWREngine(fetchRates, 5000);\nawait swr.query('USD_INR'); // Fetches\nawait swr.query('USD_INR'); // Instant cache return",
+    "conceptDetails": "Server State vs Client State: Server state is asynchronous, remotely owned, and requires serialization over network boundaries.\n\nUnder the hood:\n1. RFC 5861 Stale-While-Revalidate HTTP specification: Serve cached stale data immediately (0ms latency), then trigger an asynchronous background request to revalidate and update the cache.\n2. In-flight request deduplication: If three UI components request ['user', 123] simultaneously, TanStack Query executes a single HTTP request and distributes the resolved promise to all three listeners.",
+    "description": "Write `createSWREngine(fetcher, staleTimeMs)`. `query(key)` returns `{ data, isStale }`. If not in cache, fetch and store. If in cache and fresh, return cached data (`isStale: false`). If expired, return cached data (`isStale: true`) and trigger background refetch.",
+    "example": "const swr = createSWREngine(fetchRates, 5000);\nawait swr.query('USD_INR');",
+    "sampleRun": "let networkHits = 0;\nconst mockFetch = async (key) => { networkHits++; return { rate: 86.5 }; };\nconst swr = createSWREngine(mockFetch, 100);\nconsole.log(\"1. First call (Network fetch):\", await swr.query('rates'));\nconsole.log(\"2. Second call (Instant cache):\", await swr.query('rates'));\nconsole.log(\"Total network requests made:\", networkHits);\nreturn await swr.query('rates');",
     "hints": [
-      "Use an internal cache map storing `{ data, timestamp, isFetching }`.",
-      "If expired, return stale data immediately and execute `fetcher(key)` in the background without blocking."
+      "Maintain a `cache = new Map()` storing `{ data, timestamp }`.",
+      "If `now - timestamp > staleTimeMs`, return `{ data: cached.data, isStale: true }` and launch `fetcher(key).then(...)` in the background."
     ],
-    "starterCode": "function createSWREngine(fetcher, staleTimeMs) {\n  const cache = new Map();\n\n  return {\n    query: async (key) => {\n      const now = Date.now();\n      const cached = cache.get(key);\n\n      if (!cached) {\n        // Initial fetch\n        const data = await fetcher(key);\n        cache.set(key, { data, timestamp: now });\n        return { data, isStale: false };\n      }\n\n      const isStale = (now - cached.timestamp) > staleTimeMs;\n      if (isStale) {\n        // Background revalidation\n        fetcher(key).then(newData => {\n          cache.set(key, { data: newData, timestamp: Date.now() });\n        });\n      }\n\n      return { data: cached.data, isStale };\n    }\n  };\n}",
+    "starterCode": "function createSWREngine(fetcher, staleTimeMs) {\n  // Write your implementation here\n}",
     "solution": "function createSWREngine(fetcher, staleTimeMs) {\n  const cache = new Map();\n  return {\n    query: async (key) => {\n      const now = Date.now();\n      const cached = cache.get(key);\n      if (!cached) {\n        const data = await fetcher(key);\n        cache.set(key, { data, timestamp: now });\n        return { data, isStale: false };\n      }\n      const isStale = (now - cached.timestamp) > staleTimeMs;\n      if (isStale) {\n        fetcher(key).then(newData => {\n          cache.set(key, { data: newData, timestamp: Date.now() });\n        });\n      }\n      return { data: cached.data, isStale };\n    }\n  };\n}",
     "tests": [
       {
@@ -955,13 +1088,15 @@
     "difficulty": "Hard",
     "xp": 250,
     "mendixParallel": "In Mendix, you must wait for the database commit before seeing UI changes. Modern React apps update the UI instantly (0ms latency), and silently roll back to the snapshot if the backend server throws a 500 error.",
-    "description": "Write `optimisticMutate(currentList, newItem, serverAction)`. Immediately add `newItem` to `currentList`. If `serverAction()` resolves, return `{ status: 'success', data: [...currentList, newItem] }`. If it rejects, roll back and return `{ status: 'rollback', data: currentList, error: error.message }`.",
-    "example": "await optimisticMutate(items, { id: 2 }, saveToServer);",
+    "conceptDetails": "Latency Compensation: The modern standard for high-performance enterprise applications (e.g. Linear, Slack, GitHub).\n\nUnder the hood:\n1. When a user submits an action, waiting 300ms for a round-trip network response feels laggy.\n2. Optimistic UI updates the client store IMMEDIATELY while initiating the network request in parallel.\n3. Snapshot & Rollback: Before mutating state, a snapshot of previous state is captured. If the server promise resolves, the optimistic state is finalized. If the server rejects (network dropout or 500 status), the client state is seamlessly restored to the snapshot with an error notification.",
+    "description": "Write `optimisticMutate(currentList, newItem, serverAction)`. Add `newItem` immediately. If `serverAction()` resolves, return `{ status: 'success', data }`. If it rejects, roll back to original list and return `{ status: 'rollback', data: currentList, error }`.",
+    "example": "await optimisticMutate(['A'], 'B', serverCall);",
+    "sampleRun": "const items = ['Item 1', 'Item 2'];\nconsole.log(\"Original items:\", items);\nconst successRun = await optimisticMutate(items, 'Item 3', async () => 'OK');\nconsole.log(\"Successful optimistic result:\", successRun);\nconst failRun = await optimisticMutate(items, 'Item 4', async () => { throw new Error('DB Connection Timeout'); });\nconsole.log(\"Failed rollback result:\", failRun);\nreturn { successRun, failRun };",
     "hints": [
-      "Save a reference to `currentList` as the rollback snapshot.",
-      "Wrap `await serverAction()` in a `try...catch` block."
+      "Save `const snapshot = currentList` before any operations.",
+      "Use `try...catch` around `await serverAction(newItem)`."
     ],
-    "starterCode": "async function optimisticMutate(currentList, newItem, serverAction) {\n  const snapshot = currentList;\n  const optimisticData = [...currentList, newItem];\n\n  try {\n    // TODO: Await backend server call\n    await serverAction(newItem);\n    return { status: 'success', data: optimisticData };\n  } catch (err) {\n    // TODO: Roll back to original snapshot\n    return { status: 'rollback', data: snapshot, error: err.message };\n  }\n}",
+    "starterCode": "async function optimisticMutate(currentList, newItem, serverAction) {\n  // Write your implementation here\n}",
     "solution": "async function optimisticMutate(currentList, newItem, serverAction) {\n  const snapshot = currentList;\n  const optimisticData = [...currentList, newItem];\n  try {\n    await serverAction(newItem);\n    return { status: 'success', data: optimisticData };\n  } catch (err) {\n    return { status: 'rollback', data: snapshot, error: err.message };\n  }\n}",
     "tests": [
       {
@@ -983,13 +1118,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "In Mendix, Before-Commit microflow handlers intercept actions to validate security or log audits. In Next.js 15, Middleware pipelines intercept HTTP requests to inject auth tokens and rate-limiting headers.",
-    "description": "Write `composeMiddleware(middlewares, finalHandler)`. Each middleware is `async (req, next) => res`. Calling `next()` proceeds to the next middleware. The pipeline executes in order and terminates at `finalHandler(req)`.",
-    "example": "const pipeline = composeMiddleware([authGuard, auditLogger], apiHandler);\nconst res = await pipeline(req);",
+    "conceptDetails": "The Onion Architecture / Chain of Responsibility pattern for server request handling.\n\nUnder the hood:\n1. In Next.js 15 and Express, middleware operates as nested layers around a core route handler.\n2. Each middleware function receives the request object and a next() callback pointer.\n3. Code executed before await next() runs on the inbound request pass (e.g. JWT extraction). Code executed after await next() runs on the outbound response pass (e.g. response logging, timing headers).",
+    "description": "Write `composeMiddleware(middlewares, finalHandler)`. Each middleware is `async (req, next) => res`. Calling `next()` advances to the next layer in the pipeline until `finalHandler(req)` executes.",
+    "example": "const pipeline = composeMiddleware([auth, logger], handler);\nawait pipeline(req);",
+    "sampleRun": "const log = [];\nconst authMiddleware = async (req, next) => {\n  req.userId = 42;\n  log.push(\"Auth checked\");\n  await next();\n  log.push(\"Auth post-processing\");\n};\nconst handler = async (req) => {\n  log.push(\"Handled for user \" + req.userId);\n  return { status: 200 };\n};\nconst pipeline = composeMiddleware([authMiddleware], handler);\nawait pipeline({});\nconsole.log(\"Pipeline execution order:\", log);\nreturn log;",
     "hints": [
-      "Use recursive dispatch or compose functions to chain `next()` callbacks.",
-      "Ensure passing `req` down the chain."
+      "Use index recursion: define `async function dispatch(i)`.",
+      "If `i === middlewares.length`, invoke `finalHandler(req)`."
     ],
-    "starterCode": "function composeMiddleware(middlewares, finalHandler) {\n  return async function(req) {\n    let index = -1;\n\n    async function dispatch(i) {\n      if (i <= index) throw new Error('next() called multiple times');\n      index = i;\n      const fn = middlewares[i] || finalHandler;\n      if (!fn) return;\n      return fn(req, () => dispatch(i + 1));\n    }\n\n    return dispatch(0);\n  };\n}",
+    "starterCode": "function composeMiddleware(middlewares, finalHandler) {\n  // Write your implementation here\n}",
     "solution": "function composeMiddleware(middlewares, finalHandler) {\n  return async function(req) {\n    let index = -1;\n    async function dispatch(i) {\n      if (i <= index) throw new Error('next() called multiple times');\n      index = i;\n      const fn = middlewares[i];\n      if (!fn) return finalHandler(req);\n      return fn(req, () => dispatch(i + 1));\n    }\n    return dispatch(0);\n  };\n}",
     "tests": [
       {
@@ -1011,13 +1148,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "In Mendix microflows, you add validation rules to prevent corrupt input data. In Next.js 15 Server Actions, you must validate incoming payload against a schema before mutating database records.",
-    "description": "Implement `validateServerAction(schema, payload)`. Schema is an object specifying `{ type, required, min, regex }`. If valid, return `{ valid: true, data: sanitizedPayload }`. If invalid, return `{ valid: false, errors: { [field]: 'Error message' } }`.",
-    "example": "validateServerAction({ age: { type: 'number', min: 18 } }, { age: 16 });\n// { valid: false, errors: { age: 'Must be at least 18' } }",
+    "conceptDetails": "Zero-Trust Backend Architecture: In full-stack web engineering, client-side browser validation is purely for UI/UX. Malicious users can bypass browser forms using curl or Postman.\n\nUnder the hood:\n1. Every Next.js 15 Server Action is compiled into an accessible HTTP POST endpoint.\n2. All input payloads must be parsed and strictly validated using declarative schema validation (Zod, Yup, or custom schema parsers).\n3. If invalid, reject the request with structured field-level error messages { errors: { email: 'Invalid email format' } } without touching the database.",
+    "description": "Write `validateServerAction(schema, payload)`. Schema specifies `{ required, type, min }`. Return `{ valid: true, data }` or `{ valid: false, errors: { [field]: 'message' } }`.",
+    "example": "validateServerAction({ age: { type: 'number', min: 18 } }, { age: 16 });",
+    "sampleRun": "const schema = {\n  name: { required: true, min: 3 },\n  age: { type: 'number', min: 18 }\n};\nconst testPayload = { name: 'Al', age: 16 };\nconst res = validateServerAction(schema, testPayload);\nconsole.log(\"Validation result:\", res);\nreturn res;",
     "hints": [
-      "Check `required` fields first if value is `undefined` or empty.",
-      "Check `min` (length for strings, value for numbers) and regex patterns."
+      "Check required fields if `val === undefined || val === null || val === ''`.",
+      "Verify numeric types and minimum boundaries, storing errors on `errors[field]`."
     ],
-    "starterCode": "function validateServerAction(schema, payload) {\n  const errors = {};\n  const data = { ...payload };\n\n  for (const [field, rule] of Object.entries(schema)) {\n    const val = payload[field];\n\n    if (rule.required && (val === undefined || val === null || val === '')) {\n      errors[field] = field + ' is required';\n      continue;\n    }\n\n    if (val !== undefined && rule.type === 'number' && typeof val !== 'number') {\n      errors[field] = field + ' must be a number';\n      continue;\n    }\n\n    if (rule.min !== undefined) {\n      if (typeof val === 'number' && val < rule.min) {\n        errors[field] = field + ' must be at least ' + rule.min;\n      } else if (typeof val === 'string' && val.length < rule.min) {\n        errors[field] = field + ' length must be at least ' + rule.min;\n      }\n    }\n  }\n\n  const valid = Object.keys(errors).length === 0;\n  return { valid, errors: valid ? undefined : errors, data: valid ? data : undefined };\n}",
+    "starterCode": "function validateServerAction(schema, payload) {\n  // Write your implementation here\n}",
     "solution": "function validateServerAction(schema, payload) {\n  const errors = {};\n  const data = { ...payload };\n  for (const [field, rule] of Object.entries(schema)) {\n    const val = payload[field];\n    if (rule.required && (val === undefined || val === null || val === '')) {\n      errors[field] = field + ' is required';\n      continue;\n    }\n    if (val !== undefined && rule.type === 'number' && typeof val !== 'number') {\n      errors[field] = field + ' must be a number';\n      continue;\n    }\n    if (rule.min !== undefined) {\n      if (typeof val === 'number' && val < rule.min) {\n        errors[field] = field + ' must be at least ' + rule.min;\n      } else if (typeof val === 'string' && val.length < rule.min) {\n        errors[field] = field + ' length must be at least ' + rule.min;\n      }\n    }\n  }\n  const valid = Object.keys(errors).length === 0;\n  return { valid, errors: valid ? undefined : errors, data: valid ? data : undefined };\n}",
     "tests": [
       {
@@ -1039,13 +1178,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "Mendix uses server session cookies stored in database cache. Modern full-stack React systems use stateless cryptographic JWTs containing verified claims, eliminating session database lookups across distributed containers.",
-    "description": "Write `createJWTEngine(secret)`. Implement `sign(payload, ttlMs)` and `verify(token)`. Generate a dot-separated string `b64Header.b64Payload.signature` (mock hash using `btoa(payload + secret)`). `verify(token)` checks validity and expiration.",
-    "example": "const jwt = createJWTEngine('supersecret');\nconst token = jwt.sign({ userId: 123 }, 60000);\nconst decoded = jwt.verify(token); // { userId: 123 }",
+    "conceptDetails": "Stateless Authentication with JSON Web Tokens (RFC 7519).\n\nUnder the hood:\n1. Traditional session tokens are random IDs requiring a database lookup on every single API request to identify the user.\n2. JWTs are stateless: The payload itself contains the user claims (userId, role, exp). The integrity is protected cryptographically by a digital signature (HMAC-SHA256).\n3. If an attacker modifies the payload (e.g. changing role: 'user' to role: 'admin'), the signature verification fails instantly without any database queries.",
+    "description": "Write `createJWTEngine(secret)`. Implement `sign(payload, ttlMs)` and `verify(token)`. Generate a 3-part token `header.payload.signature` using base64 encoding. `verify(token)` checks signature and expiration.",
+    "example": "const auth = createJWTEngine('secret');\nconst token = auth.sign({ user: 'Varun' }, 60000);\nconst payload = auth.verify(token);",
+    "sampleRun": "const jwt = createJWTEngine('enterprise-secret-key');\nconst token = jwt.sign({ user: 'Varun', role: 'Architect' }, 5000);\nconsole.log(\"Generated JWT Token:\", token);\nconst verified = jwt.verify(token);\nconsole.log(\"Decoded verified claims:\", verified);\nreturn verified;",
     "hints": [
-      "Include an `exp: Date.now() + ttlMs` timestamp inside the payload.",
-      "Check expiration and reject expired tokens."
+      "Use `btoa()` to encode JSON strings into base64.",
+      "Add `exp: Date.now() + ttlMs` to payload. Check `Date.now() > data.exp` in `verify()`."
     ],
-    "starterCode": "function createJWTEngine(secret) {\n  const b64 = (str) => btoa(unescape(encodeURIComponent(str)));\n  const unb64 = (str) => decodeURIComponent(escape(atob(str)));\n\n  return {\n    sign: (payload, ttlMs) => {\n      const exp = Date.now() + ttlMs;\n      const fullPayload = JSON.stringify({ ...payload, exp });\n      const pB64 = b64(fullPayload);\n      const sig = b64(pB64 + secret);\n      return 'eyJhbGciOiJIUzI1NiJ9.' + pB64 + '.' + sig;\n    },\n    verify: (token) => {\n      const parts = token.split('.');\n      if (parts.length !== 3) throw new Error('Malformed token');\n      const [h, p, s] = parts;\n      if (s !== b64(p + secret)) throw new Error('Invalid signature');\n      const data = JSON.parse(unb64(p));\n      if (Date.now() > data.exp) throw new Error('Token expired');\n      return data;\n    }\n  };\n}",
+    "starterCode": "function createJWTEngine(secret) {\n  // Write your implementation here\n}",
     "solution": "function createJWTEngine(secret) {\n  const b64 = (str) => btoa(unescape(encodeURIComponent(str)));\n  const unb64 = (str) => decodeURIComponent(escape(atob(str)));\n  return {\n    sign: (payload, ttlMs) => {\n      const exp = Date.now() + ttlMs;\n      const fullPayload = JSON.stringify({ ...payload, exp });\n      const pB64 = b64(fullPayload);\n      const sig = b64(pB64 + secret);\n      return 'eyJhbGciOiJIUzI1NiJ9.' + pB64 + '.' + sig;\n    },\n    verify: (token) => {\n      const parts = token.split('.');\n      if (parts.length !== 3) throw new Error('Malformed token');\n      const [h, p, s] = parts;\n      if (s !== b64(p + secret)) throw new Error('Invalid signature');\n      const data = JSON.parse(unb64(p));\n      if (Date.now() > data.exp) throw new Error('Token expired');\n      return data;\n    }\n  };\n}",
     "tests": [
       {
@@ -1067,13 +1208,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "In Mendix, you define User Roles and Module Roles with entity read/write access rules. In React/Node architectures, RBAC guards protect API routes and UI components based on user role permissions.",
-    "description": "Write `checkRBACPermission(userRole, resource, action, matrix)`. `matrix` defines permissions per role, supporting wildcards `'*'` (e.g. `admin: { '*': ['*'] }` or `editor: { posts: ['read', 'write'] }`). Return `true` if authorized, otherwise `false`.",
-    "example": "checkRBACPermission('editor', 'posts', 'write', matrix); // true\ncheckRBACPermission('viewer', 'posts', 'delete', matrix); // false",
+    "conceptDetails": "Principle of Least Privilege: Users are granted only the minimum permissions required to perform their tasks.\n\nUnder the hood:\n1. Authentication answers: \"Who are you?\" (e.g. JWT verification).\n2. Authorization answers: \"Are you allowed to execute this action on this resource?\"\n3. Enterprise RBAC matrices support granular resource actions (read, write, delete) along with wildcard matches ('*') for administrators and cross-tenant roles.",
+    "description": "Write `checkRBACPermission(userRole, resource, action, matrix)`. Handle role lookup, resource actions, and wildcards `'*'`. Return `true` if authorized, otherwise `false`.",
+    "example": "checkRBACPermission('admin', 'reports', 'delete', matrix); // true",
+    "sampleRun": "const permissions = {\n  admin: { '*': ['*'] },\n  developer: { code: ['read', 'write'], db: ['read'] },\n  guest: { code: ['read'] }\n};\nconsole.log(\"Admin delete database:\", checkRBACPermission('admin', 'db', 'delete', permissions));\nconsole.log(\"Developer write code:\", checkRBACPermission('developer', 'code', 'write', permissions));\nconsole.log(\"Guest delete code:\", checkRBACPermission('guest', 'code', 'delete', permissions));\nreturn checkRBACPermission('developer', 'code', 'write', permissions);",
     "hints": [
-      "Check if role exists in matrix.",
-      "Check for wildcard `'*'` at resource level or action level."
+      "Check if `matrix[userRole]` exists.",
+      "Check if wildcard `roleRules['*']` exists, then check `roleRules[resource]`."
     ],
-    "starterCode": "function checkRBACPermission(userRole, resource, action, matrix) {\n  const roleRules = matrix[userRole];\n  if (!roleRules) return false;\n\n  // Wildcard all resources\n  if (roleRules['*'] && (roleRules['*'].includes('*') || roleRules['*'].includes(action))) {\n    return true;\n  }\n\n  const actions = roleRules[resource];\n  if (!actions) return false;\n\n  return actions.includes('*') || actions.includes(action);\n}",
+    "starterCode": "function checkRBACPermission(userRole, resource, action, matrix) {\n  // Write your implementation here\n}",
     "solution": "function checkRBACPermission(userRole, resource, action, matrix) {\n  const roleRules = matrix[userRole];\n  if (!roleRules) return false;\n  if (roleRules['*'] && (roleRules['*'].includes('*') || roleRules['*'].includes(action))) {\n    return true;\n  }\n  const actions = roleRules[resource];\n  if (!actions) return false;\n  return actions.includes('*') || actions.includes(action);\n}",
     "tests": [
       {
@@ -1095,13 +1238,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "Building custom React 18 widgets for Mendix Studio Pro requires mapping Mendix's `EditableValue<T>` objects (which carry status, value, and error) into standard React controlled component input props.",
-    "description": "Write `transformMendixProps(mendixProp, onReactChange)`. Mendix prop has `{ status: 'available' | 'loading' | 'unavailable', value: any, readOnly: boolean, validation?: string, setValue: (v) => void }`. Return `{ value, disabled, errorMessage, handleChange }` compatible with React inputs.",
-    "example": "const props = transformMendixProps(mendixAttr, (val) => console.log(val));",
+    "conceptDetails": "Mendix Studio Pro Pluggable Widget Client Architecture.\n\nUnder the hood:\n1. Mendix passes entity attributes to React widgets wrapped as EditableValue<T>.\n2. An EditableValue is an object with status: 'available' | 'loading' | 'unavailable', value, readOnly: boolean, and a callback method setValue(newValue).\n3. An adapter hook/transformer converts this structure into standard HTML input props: value, disabled = status !== 'available' || readOnly, and an onChange event handler.",
+    "description": "Write `transformMendixProps(mendixProp, onReactChange)`. Return `{ value, disabled, errorMessage, handleChange }` compatible with React inputs.",
+    "example": "const props = transformMendixProps(mendixProp, val => console.log(val));",
+    "sampleRun": "const mockMendix = {\n  status: 'available',\n  value: 'Enterprise Data',\n  readOnly: false,\n  validation: null,\n  setValue(v) { console.log(\"Mendix entity updated to:\", v); }\n};\nconst reactProps = transformMendixProps(mockMendix, (v) => console.log(\"React state changed:\", v));\nconsole.log(\"Adapted React Props:\", reactProps);\nreactProps.handleChange({ target: { value: 'New Data' } });\nreturn reactProps;",
     "hints": [
       "`disabled` is true if `mendixProp.status !== 'available'` or `mendixProp.readOnly === true`.",
-      "`handleChange(e)` should invoke `mendixProp.setValue(e.target.value)` and `onReactChange(e.target.value)`."
+      "Extract `e.target ? e.target.value : e` in `handleChange` and call `mendixProp.setValue`."
     ],
-    "starterCode": "function transformMendixProps(mendixProp, onReactChange) {\n  const disabled = mendixProp.status !== 'available' || Boolean(mendixProp.readOnly);\n  const value = mendixProp.value !== undefined && mendixProp.value !== null ? mendixProp.value : '';\n  const errorMessage = mendixProp.validation || null;\n\n  const handleChange = (e) => {\n    const newVal = e && e.target ? e.target.value : e;\n    if (mendixProp.setValue) mendixProp.setValue(newVal);\n    if (onReactChange) onReactChange(newVal);\n  };\n\n  return { value, disabled, errorMessage, handleChange };\n}",
+    "starterCode": "function transformMendixProps(mendixProp, onReactChange) {\n  // Write your implementation here\n}",
     "solution": "function transformMendixProps(mendixProp, onReactChange) {\n  const disabled = mendixProp.status !== 'available' || Boolean(mendixProp.readOnly);\n  const value = mendixProp.value !== undefined && mendixProp.value !== null ? mendixProp.value : '';\n  const errorMessage = mendixProp.validation || null;\n  const handleChange = (e) => {\n    const newVal = e && e.target ? e.target.value : e;\n    if (mendixProp.setValue) mendixProp.setValue(newVal);\n    if (onReactChange) onReactChange(newVal);\n  };\n  return { value, disabled, errorMessage, handleChange };\n}",
     "tests": [
       {
@@ -1123,13 +1268,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "In a decoupled architecture where React powers the frontend and Mendix runs headlessly as backend, React queries published Mendix OData v4 entities using standard `$select`, `$filter`, `$orderby`, and `$top` query parameters.",
-    "description": "Write `buildODataQuery(entityName, options)`. Options include `{ select: string[], filter: { field, op, value }, top: number, skip: number, orderby: string }`. Build and return a valid encoded OData query string (e.g. `/odata/v4/Employees?$select=Id,Name&$filter=Age gt 30&$top=10`).",
-    "example": "buildODataQuery('Orders', { select: ['Id', 'Total'], top: 5 });\n// '/odata/v4/Orders?$select=Id,Total&$top=5'",
+    "conceptDetails": "Decoupled Headless Low-Code Architecture:\nMendix serves as a high-productivity backend (Domain Model, Database, Microflows, Security), while React powers a high-performance, customizable frontend.\n\nUnder the hood:\n1. Mendix publishes entities as OData v4 REST endpoints.\n2. The OASIS standard OData protocol uses URL query parameters to push database operations to the backend:\n   - $select=Id,Name (SQL Column Projection)\n   - $filter=Age gt 25 (SQL WHERE Clause)\n   - $orderby=CreatedAt desc (SQL ORDER BY)\n   - $top=20&$skip=40 (SQL LIMIT & OFFSET)",
+    "description": "Write `buildODataQuery(entityName, options)`. Options include `{ select, filter, orderby, top, skip }`. Return the formatted OData query URL string.",
+    "example": "buildODataQuery('Orders', { select: ['Id', 'Amount'], top: 10 });\n// '/odata/v4/Orders?$select=Id,Amount&$top=10'",
+    "sampleRun": "const query = buildODataQuery('Employees', {\n  select: ['Id', 'FullName', 'Salary'],\n  filter: { field: 'Salary', op: 'gt', value: 1500000 },\n  orderby: 'Salary desc',\n  top: 10,\n  skip: 0\n});\nconsole.log(\"Built OData URI:\", query);\nreturn query;",
     "hints": [
-      "Collect all query params in an array, then join with `&`.",
-      "Prepend `/odata/v4/${entityName}` and `?` if query params exist."
+      "Collect parameters in a `params` array (e.g. `params.push('$top=' + options.top)`).",
+      "Join params with `&` and prepend `/odata/v4/${entityName}` and `?` if params exist."
     ],
-    "starterCode": "function buildODataQuery(entityName, options = {}) {\n  const params = [];\n\n  if (options.select && options.select.length > 0) {\n    params.push('$select=' + options.select.join(','));\n  }\n\n  if (options.filter) {\n    const { field, op, value } = options.filter;\n    const formattedVal = typeof value === 'string' ? \"'\" + value + \"'\" : value;\n    params.push('$filter=' + field + ' ' + op + ' ' + formattedVal);\n  }\n\n  if (options.orderby) {\n    params.push('$orderby=' + options.orderby);\n  }\n\n  if (options.top !== undefined) {\n    params.push('$top=' + options.top);\n  }\n\n  if (options.skip !== undefined) {\n    params.push('$skip=' + options.skip);\n  }\n\n  const queryStr = params.length > 0 ? '?' + params.join('&') : '';\n  return '/odata/v4/' + entityName + queryStr;\n}",
+    "starterCode": "function buildODataQuery(entityName, options = {}) {\n  // Write your implementation here\n}",
     "solution": "function buildODataQuery(entityName, options = {}) {\n  const params = [];\n  if (options.select && options.select.length > 0) {\n    params.push('$select=' + options.select.join(','));\n  }\n  if (options.filter) {\n    const { field, op, value } = options.filter;\n    const formattedVal = typeof value === 'string' ? \"'\" + value + \"'\" : value;\n    params.push('$filter=' + field + ' ' + op + ' ' + formattedVal);\n  }\n  if (options.orderby) {\n    params.push('$orderby=' + options.orderby);\n  }\n  if (options.top !== undefined) {\n    params.push('$top=' + options.top);\n  }\n  if (options.skip !== undefined) {\n    params.push('$skip=' + options.skip);\n  }\n  const queryStr = params.length > 0 ? '?' + params.join('&') : '';\n  return '/odata/v4/' + entityName + queryStr;\n}",
     "tests": [
       {
@@ -1151,13 +1298,15 @@
     "difficulty": "Hard",
     "xp": 250,
     "mendixParallel": "In Vitest and Jest, verifying complex component state requires deep recursive comparison. Writing your own assertion matcher cements deep structural recursion concepts.",
-    "description": "Write `assertDeepEqual(actual, expected)`. Recursively compare primitives, arrays, and nested objects. Return `{ match: true }` if equal, or `{ match: false, path: string, expected: any, actual: any }` noting the mismatched property path.",
-    "example": "assertDeepEqual({ a: [1, 2] }, { a: [1, 2] }); // { match: true }\nassertDeepEqual({ a: 1 }, { a: 2 }); // { match: false, path: 'a', expected: 2, actual: 1 }",
+    "conceptDetails": "Recursive Structural Assertions in Unit Testing:\n\nUnder the hood:\n1. In JavaScript, { a: 1 } === { a: 1 } evaluates to false because reference equality compares memory addresses.\n2. Deep equality algorithms recursively traverse all object keys and array indices:\n   - Base case: If actual === expected, return true.\n   - Type check: If types differ or either is null, return false.\n   - Array check: Verify length and recurse on each index.\n   - Object check: Verify Object.keys(expected) matches Object.keys(actual) and recurse.",
+    "description": "Write `assertDeepEqual(actual, expected)`. Recursively compare nested objects and arrays. Return `{ match: true }` or `{ match: false, path }` specifying the mismatched key path.",
+    "example": "assertDeepEqual({ a: [1] }, { a: [1] }); // { match: true }",
+    "sampleRun": "const treeA = { user: { profile: { skills: ['React', 'Mendix'] } } };\nconst treeB = { user: { profile: { skills: ['React', 'Mendix'] } } };\nconst treeC = { user: { profile: { skills: ['React', 'Java'] } } };\nconsole.log(\"Matching trees:\", assertDeepEqual(treeA, treeB));\nconsole.log(\"Mismatched trees:\", assertDeepEqual(treeA, treeC));\nreturn assertDeepEqual(treeA, treeC);",
     "hints": [
-      "Use `typeof` and `Array.isArray()` to branch comparison logic.",
-      "Keep a track of path string e.g. `path ? path + '.' + key : key`."
+      "Track property path: `const curPath = path ? path + '.' + key : key`.",
+      "Recurse on each key: if `!sub.match`, return `sub` immediately."
     ],
-    "starterCode": "function assertDeepEqual(actual, expected, path = '') {\n  if (actual === expected) return { match: true };\n\n  if (typeof actual !== typeof expected || actual === null || expected === null) {\n    return { match: false, path, actual, expected };\n  }\n\n  if (Array.isArray(actual) !== Array.isArray(expected)) {\n    return { match: false, path, actual, expected };\n  }\n\n  if (typeof actual === 'object') {\n    const actualKeys = Object.keys(actual);\n    const expectedKeys = Object.keys(expected);\n    if (actualKeys.length !== expectedKeys.length) {\n      return { match: false, path, actual, expected };\n    }\n\n    for (const key of expectedKeys) {\n      const curPath = path ? path + '.' + key : key;\n      if (!(key in actual)) return { match: false, path: curPath, actual: undefined, expected: expected[key] };\n      const sub = assertDeepEqual(actual[key], expected[key], curPath);\n      if (!sub.match) return sub;\n    }\n\n    return { match: true };\n  }\n\n  return { match: false, path, actual, expected };\n}",
+    "starterCode": "function assertDeepEqual(actual, expected, path = '') {\n  // Write your implementation here\n}",
     "solution": "function assertDeepEqual(actual, expected, path = '') {\n  if (actual === expected) return { match: true };\n  if (typeof actual !== typeof expected || actual === null || expected === null) {\n    return { match: false, path, actual, expected };\n  }\n  if (Array.isArray(actual) !== Array.isArray(expected)) {\n    return { match: false, path, actual, expected };\n  }\n  if (typeof actual === 'object') {\n    const actualKeys = Object.keys(actual);\n    const expectedKeys = Object.keys(expected);\n    if (actualKeys.length !== expectedKeys.length) {\n      return { match: false, path, actual, expected };\n    }\n    for (const key of expectedKeys) {\n      const curPath = path ? path + '.' + key : key;\n      if (!(key in actual)) return { match: false, path: curPath, actual: undefined, expected: expected[key] };\n      const sub = assertDeepEqual(actual[key], expected[key], curPath);\n      if (!sub.match) return sub;\n    }\n    return { match: true };\n  }\n  return { match: false, path, actual, expected };\n}",
     "tests": [
       {
@@ -1179,13 +1328,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "Testing React frontend components without hitting live Mendix development environments avoids test flakiness. MSW intercepts requests at network level and returns deterministic test fixtures.",
-    "description": "Write `createMockServer(routeHandlers)`. `routeHandlers` is an array of `{ method, url, response: (req) => ({ status, body }) }`. The returned `fetch(method, url, body)` matches the route and executes the handler, or returns status 404 if unhandled.",
-    "example": "const msw = createMockServer([{ method: 'GET', url: '/api/user', response: () => ({ status: 200, body: { name: 'Varun' } }) }]);\nconst res = await msw.fetch('GET', '/api/user'); // { status: 200, body: { name: 'Varun' } }",
+    "conceptDetails": "API Mocking without Mocking Fetch:\n\nUnder the hood:\n1. Traditional mocking replaces window.fetch = jest.fn() in memory. This is fragile and doesn't test realistic HTTP status codes or headers.\n2. MSW intercepts requests at the Service Worker / network boundary.\n3. Declarative handlers define matching rules: if an incoming HTTP request matches method and url, execute the handler and return { status, body }.",
+    "description": "Write `createMockServer(handlers)`. Each handler has `{ method, url, response(req) }`. The returned `fetch(method, url, body)` returns the matched response or `{ status: 404 }`.",
+    "example": "const msw = createMockServer([{ method: 'GET', url: '/api/user', response: () => ({ status: 200, body: 'ok' }) }]);",
+    "sampleRun": "const handlers = [\n  { method: 'GET', url: '/api/profile', response: () => ({ status: 200, body: { name: 'Varun' } }) },\n  { method: 'POST', url: '/api/login', response: (req) => ({ status: 200, body: { token: 'jwt123' } }) }\n];\nconst server = createMockServer(handlers);\nconsole.log(\"Fetch /api/profile:\", await server.fetch('GET', '/api/profile'));\nconsole.log(\"Fetch unhandled route:\", await server.fetch('GET', '/api/unknown'));\nreturn await server.fetch('GET', '/api/profile');",
     "hints": [
-      "Find matching handler using `handlers.find()` on both method and url.",
-      "Execute `handler.response({ method, url, body })`."
+      "Use `handlers.find()` matching case-insensitive `method` and `url`.",
+      "Return `{ status: 404, body: { error: 'Not Found' } }` if no match."
     ],
-    "starterCode": "function createMockServer(handlers) {\n  return {\n    fetch: async (method, url, body = null) => {\n      const match = handlers.find(h => h.method.toUpperCase() === method.toUpperCase() && h.url === url);\n      if (!match) {\n        return { status: 404, body: { error: 'Not Found' } };\n      }\n      return match.response({ method, url, body });\n    }\n  };\n}",
+    "starterCode": "function createMockServer(handlers) {\n  // Write your implementation here\n}",
     "solution": "function createMockServer(handlers) {\n  return {\n    fetch: async (method, url, body = null) => {\n      const match = handlers.find(h => h.method.toUpperCase() === method.toUpperCase() && h.url === url);\n      if (!match) {\n        return { status: 404, body: { error: 'Not Found' } };\n      }\n      return match.response({ method, url, body });\n    }\n  };\n}",
     "tests": [
       {
@@ -1207,14 +1358,15 @@
     "difficulty": "Hard",
     "xp": 250,
     "mendixParallel": "Rendering 10,000 DOM elements in a Mendix page causes browser memory exhaustion and UI lag. Virtualization renders only the 15-20 rows currently visible in the user's viewport, maintaining 60 FPS performance.",
-    "description": "Write `computeVirtualWindow(scrollTop, itemHeight, viewportHeight, totalCount, overscan = 2)`. Return `{ startIndex, endIndex, offsetY, totalHeight }`. `startIndex` is clamped between 0 and `totalCount - 1`. `endIndex` is clamped to `totalCount - 1`. `offsetY` is `startIndex * itemHeight`.",
-    "example": "computeVirtualWindow(400, 40, 200, 1000, 1);\n// item 10 visible. startIndex: 9 (with overscan), endIndex: 15, offsetY: 360",
+    "conceptDetails": "Virtual List Windowing Mathematics (TanStack Virtual / React Window):\n\nUnder the hood:\n1. 10,000 DOM elements in a table consume over 50MB of RAM and choke browser layout/paint passes.\n2. Virtualization renders a lightweight phantom container whose height equals totalCount * itemHeight.\n3. Based on the user's current scrollTop position and viewport height, we calculate:\n   - startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan)\n   - endIndex = Math.min(totalCount - 1, startIndex + visibleCount + overscan)\n   - offsetY = startIndex * itemHeight (transforms the visible window to the user's view).",
+    "description": "Write `computeVirtualWindow(scrollTop, itemHeight, viewportHeight, totalCount, overscan = 2)`. Return `{ startIndex, endIndex, offsetY, totalHeight }`.",
+    "example": "computeVirtualWindow(400, 40, 200, 1000, 1);",
+    "sampleRun": "const windowMetrics = computeVirtualWindow(\n  500, // scrollTop in px\n  50,  // itemHeight in px\n  300, // viewportHeight in px\n  10000,// total items\n  2    // overscan buffer items\n);\nconsole.log(\"Virtual window calculation:\", windowMetrics);\nreturn windowMetrics;",
     "hints": [
-      "Raw start index is `Math.floor(scrollTop / itemHeight)`.",
-      "Visible items count is `Math.ceil(viewportHeight / itemHeight)`.",
-      "Apply `overscan` buffer before and after visible window."
+      "Calculate `rawStart = Math.floor(scrollTop / itemHeight)` and `visibleCount = Math.ceil(viewportHeight / itemHeight)`.",
+      "Clamp `startIndex` with `Math.max(0, rawStart - overscan)` and `endIndex` with `Math.min(totalCount - 1, ...)`."
     ],
-    "starterCode": "function computeVirtualWindow(scrollTop, itemHeight, viewportHeight, totalCount, overscan = 2) {\n  const totalHeight = totalCount * itemHeight;\n  if (totalCount === 0) return { startIndex: 0, endIndex: 0, offsetY: 0, totalHeight: 0 };\n\n  const rawStart = Math.floor(scrollTop / itemHeight);\n  const visibleCount = Math.ceil(viewportHeight / itemHeight);\n\n  const startIndex = Math.max(0, rawStart - overscan);\n  const endIndex = Math.min(totalCount - 1, rawStart + visibleCount + overscan);\n  const offsetY = startIndex * itemHeight;\n\n  return { startIndex, endIndex, offsetY, totalHeight };\n}",
+    "starterCode": "function computeVirtualWindow(scrollTop, itemHeight, viewportHeight, totalCount, overscan = 2) {\n  // Write your implementation here\n}",
     "solution": "function computeVirtualWindow(scrollTop, itemHeight, viewportHeight, totalCount, overscan = 2) {\n  const totalHeight = totalCount * itemHeight;\n  if (totalCount === 0) return { startIndex: 0, endIndex: 0, offsetY: 0, totalHeight: 0 };\n  const rawStart = Math.floor(scrollTop / itemHeight);\n  const visibleCount = Math.ceil(viewportHeight / itemHeight);\n  const startIndex = Math.max(0, rawStart - overscan);\n  const endIndex = Math.min(totalCount - 1, rawStart + visibleCount + overscan);\n  const offsetY = startIndex * itemHeight;\n  return { startIndex, endIndex, offsetY, totalHeight };\n}",
     "tests": [
       {
@@ -1236,13 +1388,15 @@
     "difficulty": "Hard",
     "xp": 300,
     "mendixParallel": "Enterprise client applications caching charts, financial tables, and user sessions need bounded memory. Least-Recently-Used (LRU) evicts old entries when capacity is reached, preventing out-of-memory crashes.",
-    "description": "Implement `LRUCache` class with `constructor(capacity)`, `get(key)`, and `put(key, value)`. Operating in O(1) time complexity, reading a key marks it as most recently used. Inserting beyond capacity removes the least recently used item.",
-    "example": "const c = new LRUCache(2);\nc.put(1, 'A');\nc.put(2, 'B');\nc.get(1); // 'A' (now MRU)\nc.put(3, 'C'); // Evicts 2\nc.get(2); // -1 (evicted)",
+    "conceptDetails": "Least-Recently-Used (LRU) Cache in O(1) Time:\n\nUnder the hood:\n1. An LRU Cache stores up to capacity items. When full, inserting a new item evicts the item that hasn't been accessed for the longest time.\n2. In classical computer science, this is implemented with a Hash Map (for O(1) key lookups) and a Doubly Linked List (for O(1) node re-ordering).\n3. In modern JavaScript, the built-in Map object iterates in key insertion order:\n   - On get(key): delete the key and immediately re-set it to move it to the end (Most Recently Used).\n   - On put(key) when full: evict this.cache.keys().next().value (the oldest key).",
+    "description": "Implement `LRUCache` class with `constructor(capacity)`, `get(key)`, and `put(key, value)`. Operate in O(1) time complexity.",
+    "example": "const c = new LRUCache(2);\nc.put(1, 'A');\nc.put(2, 'B');\nc.get(1); // 'A' (MRU)\nc.put(3, 'C'); // Evicts 2",
+    "sampleRun": "const cache = new LRUCache(2);\ncache.put('a', 1);\ncache.put('b', 2);\nconsole.log(\"Get 'a' (promotes 'a' to MRU):\", cache.get('a'));\ncache.put('c', 3); // Should evict 'b'\nconsole.log(\"Get 'b' (should be -1 evicted):\", cache.get('b'));\nconsole.log(\"Get 'c':\", cache.get('c'));\nreturn { a: cache.get('a'), b: cache.get('b'), c: cache.get('c') };",
     "hints": [
-      "JavaScript `Map` preserves insertion order.",
-      "On `get(key)`, delete and re-insert the key to make it latest."
+      "In `get(key)`, if found, delete and re-set the key before returning its value.",
+      "In `put(key, value)`, if cache size >= capacity, delete `this.cache.keys().next().value`."
     ],
-    "starterCode": "class LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.cache = new Map();\n  }\n\n  get(key) {\n    if (!this.cache.has(key)) return -1;\n    // TODO: Refresh key order to mark as most recently used\n    const val = this.cache.get(key);\n    this.cache.delete(key);\n    this.cache.set(key, val);\n    return val;\n  }\n\n  put(key, value) {\n    if (this.cache.has(key)) {\n      this.cache.delete(key);\n    } else if (this.cache.size >= this.capacity) {\n      // Evict least recently used (first key in Map)\n      const oldestKey = this.cache.keys().next().value;\n      this.cache.delete(oldestKey);\n    }\n    this.cache.set(key, value);\n  }\n}",
+    "starterCode": "class LRUCache {\n  constructor(capacity) {\n    // Write your implementation here\n  }\n\n  get(key) {\n    // Write your implementation here\n  }\n\n  put(key, value) {\n    // Write your implementation here\n  }\n}",
     "solution": "class LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this.cache = new Map();\n  }\n  get(key) {\n    if (!this.cache.has(key)) return -1;\n    const val = this.cache.get(key);\n    this.cache.delete(key);\n    this.cache.set(key, val);\n    return val;\n  }\n  put(key, value) {\n    if (this.cache.has(key)) {\n      this.cache.delete(key);\n    } else if (this.cache.size >= this.capacity) {\n      const oldestKey = this.cache.keys().next().value;\n      this.cache.delete(oldestKey);\n    }\n    this.cache.set(key, value);\n  }\n}",
     "tests": [
       {
@@ -1264,13 +1418,15 @@
     "difficulty": "Hard",
     "xp": 250,
     "mendixParallel": "Enterprise Mendix REST APIs protect against traffic bursts using rate limiters. Token bucket algorithm allows legitimate burst traffic while ensuring long-term average request rates remain within safe limits.",
-    "description": "Write `createTokenBucket(capacity, refillRatePerSec)`. Implement `tryConsume(tokens = 1)`. Tokens refill continuously based on elapsed time up to `capacity`. Returns `{ allowed: true, remaining }` if tokens available, or `{ allowed: false, remaining }` if exhausted.",
-    "example": "const limiter = createTokenBucket(5, 1);\nlimiter.tryConsume(3); // { allowed: true, remaining: 2 }",
+    "conceptDetails": "Token Bucket Rate Limiting Algorithm:\n\nUnder the hood:\n1. Fixed Window algorithms have a boundary vulnerability where users send double the limit at the boundary second.\n2. The Token Bucket maintains a bucket of up to capacity tokens. Tokens refill continuously at refillRatePerSec.\n3. Instead of running a continuous background timer, lazy evaluation computes:\n   tokens = Math.min(capacity, tokens + elapsedSeconds * refillRate)\n4. Requests consume tokens. If enough tokens exist, the request is allowed; otherwise, it is throttled.",
+    "description": "Write `createTokenBucket(capacity, refillRatePerSec)`. Implement `tryConsume(tokens = 1)`. Refill tokens based on elapsed time. Return `{ allowed, remaining }`.",
+    "example": "const b = createTokenBucket(5, 1);\nb.tryConsume(3); // { allowed: true, remaining: 2 }",
+    "sampleRun": "const limiter = createTokenBucket(3, 1); // 3 capacity, 1 refill/sec\nconsole.log(\"Call 1 (consume 2):\", limiter.tryConsume(2));\nconsole.log(\"Call 2 (consume 1):\", limiter.tryConsume(1));\nconsole.log(\"Call 3 (empty bucket):\", limiter.tryConsume(1)); // Should be blocked\nreturn limiter.tryConsume(1);",
     "hints": [
-      "Store `lastRefillTime` and calculate `elapsedSeconds = (now - lastRefillTime) / 1000`.",
-      "Add `elapsedSeconds * refillRatePerSec` tokens clamped to `capacity`."
+      "Store `lastRefill = Date.now()`.",
+      "Calculate `elapsed = (now - lastRefill) / 1000` and add `elapsed * refillRatePerSec` tokens."
     ],
-    "starterCode": "function createTokenBucket(capacity, refillRatePerSec) {\n  let tokens = capacity;\n  let lastRefill = Date.now();\n\n  return {\n    tryConsume: (tokensToConsume = 1) => {\n      const now = Date.now();\n      const elapsed = (now - lastRefill) / 1000;\n      tokens = Math.min(capacity, tokens + elapsed * refillRatePerSec);\n      lastRefill = now;\n\n      if (tokens >= tokensToConsume) {\n        tokens -= tokensToConsume;\n        return { allowed: true, remaining: Math.floor(tokens) };\n      }\n      return { allowed: false, remaining: Math.floor(tokens) };\n    }\n  };\n}",
+    "starterCode": "function createTokenBucket(capacity, refillRatePerSec) {\n  // Write your implementation here\n}",
     "solution": "function createTokenBucket(capacity, refillRatePerSec) {\n  let tokens = capacity;\n  let lastRefill = Date.now();\n  return {\n    tryConsume: (tokensToConsume = 1) => {\n      const now = Date.now();\n      const elapsed = (now - lastRefill) / 1000;\n      tokens = Math.min(capacity, tokens + elapsed * refillRatePerSec);\n      lastRefill = now;\n      if (tokens >= tokensToConsume) {\n        tokens -= tokensToConsume;\n        return { allowed: true, remaining: Math.floor(tokens) };\n      }\n      return { allowed: false, remaining: Math.floor(tokens) };\n    }\n  };\n}",
     "tests": [
       {
@@ -1292,13 +1448,15 @@
     "difficulty": "Medium",
     "xp": 200,
     "mendixParallel": "Transitioning from pure Mendix (₹9L–₹12L) to Decoupled Senior React Full-Stack Lead (₹18L–₹22L+ in India or AED 20,000/mo in Dubai) requires precise mathematical modeling of take-home in-hand pay and counter-offer leverage.",
-    "description": "Write `calculateOfferEscalation(currentCTC, offerCTC, location)`. For `location === 'India'`, estimate annual tax using New Tax Regime (~15% effective on ₹18L–₹22L), standard deduction ₹75,000, and calculate monthly in-hand `(offerCTC - tax) / 12`. For `location === 'Dubai'`, tax is 0% and returns monthly in-hand in AED. Compute percentage hike `Math.round(((offerCTC - currentCTC) / currentCTC) * 100)`.",
-    "example": "calculateOfferEscalation(1100000, 2000000, 'India');\n// { hikePct: 82, annualTax: 270000, monthlyInHand: 144167, status: 'Top Tier Senior Offer' }",
+    "conceptDetails": "Strategic Compensation Mathematics for Senior Transitions:\n\nUnder the hood:\n1. Pure low-code developers hit an artificial ceiling at ₹10L–₹13L LPA.\n2. Decoupled Architects (React Full-Stack Frontend + Mendix/Node Backend) access the ₹18L–₹22L+ LPA tier because they eliminate the need for two separate senior hires.\n3. Tax modeling:\n   - India New Tax Regime: Standard deduction ₹75,000, progressive slabs up to 30% above ₹15L, + 4% health & education cess.\n   - Dubai UAE: 0% Personal Income Tax. A 240,000 AED/year package delivers 20,000 AED/month (~₹4,50,000+ INR net monthly in-hand).",
+    "description": "Write `calculateOfferEscalation(currentCTC, offerCTC, location)`. Handle `India` (New Regime tax + ₹75k standard deduction) and `Dubai` (0% tax in AED). Return `{ hikePct, annualTax, monthlyInHand, currency, verdict }`.",
+    "example": "calculateOfferEscalation(1100000, 2000000, 'India');",
+    "sampleRun": "const currentCTC = 1100000;\nconst indiaOffer = calculateOfferEscalation(currentCTC, 2000000, 'India');\nconsole.log(\"India ₹20 LPA Offer Breakdown:\", indiaOffer);\nconst dubaiOffer = calculateOfferEscalation(currentCTC, 240000, 'Dubai');\nconsole.log(\"Dubai 240,000 AED Offer Breakdown:\", dubaiOffer);\nreturn { indiaOffer, dubaiOffer };",
     "hints": [
-      "Calculate percentage hike first.",
-      "Calculate monthly in-hand taking into account 0% tax for Dubai."
+      "`hikePct = Math.round(((offerCTC - currentCTC) / currentCTC) * 100)`.",
+      "For Dubai, tax is 0 and monthlyInHand is `Math.round(offerCTC / 12)`."
     ],
-    "starterCode": "function calculateOfferEscalation(currentCTC, offerCTC, location) {\n  const hikePct = Math.round(((offerCTC - currentCTC) / currentCTC) * 100);\n\n  if (location === 'Dubai') {\n    // offerCTC in AED per year (e.g. 240,000 AED)\n    const monthlyInHand = Math.round(offerCTC / 12);\n    return {\n      hikePct,\n      annualTax: 0,\n      monthlyInHand,\n      currency: 'AED',\n      verdict: hikePct >= 50 ? 'Elite International Transition' : 'Standard Lateral Offer'\n    };\n  }\n\n  // India New Tax Regime approx calculation for ₹18L-₹22L\n  // Taxable = CTC - 75,000 std deduction\n  const taxable = Math.max(0, offerCTC - 75000);\n  let tax = 0;\n  if (taxable > 1500000) {\n    tax = 150000 + (taxable - 1500000) * 0.30;\n  } else if (taxable > 1200000) {\n    tax = 90000 + (taxable - 1200000) * 0.20;\n  } else if (taxable > 900000) {\n    tax = 45000 + (taxable - 900000) * 0.15;\n  } else if (taxable > 600000) {\n    tax = 15000 + (taxable - 600000) * 0.10;\n  } else if (taxable > 300000) {\n    tax = (taxable - 300000) * 0.05;\n  }\n\n  const annualTax = Math.round(tax * 1.04); // 4% cess\n  const monthlyInHand = Math.round((offerCTC - annualTax) / 12);\n\n  return {\n    hikePct,\n    annualTax,\n    monthlyInHand,\n    currency: 'INR',\n    verdict: hikePct >= 60 ? 'Top Tier Senior Full-Stack Offer' : 'Standard Market Offer'\n  };\n}",
+    "starterCode": "function calculateOfferEscalation(currentCTC, offerCTC, location) {\n  // Write your implementation here\n}",
     "solution": "function calculateOfferEscalation(currentCTC, offerCTC, location) {\n  const hikePct = Math.round(((offerCTC - currentCTC) / currentCTC) * 100);\n  if (location === 'Dubai') {\n    const monthlyInHand = Math.round(offerCTC / 12);\n    return {\n      hikePct,\n      annualTax: 0,\n      monthlyInHand,\n      currency: 'AED',\n      verdict: hikePct >= 50 ? 'Elite International Transition' : 'Standard Lateral Offer'\n    };\n  }\n  const taxable = Math.max(0, offerCTC - 75000);\n  let tax = 0;\n  if (taxable > 1500000) {\n    tax = 150000 + (taxable - 1500000) * 0.30;\n  } else if (taxable > 1200000) {\n    tax = 90000 + (taxable - 1200000) * 0.20;\n  } else if (taxable > 900000) {\n    tax = 45000 + (taxable - 900000) * 0.15;\n  } else if (taxable > 600000) {\n    tax = 15000 + (taxable - 600000) * 0.10;\n  } else if (taxable > 300000) {\n    tax = (taxable - 300000) * 0.05;\n  }\n  const annualTax = Math.round(tax * 1.04);\n  const monthlyInHand = Math.round((offerCTC - annualTax) / 12);\n  return {\n    hikePct,\n    annualTax,\n    monthlyInHand,\n    currency: 'INR',\n    verdict: hikePct >= 60 ? 'Top Tier Senior Full-Stack Offer' : 'Standard Market Offer'\n  };\n}",
     "tests": [
       {
@@ -1315,6 +1473,15 @@
 
     let currentId = "p1";
     let activeFilter = "all";
+    let capturedLogs = [];
+
+    // Ensure clean state: if version < 3, clear old pre-filled starter codes
+    const CURRENT_VERSION = 3;
+    if (Number(localStorage.getItem('arena_ver') || 0) < CURRENT_VERSION) {
+      localStorage.removeItem('arena_codes');
+      localStorage.setItem('arena_ver', CURRENT_VERSION);
+    }
+
     const userCodes = JSON.parse(localStorage.getItem('arena_codes') || '{}');
     const solvedSet = new Set(JSON.parse(localStorage.getItem('arena_solved') || '[]'));
 
@@ -1327,9 +1494,9 @@
         osc.connect(gain);
         gain.connect(ctx.destination);
         if (success) {
-          osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-          osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
-          osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
+          osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+          osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+          osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
           gain.gain.setValueAtTime(0.15, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
           osc.start();
@@ -1346,7 +1513,6 @@
     }
 
     function init() {
-      // Check URL hash for direct deep linking
       const hash = window.location.hash.replace('#', '');
       if (hash && CHALLENGES.some(c => c.id === hash)) {
         currentId = hash;
@@ -1372,7 +1538,7 @@
         return c.phase.startsWith(activeFilter);
       });
 
-      filtered.forEach((ch, idx) => {
+      filtered.forEach((ch) => {
         const item = document.createElement('div');
         item.className = 'problem-item' + (ch.id === currentId ? ' active' : '');
         item.onclick = () => loadProblem(ch.id);
@@ -1403,7 +1569,6 @@
 
       renderSidebar();
 
-      // Render problem details
       const pane = document.getElementById('problemPane');
       const tagDiff = ch.difficulty === 'Easy' ? 'tag-easy' : ch.difficulty === 'Medium' ? 'tag-medium' : 'tag-hard';
 
@@ -1418,6 +1583,11 @@
             <h2 style="margin-top: 0.5rem;">${ch.id.toUpperCase()}: ${ch.title}</h2>
             <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">Topic: ${ch.category} (${ch.week})</div>
           </div>
+        </div>
+
+        <div class="concept-box">
+          <h4>📚 First Principles & Concept Deep-Dive</h4>
+          <div class="concept-box-text">${ch.conceptDetails}</div>
         </div>
 
         <div class="mendix-box">
@@ -1454,12 +1624,12 @@
         </div>
       `;
 
-      // Load code into editor (user code or starter code)
+      // Load code: clean starter skeleton or saved draft
       const editor = document.getElementById('codeEditor');
       editor.value = userCodes[id] || ch.starterCode;
 
-      // Reset test list
-      document.getElementById('testSummary').textContent = 'Ready to run';
+      // Reset test tab badge
+      document.getElementById('testTabBadge').textContent = 'Ready';
       document.getElementById('testList').innerHTML = `
         <div style="color: #64748b; font-style: italic; text-align: center; margin-top: 2rem;">
           Click ▶ Run Tests to execute test cases against your code.
@@ -1472,9 +1642,38 @@
       el.classList.toggle('open');
     }
 
+    function switchConsoleTab(tab) {
+      const btnTests = document.getElementById('btnTabTests');
+      const btnOutput = document.getElementById('btnTabOutput');
+      const paneTests = document.getElementById('paneTests');
+      const paneOutput = document.getElementById('paneOutput');
+
+      if (tab === 'tests') {
+        btnTests.classList.add('active');
+        btnOutput.classList.remove('active');
+        paneTests.classList.add('active');
+        paneOutput.classList.remove('active');
+      } else {
+        btnOutput.classList.add('active');
+        btnTests.classList.remove('active');
+        paneOutput.classList.add('active');
+        paneTests.classList.remove('active');
+      }
+    }
+
+    function clearConsoleOutput() {
+      capturedLogs = [];
+      document.getElementById('consoleLogs').innerHTML = `
+        <div style="color: #64748b; font-style: italic; text-align: center; margin-top: 2rem;">
+          Console cleared.
+        </div>
+      `;
+      document.getElementById('outputTabBadge').textContent = '0 logs';
+    }
+
     function resetCurrentCode() {
       const ch = CHALLENGES.find(c => c.id === currentId);
-      if (confirm('Reset code to initial template?')) {
+      if (confirm('Reset code to the clean skeleton template?')) {
         document.getElementById('codeEditor').value = ch.starterCode;
         delete userCodes[currentId];
         localStorage.setItem('arena_codes', JSON.stringify(userCodes));
@@ -1490,30 +1689,110 @@
       }
     }
 
+    // Intercept console.log and capture execution output
+    function runWithConsoleCapture(fnToRun) {
+      const logs = [];
+      const origLog = console.log;
+      const origWarn = console.warn;
+      const origErr = console.error;
+
+      const formatVal = (v) => {
+        if (typeof v === 'object' && v !== null) {
+          try { return JSON.stringify(v, null, 2); } catch(e) { return String(v); }
+        }
+        return String(v);
+      };
+
+      console.log = (...args) => {
+        logs.push({ type: 'log', time: new Date().toLocaleTimeString(), text: args.map(formatVal).join(' ') });
+        origLog(...args);
+      };
+      console.warn = (...args) => {
+        logs.push({ type: 'warn', time: new Date().toLocaleTimeString(), text: args.map(formatVal).join(' ') });
+        origWarn(...args);
+      };
+      console.error = (...args) => {
+        logs.push({ type: 'error', time: new Date().toLocaleTimeString(), text: args.map(formatVal).join(' ') });
+        origErr(...args);
+      };
+
+      try {
+        const result = fnToRun();
+        return { result, logs, error: null };
+      } catch (err) {
+        return { result: undefined, logs, error: err };
+      } finally {
+        console.log = origLog;
+        console.warn = origWarn;
+        console.error = origErr;
+      }
+    }
+
+    // Run Code: executes sample code and displays outputs in Console Output tab
+    async function runSampleCode() {
+      const ch = CHALLENGES.find(c => c.id === currentId);
+      const code = document.getElementById('codeEditor').value;
+      userCodes[currentId] = code;
+      localStorage.setItem('arena_codes', JSON.stringify(userCodes));
+
+      switchConsoleTab('output');
+      const consoleEl = document.getElementById('consoleLogs');
+      consoleEl.innerHTML = '';
+
+      let execResult;
+      const wrapped = () => {
+        const runner = new Function(code + "\n\n" + (ch.sampleRun || ''));
+        return runner();
+      };
+
+      const { result, logs, error } = runWithConsoleCapture(wrapped);
+      capturedLogs = logs;
+      document.getElementById('outputTabBadge').textContent = logs.length + ' logs';
+
+      logs.forEach(l => {
+        const div = document.createElement('div');
+        div.className = 'log-entry';
+        div.innerHTML = `<span class="log-time">[${l.time}]</span><span class="log-text ${l.type}">${l.text}</span>`;
+        consoleEl.appendChild(div);
+      });
+
+      if (error) {
+        const errDiv = document.createElement('div');
+        errDiv.className = 'log-entry';
+        errDiv.innerHTML = `<span class="log-time">[Error]</span><span class="log-text error">${error.message}</span>`;
+        consoleEl.appendChild(errDiv);
+      } else if (result !== undefined) {
+        const retDiv = document.createElement('div');
+        retDiv.className = 'log-return';
+        retDiv.innerHTML = `<strong>=> Return Value:</strong> ${typeof result === 'object' ? JSON.stringify(result) : String(result)}`;
+        consoleEl.appendChild(retDiv);
+      }
+    }
+
+    // Run Tests: grades user solution against test cases
     async function runTests() {
       const ch = CHALLENGES.find(c => c.id === currentId);
       const code = document.getElementById('codeEditor').value;
       userCodes[currentId] = code;
       localStorage.setItem('arena_codes', JSON.stringify(userCodes));
 
+      switchConsoleTab('tests');
       const listEl = document.getElementById('testList');
-      const summaryEl = document.getElementById('testSummary');
+      const badgeEl = document.getElementById('testTabBadge');
       listEl.innerHTML = '';
-      summaryEl.textContent = 'Running test suite...';
+      badgeEl.textContent = 'Running...';
 
-      let passedCount = 0;
-
-      // Extract user function
       let userFn;
       try {
         userFn = new Function('return (' + code + ')')();
       } catch (err) {
-        summaryEl.textContent = 'Syntax Error';
-        summaryEl.style.color = '#fb7185';
+        badgeEl.textContent = 'Syntax Error';
         listEl.innerHTML = `<div class="test-item test-failed">Syntax Error: ${err.message}</div>`;
         playChime(false);
         return;
       }
+
+      let passedCount = 0;
 
       for (let i = 0; i < ch.tests.length; i++) {
         const testCase = ch.tests[i];
@@ -1549,9 +1828,10 @@
       }
 
       const total = ch.tests.length;
+      badgeEl.textContent = `${passedCount} / ${total} Passed`;
+
       if (passedCount === total) {
-        summaryEl.textContent = `All ${total} Tests Passed! (+${ch.xp} XP)`;
-        summaryEl.style.color = '#34d399';
+        badgeEl.style.color = '#34d399';
         playChime(true);
         confetti({ particleCount: 75, spread: 70, origin: { y: 0.6 } });
 
@@ -1562,8 +1842,7 @@
           renderSidebar();
         }
       } else {
-        summaryEl.textContent = `${passedCount} / ${total} Tests Passed`;
-        summaryEl.style.color = '#fb7185';
+        badgeEl.style.color = '#fb7185';
         playChime(false);
       }
     }
@@ -1595,7 +1874,6 @@
       setTimeout(() => { t.style.display = 'none'; }, 2500);
     }
 
-    // Support Tab key in editor
     document.addEventListener('DOMContentLoaded', () => {
       init();
       const editor = document.getElementById('codeEditor');
